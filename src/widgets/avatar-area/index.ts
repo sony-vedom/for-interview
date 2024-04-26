@@ -1,0 +1,1 @@
+export {AvatarArea} from "./ui"

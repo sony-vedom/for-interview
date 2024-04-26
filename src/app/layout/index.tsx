@@ -1,0 +1,23 @@
+import { AppHeader } from './app-header'
+import { Box } from '@mui/material'
+import type { FC } from 'react'
+import { Outlet } from 'react-router-dom'
+
+export const AppLayout: FC = () => {
+    return (
+        <>
+            <AppHeader />
+            <Box
+                component="main"
+                sx={{
+                    mx: { sm: 6, xs: 2 },
+                    mt: { sm: '100px', xs: 3 },
+                    '& > *': {
+                        margin: '0 auto'
+                    }
+                }}>
+                <Outlet />
+            </Box>
+        </>
+    )
+}
