@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import dayjs from "dayjs";
 import { Box, IconButton, Typography } from "@mui/material";
-import { BasicDatePicker } from "shared/ui";
+import { BasicDatePicker } from "shared/ui/basic-data-picker";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 

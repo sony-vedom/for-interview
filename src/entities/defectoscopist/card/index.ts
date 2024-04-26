@@ -1,1 +1,0 @@
-export {DefectoscopistCard} from "./ui"

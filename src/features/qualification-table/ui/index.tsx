@@ -29,7 +29,6 @@ export const QualificationTable: FC<QualificationASNTTableProps> = (props) => {
       sx={{
         padding: { md: "10px", xs: "5px" },
         minWidth: { md: "300px", xs: "calc(100% - 21px)" },
-        maxWidth: { md: "500px", xs: "calc(100% - 21px)" },
       }}
     >
       <Box sx={{ margin: "auto 0" }}>
