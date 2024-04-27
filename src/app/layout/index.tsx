@@ -10,7 +10,7 @@ export const AppLayout: FC = () => {
             <Box
                 component="main"
                 sx={{
-                    mx: { sm: 6, xs: 2 },
+                    mx: { sm: 6, xs: 2, lg: 15 },
                     mt: { sm: '100px', xs: 3 },
                     '& > *': {
                         margin: '0 auto'

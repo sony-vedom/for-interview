@@ -1,6 +1,5 @@
 export interface PagesDescription {
     id: number
-    displayName: string
     pathName: string
 }
 

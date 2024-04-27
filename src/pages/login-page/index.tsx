@@ -17,14 +17,12 @@ export const LoginPage = () => {
                     edit: [
                         {
                             id: 1,
-                            displayName: 'Документы',
                             pathName: 'documents'
                         }
                     ],
                     read: [
                         {
                             id: 1,
-                            displayName: 'Документы',
                             pathName: 'documents'
                         }
                     ]

@@ -15,19 +15,17 @@ export const AppHeader = () => {
     }
 
     const navItems = navigationConfig.flatMap((navEl) => {
-        const findEl = session?.user.role.read.find(
-            (el) => navEl.path?.includes(el.pathName)
+        const findEl = session?.user.role.read?.find((el) =>
+            navEl.path?.includes(el.pathName)
         )
         if (findEl) {
             return {
-                displayName: findEl.displayName,
+                displayName: navEl.displayName,
                 path: findEl.pathName
             }
         }
         return []
     })
-
-    console.log("render")
 
     return (
         <>

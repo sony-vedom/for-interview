@@ -20,7 +20,7 @@ export const routerConfig = createBrowserRouter([
             </AuthenticationGuard>
         ),
         children: [
-            { index: true, element: <Navigate to="/profile" /> },
+            { index: true, element: <Navigate to="profile" /> },
             ...navigationConfig,
             ...navigationProfileConfig,
             {
