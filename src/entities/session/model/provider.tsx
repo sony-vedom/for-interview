@@ -1,6 +1,6 @@
 import { ReactNode, useMemo, useState } from 'react'
 import { useLocalStorage } from 'shared/lib/localStorage'
-import { AuthContext, type IAuthContext, SessionStatus } from './context.ts'
+import { AuthContext, type AuthContextProps, SessionStatus } from './context.ts'
 import { User } from 'entities/user/item/@x'
 
 export const AuthProvider = (props: { children: ReactNode }) => {
@@ -36,7 +36,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
         [user]
     )
     return (
-        <AuthContext.Provider value={value satisfies IAuthContext}>
+        <AuthContext.Provider value={value satisfies AuthContextProps}>
             {children}
         </AuthContext.Provider>
     )

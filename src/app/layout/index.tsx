@@ -12,6 +12,7 @@ export const AppLayout: FC = () => {
                 sx={{
                     mx: { sm: 6, xs: 2, lg: 15 },
                     mt: { sm: '100px', xs: 3 },
+                    mb: 2,
                     '& > *': {
                         margin: '0 auto'
                     }

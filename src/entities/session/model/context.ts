@@ -7,7 +7,7 @@ export enum SessionStatus {
     NOT_AUTHENTICATED = "not_authenticated"
 }
 
-export interface IAuthContext {
+export interface AuthContextProps {
     user: User
     login: (data: User, redirectAfterLogin: () => void) => Promise<void>
     logout: (redirectAfterLogout: () => void) => void,
@@ -15,4 +15,4 @@ export interface IAuthContext {
     updateSessionStatus: (sessionStatus: SessionStatus) => void,
 }
 
-export const AuthContext = createContext<IAuthContext | null>(null)
+export const AuthContext = createContext<AuthContextProps | null>(null)

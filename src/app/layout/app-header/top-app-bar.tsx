@@ -3,7 +3,7 @@ import { AppBar, IconButton, Toolbar } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { ElevationScroll } from 'shared/ui/elevation-scroll'
 import { AvatarArea } from 'widgets/avatar-area'
-import { navigationProfileConfig } from 'app/router/navigation.tsx'
+import { navigationConfig } from 'app/router/navigation.tsx'
 
 interface TopAppBarProps {
     onDrawerToggle: () => void
@@ -39,7 +39,7 @@ export const TopAppBar: FC<PropsWithChildren<TopAppBarProps>> = (props) => {
                     {children}
                     <AvatarArea
                         navItems={[
-                            ...navigationProfileConfig,
+                            ...navigationConfig.profile,
                             {
                                 path: '/logout',
                                 displayName: 'Выйти'

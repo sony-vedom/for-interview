@@ -1,67 +1,72 @@
 import type { FC, ReactNode } from 'react'
-import {
-    Box,
-    Card,
-    CardContent,
-    Divider,
-    Paper,
-    Typography,
-} from '@mui/material'
+import { Box, Typography } from '@mui/material'
+import dayjs from 'dayjs'
+import { AppAvatar } from 'shared/ui/app-avatar'
+import { ItemCardPaper, ItemCardWrapper } from 'shared/ui/item-card'
 
 interface UserCardProps {
-    name: string
-    position: string
-    qualificationASNTComponent: () => ReactNode
-    qualificationSDANKComponent: () => ReactNode
+    user: {
+        firstName: string
+        secondName: string
+        photoUrl: string | null
+        lastName: string
+        position: string
+        birthday: string
+    }
+    qualificationASNTComponent: ReactNode
+    qualificationSDANKComponent: ReactNode
 }
 
 export const UserCard: FC<UserCardProps> = (props) => {
-    const {
-        name,
-        position,
-        qualificationASNTComponent,
-        qualificationSDANKComponent,
-    } = props
+    const { user, qualificationASNTComponent, qualificationSDANKComponent } =
+        props
+    const userName =
+        user.lastName + ' ' + user.firstName + ' ' + user.secondName
+    const birthdayFormatted = dayjs(user.birthday).format('DD.MM.YYYY')
     return (
-        <Card
-            sx={{
-                backgroundColor: 'primary.main',
-                padding: '5px',
-                maxWidth: '1000px',
-            }}>
-            <CardContent
+        <ItemCardWrapper cardProps={{ sx: { maxWidth: '1000px' } }}>
+            <ItemCardPaper
                 sx={{
-                    padding: { md: '15px', xs: '5px' },
+                    display: { sm: 'flex', xs: 'grid' },
+                    gap: '15px',
+                    marginBottom: '10px'
                 }}>
-                <Paper
+                <AppAvatar alt={userName} src={`${user.photoUrl}`} />
+                <Box
                     sx={{
-                        padding: { md: '15px', xs: '5px' },
-                        display: 'flex',
-                        gap: '3px',
-                        marginBottom: '10px',
+                        width: '100%',
+                        display: 'grid',
+                        justifySelf: { xs: 'center', sm: 'stretch' },
+                        justifyContent: { xs: 'center', sm: 'stretch' },
+                        textAlign: { xs: 'center', sm: 'start' }
                     }}>
-                    <Typography variant='h4'>{name}</Typography>
-                </Paper>
-                <Paper
+                    <Typography component={'div'} variant="h5">
+                        {userName}
+                    </Typography>
+                    <Typography
+                        component={'div'}
+                        color={(theme) => theme.palette.text.secondary}
+                        variant="subtitle1">
+                        {birthdayFormatted}
+                    </Typography>
+                    <Typography component={'div'} variant="subtitle1">
+                        {user.position}
+                    </Typography>
+                </Box>
+            </ItemCardPaper>
+            <ItemCardPaper>
+                <Box
                     sx={{
-                        padding: { md: '15px', xs: '5px' },
+                        display: 'grid',
+                        gap: '20px',
+                        gridTemplateColumns: {
+                            md: '1fr 1fr'
+                        }
                     }}>
-                    <Box>
-                        <b>Должность: </b>
-                        {position}
-                    </Box>
-                    <Divider sx={{ margin: '10px 0' }} />
-                    <Box
-                        sx={{
-                            display: 'grid',
-                            gap: '20px',
-                            gridTemplateColumns: {md: "1fr 1fr"}
-                        }}>
-                        {qualificationASNTComponent()}
-                        {qualificationSDANKComponent()}
-                    </Box>
-                </Paper>
-            </CardContent>
-        </Card>
+                    {qualificationASNTComponent}
+                    {qualificationSDANKComponent}
+                </Box>
+            </ItemCardPaper>
+        </ItemCardWrapper>
     )
 }

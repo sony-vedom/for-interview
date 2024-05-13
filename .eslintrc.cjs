@@ -79,7 +79,7 @@ module.exports = {
         ],
         "import/no-extraneous-dependencies": [
             "error",
-            {devDependencies: ["./vite.config.ts"]},
+            {devDependencies: ["./vite.config.tsx"]},
         ],
         "import/prefer-default-export": "off",
     },
@@ -108,7 +108,7 @@ module.exports = {
                         devDependencies: [
                             "**/msw/**",
                             "**/react-query/utils.tsx",
-                            "**/react-router/utils.ts",
+                            "**/react-navigation/utils.ts",
                         ],
                     },
                 ],

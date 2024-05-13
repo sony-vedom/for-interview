@@ -1,11 +1,13 @@
-import { DefectoscopistPage } from 'pages/defectoscopist-page'
-import { navItem } from 'shared/lib/navigation'
-import { DocumentsPage } from 'pages/documents-page'
 import { Outlet } from 'react-router-dom'
+import { UserPage } from 'pages/user-page'
+import { DocumentsPage } from 'pages/documents-page'
+import { SbtReportPage } from 'pages/sbt-page'
+import { navItem } from 'shared/lib/navigation'
+import { ROUTES } from 'shared/config/routes'
 
-export const navigationConfig: navItem[] = [
+const base: navItem[] = [
     {
-        path: '/documents',
+        path: ROUTES.DOCUMENTS,
         element: <Outlet />,
         displayName: 'Документы',
         children: [
@@ -14,34 +16,30 @@ export const navigationConfig: navItem[] = [
                 element: <DocumentsPage />
             },
             {
-                displayName: 'Шаблоны отчетов по трубам',
+                displayName: 'Отчеты по комплектам труб',
                 children: [
                     {
-                        displayName: 'Отчет по СБТ',
-                        path: 'report-sbt',
-                        element: (
-                            <div style={{ border: '1px solid red' }}>
-                                Отчет по СБТ
-                            </div>
-                        ),
+                        displayName: 'Отчеты по СБТ',
+                        path: ROUTES.SBT,
+                        element: <SbtReportPage />
                     },
                     {
-                        displayName: 'Отчет по ТБТ',
-                        path: 'report-tbt',
+                        displayName: 'Отчеты по ТБТ',
+                        path: ROUTES.TBT,
                         element: (
                             <div style={{ border: '1px solid red' }}>
                                 Отчет по ТБТ
                             </div>
-                        ),
+                        )
                     },
                     {
-                        displayName: 'Отчет по УБТ',
-                        path: 'report-ubt',
+                        displayName: 'Отчеты по УБТ',
+                        path: ROUTES.UBT,
                         element: (
                             <div style={{ border: '1px solid red' }}>
                                 Отчет по УБТ
                             </div>
-                        ),
+                        )
                     }
                 ]
             }
@@ -49,10 +47,15 @@ export const navigationConfig: navItem[] = [
     }
 ]
 
-export const navigationProfileConfig: navItem[] = [
+const profile: navItem[] = [
     {
-        path: '/profile',
+        path: ROUTES.PROFILE,
         displayName: 'Профиль',
-        element: <DefectoscopistPage />
+        element: <UserPage />
     }
 ]
+
+export const navigationConfig = {
+    base,
+    profile
+}

@@ -1,3 +1,2 @@
-import type { RouteObject } from 'react-router-dom'
-
-export type navItem = RouteObject & { displayName?: string, children?: navItem[] }
+export * from "./nav-item.ts"
+export * from "./context.ts"
