@@ -4,7 +4,6 @@ import { LoginPage } from 'pages/login-page'
 import { AuthenticationGuard, AuthorizationGuard } from 'entities/session'
 import { navigationConfig } from 'app/router/navigation.tsx'
 import { ROUTES } from 'shared/config/routes'
-import { CreateReportPage } from 'pages/create-report-page'
 
 export const routerConfig = [
     {
@@ -24,9 +23,14 @@ export const routerConfig = [
             ...navigationConfig.profile,
             {
                 path: ROUTES.CREATE_REPORT,
-                displayName: "Начало создания отчета",
-                element: <CreateReportPage/>,
-            },
+                displayName: 'Начало создания отчета',
+                lazy: async () => {
+                    let { CreateReportPage } = await import(
+                        'pages/create-report-page'
+                    )
+                    return { Component: CreateReportPage }
+                }
+            }
         ]
     },
     {
