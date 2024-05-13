@@ -1,1 +1,4 @@
-export * from "./hasArrMatchingProperty.ts"
+export * from './has-arr-matching-property.ts'
+
+
+

@@ -5,6 +5,7 @@ import { BottomAppBar } from './bottom-app-bar'
 import { LogoButton } from './logo-button.tsx'
 import { useSession } from 'entities/session'
 import { navigationConfig } from 'app/router'
+import { hasArrMatchingProperty } from 'shared/lib/helpers'
 
 export const AppHeader = () => {
     const session = useSession()
@@ -14,14 +15,16 @@ export const AppHeader = () => {
         setIsDrawerMobileOpen((prevState) => !prevState)
     }
 
-    const navItems = navigationConfig.flatMap((navEl) => {
-        const findEl = session?.user.role.read?.find((el) =>
-            navEl.path?.includes(el.pathName)
+    const navItems = navigationConfig.base.flatMap((navEl) => {
+        const isFindEl = hasArrMatchingProperty(
+            session?.user.role.read ?? [],
+            'pathName',
+            navEl.path!
         )
-        if (findEl) {
+        if (isFindEl) {
             return {
                 displayName: navEl.displayName,
-                path: findEl.pathName
+                path: navEl.path!
             }
         }
         return []

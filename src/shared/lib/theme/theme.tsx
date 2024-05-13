@@ -2,11 +2,11 @@ import { themeConfig } from 'shared/lib/theme/index.ts'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import type { FC, ReactNode } from 'react'
 
-interface AppThemeProviderProps {
+interface AppThemeProps {
     children: ReactNode
 }
 
-export const AppThemeProvider: FC<AppThemeProviderProps> = ({ children }) => {
+export const AppTheme: FC<AppThemeProps> = ({ children }) => {
     return (
         <ThemeProvider theme={themeConfig}>
             <CssBaseline />

@@ -1,4 +1,4 @@
-import { useSession, SessionStatus } from 'entities/session'
+import { SessionStatus, useSession } from 'entities/session'
 import { Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
@@ -18,12 +18,20 @@ export const LoginPage = () => {
                         {
                             id: 1,
                             pathName: 'documents'
+                        },
+                        {
+                            id: 2,
+                            pathName: 'create_report'
                         }
                     ],
                     read: [
                         {
                             id: 1,
                             pathName: 'documents'
+                        },
+                        {
+                            id: 2,
+                            pathName: 'create_report'
                         }
                     ]
                 }
@@ -33,7 +41,7 @@ export const LoginPage = () => {
     }, [])
 
     if (context?.sessionStatus === SessionStatus.AUTHENTICATED) {
-        return <Navigate to={'/'} replace/>
+        return <Navigate to={'/'} replace />
     }
     return <>Привет, я страничка логина</>
 }

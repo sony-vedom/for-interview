@@ -24,7 +24,7 @@ export const BottomAppBar: FC<{ navItems: navItem[] }> = (props) => {
                     sx={{
                         top: '65px',
                         boxShadow: '-5px 11px 15px -5px rgba(0,0,0,0.1)',
-                        zIndex: '1 !important',
+                        zIndex: '2 !important',
                         display: { xs: 'none', sm: 'block' }
                     }}>
                     <Toolbar

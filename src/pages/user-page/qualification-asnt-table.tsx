@@ -2,6 +2,7 @@ import {
     QualificationTable,
     QualificationType,
 } from 'features/qualification-table'
+import { type FC } from 'react'
 
 const mockRowsASNT = {
     ut: { displayName: 'UT', date: '2024-04-22' },
@@ -11,7 +12,7 @@ const mockRowsASNT = {
     pt: { displayName: 'PT', date: '2024-04-22' },
 }
 
-export const QualificationASNTTable = () => {
+export const QualificationASNTTable: FC = () => {
     return (
         <QualificationTable type={QualificationType.ASNT} rows={mockRowsASNT} />
     )
