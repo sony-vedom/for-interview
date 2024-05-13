@@ -1,7 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { UserPage } from 'pages/user-page'
 import { DocumentsPage } from 'pages/documents-page'
-import { SbtReportPage } from 'pages/sbt-page'
 import { navItem } from 'shared/lib/navigation'
 import { ROUTES } from 'shared/config/routes'
 
@@ -21,7 +19,12 @@ const base: navItem[] = [
                     {
                         displayName: 'Отчеты по СБТ',
                         path: ROUTES.SBT,
-                        element: <SbtReportPage />
+                        lazy: async () => {
+                            let { SbtReportPage } = await import(
+                                'pages/sbt-page'
+                            )
+                            return { Component: SbtReportPage }
+                        }
                     },
                     {
                         displayName: 'Отчеты по ТБТ',
@@ -51,7 +54,10 @@ const profile: navItem[] = [
     {
         path: ROUTES.PROFILE,
         displayName: 'Профиль',
-        element: <UserPage />
+        lazy: async () => {
+            let { UserPage } = await import('pages/user-page')
+            return { Component: UserPage }
+        }
     }
 ]
 
