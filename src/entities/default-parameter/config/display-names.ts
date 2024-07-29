@@ -1,7 +1,6 @@
-import { PipeParameter } from './parameter.ts'
+import { PipeParameter } from 'entities/default-parameter'
 
 type pipeParametersKeys = keyof Omit<PipeParameter, 'id' | 'name'>
-
 export const displayNamesPipeParameter: {
     [key in pipeParametersKeys]: string
 } = {

@@ -1,21 +1,21 @@
 import { RouteObject } from 'react-router-dom'
 import { useNavData } from 'shared/lib/navigation/context.ts'
 
-export type navItem = RouteObject & {
+export type navItemType = RouteObject & {
     displayName?: string
-    children?: navItem[]
+    children?: navItemType[]
 }
 
 type getNavItemType = (
-    navItems: navItem[],
+    navItems: navItemType[],
     searchString: string
-) => navItem | undefined
+) => navItemType | undefined
 
 const recursiveSearch = (
-    navItem: navItem,
+    navItem: navItemType,
     searchString: string,
     getNavItem: getNavItemType
-): navItem | undefined => {
+): navItemType | undefined => {
     if (navItem.path === searchString) {
         return navItem
     }
@@ -28,7 +28,7 @@ const recursiveSearch = (
 const getNavItem: getNavItemType = (
     navItems,
     searchString
-): navItem | undefined => {
+): navItemType | undefined => {
     for (let i of navItems) {
         const findEl = recursiveSearch(i, searchString, getNavItem)
         if (findEl) {

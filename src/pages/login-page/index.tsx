@@ -21,7 +21,11 @@ export const LoginPage = () => {
                         },
                         {
                             id: 2,
-                            pathName: 'create_report'
+                            pathName: 'total-tools'
+                        },
+                        {
+                            id: 3,
+                            pathName: 'create-report'
                         }
                     ],
                     read: [
@@ -31,7 +35,11 @@ export const LoginPage = () => {
                         },
                         {
                             id: 2,
-                            pathName: 'create_report'
+                            pathName: 'total-tools'
+                        },
+                        {
+                            id: 3,
+                            pathName: 'create-report'
                         }
                     ]
                 }

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
-import { navItem } from './nav-item.ts'
+import { navItemType } from './nav-item.ts'
 
-const NavDataContext = createContext<navItem[]>([])
+const NavDataContext = createContext<navItemType[]>([])
 export const NavDataProvider = NavDataContext.Provider
 export const useNavData = () => useContext(NavDataContext)

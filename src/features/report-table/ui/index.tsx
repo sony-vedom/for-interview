@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { TableBase } from 'shared/ui/table/table-base'
+import { TableBase } from 'shared/ui/table'
 import { FC, useMemo } from 'react'
 import { MRT_ColumnDef } from 'material-react-table'
 import { ReportBase } from 'entities/report'

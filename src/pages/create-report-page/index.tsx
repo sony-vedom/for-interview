@@ -1,105 +1,50 @@
 import { Box } from '@mui/material'
-import { BasePageLayout } from 'shared/ui/base-page-layout'
 import { HeadingPage } from 'shared/ui/heading-page'
 import { ROUTES } from 'shared/config/routes'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FC } from 'react'
-import { ApplicationNumberField } from './application-number-field.tsx'
-import { CustomerField } from './customer-field.tsx'
-import { StartDateField } from './start-date-field.tsx'
-import { PipeTypeField } from './pipe-type-field.tsx'
-import { ParametersNameField } from './parameters-name-field.tsx'
-import { KitNumberField } from './kit-number-field.tsx'
 import { SaveButton } from 'shared/ui/save-button'
-import { DefaultParametersCard } from 'entities/default-parameter'
-import { KitStateField } from './kit-state-field.tsx'
-import { mockData } from './mockData.ts'
 import { AppDivider } from 'shared/ui/app-divider'
-import { CategoriesField } from 'pages/create-report-page/categories-field.tsx'
-import { AdditionalCategories } from 'pages/create-report-page/additional-categories.tsx'
+import { BasicDataFields } from 'pages/create-report-page/basic-data-fields'
+import { DescriptionKitFields } from 'pages/create-report-page/description-kit-fields'
+import { StandartFields } from 'pages/create-report-page/standart-fields'
+import { ToolsFields } from 'pages/create-report-page/tools-fields'
 
-const maxWidth = '650px'
+export const maxWidth = '650px'
 
 export const CreateReportPage: FC = () => {
     const methods = useForm()
     const onSubmit = (data: any) => console.log(data)
-
     return (
         <>
-            <BasePageLayout>
                 <HeadingPage navItemPathname={ROUTES.CREATE_REPORT} />
                 <FormProvider {...methods}>
                     <Box
                         sx={{
                             display: 'grid',
-                            padding: { xl: 6, md: 3, xs: 2 },
+                            padding: { xxl: 6, lg: 4, md: 3, xs: 2 },
                             justifyItems: 'center',
-                            gap: 3
+                            justifyContent: 'center',
+                            gap: 2,
                         }}
                         component={'form'}
                         onSubmit={methods.handleSubmit(onSubmit)}>
-                        <Box
-                            sx={{
-                                display: 'grid',
-                                maxWidth: maxWidth,
-                                gap: 2,
-                                width: '100%'
-                            }}>
-                            <ApplicationNumberField />
-                            <CustomerField />
-                            <StartDateField />
-                        </Box>
+                        <BasicDataFields />
                         <AppDivider>ОПИСАНИЕ КОМПЛЕКТА</AppDivider>
-                        <Box
-                            sx={{
-                                display: 'grid',
-                                width: '100%',
-                                justifyContent: { md: 'space-around' },
-                                gridTemplateColumns: {
-                                    xl: `minmax(100px, ${maxWidth}) 1fr`
-                                },
-                                gap: { xl: 3, xs: 2 }
-                            }}>
-                            <Box
-                                sx={{
-                                    display: 'grid',
-                                    maxWidth,
-                                    gap: 2,
-                                    justifySelf: 'center',
-                                    width: '100%',
-                                    alignContent: 'start'
-                                }}>
-                                <PipeTypeField />
-                                <ParametersNameField />
-                                <KitNumberField />
-                                <KitStateField />
-                            </Box>
-                            <DefaultParametersCard data={mockData} />
-                        </Box>
+                        <DescriptionKitFields />
                         <AppDivider>
-                            ПРИМЕНЯЕМЫЕ СТАНДАРТЫ И ПРОЦЕДУРЫ
+                            ПРИМЕНЯЕМЫЕ СТАНДАРТЫ
                         </AppDivider>
-                        <Box
-                            sx={{
-                                display: 'grid',
-                                maxWidth,
-                                gap: 2,
-                                justifySelf: 'center',
-                                width: '100%',
-                                alignContent: 'start'
-                            }}>
-                            <CategoriesField />
-                            <AdditionalCategories />
-                        </Box>
+                        <StandartFields />
                         <AppDivider>ИСПОЛЬЗУЕМОЕ ОБОРУДОВАНИЕ</AppDivider>
+                        <ToolsFields/>
                         {/*потом сюда ниже добавить ещё на фетчинг когда кнопку блокировать*/}
                         <SaveButton
-                            sx={{ mt: 2, width: '100%', maxWidth }}
+                            sx={{ mt: 5, width: '100%', maxWidth }}
                             loading={methods.formState.isSubmitting}
                         />
                     </Box>
                 </FormProvider>
-            </BasePageLayout>
         </>
     )
 }

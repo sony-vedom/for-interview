@@ -1,5 +1,5 @@
 import { createContext, FC, useContext, useState } from 'react'
-import { navItem } from 'shared/lib/navigation'
+import { navItemType } from 'shared/lib/navigation'
 import { Box, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { ChevronIconButton } from 'shared/ui/chevron-icon-button'
@@ -7,7 +7,7 @@ import { DotIcon } from 'shared/ui/dot-icon'
 
 const PaddingContext = createContext(0)
 
-export const RecursiveListRouterItem: FC<{ item: navItem }> = (props) => {
+export const RecursiveListRouterItem: FC<{ item: navItemType }> = (props) => {
     const { item } = props
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const hasChildren = item.children && item.children.length > 0

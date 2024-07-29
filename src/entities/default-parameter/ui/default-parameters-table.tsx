@@ -23,7 +23,7 @@ export const DefaultParametersTable: FC<{
                             <TableCell component="th" scope="row">
                                 <b>{displayName}</b>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell sx={{ minWidth: '141px' }} align="right">
                                 {valueToDisplayString(value)}
                             </TableCell>
                         </TableRow>

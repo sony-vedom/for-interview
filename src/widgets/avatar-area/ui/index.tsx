@@ -8,10 +8,10 @@ import {
     Typography
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { type navItem } from 'shared/lib/navigation'
+import { type navItemType } from 'shared/lib/navigation'
 
 interface AvatarAreaProps {
-    navItems: navItem[]
+    navItems: navItemType[]
 }
 
 export const AvatarArea: FC<AvatarAreaProps> = (props) => {

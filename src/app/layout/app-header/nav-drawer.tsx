@@ -8,13 +8,13 @@ import {
     ListItem,
     ListItemText
 } from '@mui/material'
-import { navItem } from 'shared/lib/navigation'
+import { navItemType } from 'shared/lib/navigation'
 import { themeConfig } from 'shared/lib/theme'
 
 export const NavDrawer: FC<{
     isDrawerMobileOpen: boolean
     onDrawerToggle: () => void
-    navItems: navItem[]
+    navItems: navItemType[]
 }> = (props) => {
     const { isDrawerMobileOpen, onDrawerToggle, navItems } = props
     const location = useLocation()

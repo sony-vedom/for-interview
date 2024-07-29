@@ -1,9 +1,10 @@
 import { Outlet } from 'react-router-dom'
 import { DocumentsPage } from 'pages/documents-page'
-import { navItem } from 'shared/lib/navigation'
+import { navItemType } from 'shared/lib/navigation'
 import { ROUTES } from 'shared/config/routes'
+import { ToolsPage } from 'pages/tools-page'
 
-const base: navItem[] = [
+const base: navItemType[] = [
     {
         path: ROUTES.DOCUMENTS,
         element: <Outlet />,
@@ -22,7 +23,7 @@ const base: navItem[] = [
                         lazy: async () => {
                             let { SbtReportPage } = await import(
                                 'pages/sbt-page'
-                            )
+                                )
                             return { Component: SbtReportPage }
                         }
                     },
@@ -47,10 +48,40 @@ const base: navItem[] = [
                 ]
             }
         ]
+    },
+    {
+        path: ROUTES.TOTAL_TOOLS,
+        element: <ToolsPage/>,
+        displayName: 'Оборудование',
+        children: [
+            {
+                displayName: "Оборудование",
+                index: true,
+                element: <></>
+            },
+            {
+                displayName: 'Типы оборудования',
+                path: ROUTES.KIND_TOOLS,
+                element: (
+                    <div style={{ border: '1px solid red' }}>
+                        Отчет по ТБТ
+                    </div>
+                )
+            },
+            {
+                displayName: 'Виды оборудования',
+                path: ROUTES.TYPE_TOOLS,
+                element: (
+                    <div style={{ border: '1px solid red' }}>
+                        Отчет по ТБТ
+                    </div>
+                )
+            }
+        ]
     }
 ]
 
-const profile: navItem[] = [
+const profile: navItemType[] = [
     {
         path: ROUTES.PROFILE,
         displayName: 'Профиль',
