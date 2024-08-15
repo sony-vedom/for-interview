@@ -1,18 +1,19 @@
 import { routerConfig } from './router'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AppTheme } from 'shared/lib/theme'
-import { AuthProvider } from 'entities/session'
+import { model } from 'entities/session'
 import { NavDataProvider } from 'shared/lib/navigation'
 
 const browserRouter = createBrowserRouter(routerConfig)
 
 function App() {
+    const sessionStore = model.useSessionStore()
     return (
         <NavDataProvider value={routerConfig}>
             <AppTheme>
-                <AuthProvider>
+                <model.SessionProvider value={sessionStore}>
                     <RouterProvider router={browserRouter} />
-                </AuthProvider>
+                </model.SessionProvider>
             </AppTheme>
         </NavDataProvider>
     )

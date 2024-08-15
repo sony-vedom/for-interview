@@ -5,7 +5,7 @@ import { MenuItem, Paper } from '@mui/material'
 
 export interface ISelectData {
     id: number | string;
-    name: string;
+    name: string | number;
 }
 
 interface OrgSelectFieldProps {

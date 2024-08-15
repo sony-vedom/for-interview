@@ -18,7 +18,8 @@ export const config = createTheme({
             dark: '#2A6D69'
         },
         secondary: {
-            main: '#de547b'
+            main: '#d5a693',
+            light: '#ffffff'
         }
     },
     components: {
@@ -61,10 +62,17 @@ export const config = createTheme({
                 }
             }
         },
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    color: '#2A6D69'
+                }
+            }
+        },
         MuiTextField: {
             defaultProps: {
                 size: 'small'
             }
-        }
+        },
     }
 })

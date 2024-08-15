@@ -1,9 +1,11 @@
 import { RouteObject } from 'react-router-dom'
 import { useNavData } from 'shared/lib/navigation/context.ts'
+import { ReactNode } from 'react'
 
 export type navItemType = RouteObject & {
     displayName?: string
     children?: navItemType[]
+    icon?: ReactNode
 }
 
 type getNavItemType = (

@@ -2,7 +2,6 @@ import { AppHeader } from './app-header'
 import { Box } from '@mui/material'
 import type { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import { BasePageLayout } from 'shared/ui/base-page-layout'
 
 export const AppLayout: FC = () => {
     return (
@@ -18,9 +17,7 @@ export const AppLayout: FC = () => {
                         margin: '0 auto'
                     }
                 }}>
-                <BasePageLayout>
-                    <Outlet />
-                </BasePageLayout>
+                <Outlet />
             </Box>
         </>
     )

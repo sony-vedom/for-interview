@@ -1,42 +1,43 @@
-import {FC, PropsWithChildren} from "react";
-import {IconButton, Tooltip} from "@mui/material";
-import {Edit as EditIcon} from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Box from "@mui/material/Box";
-import {ConfirmDialog} from "shared/ui/confirm-dialog";
-import { Link } from 'react-router-dom'
+import { FC, PropsWithChildren } from 'react'
+import { IconButton, Link, Tooltip } from '@mui/material'
+import { Edit as EditIcon } from '@mui/icons-material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import { ConfirmDialog } from 'shared/ui/confirm-dialog'
+import { Link as RouterLink } from 'react-router-dom'
 import { useModal } from 'shared/lib/modal'
 
+
 export const SinglePageLink: FC<PropsWithChildren<{ singlePageLink: string, entityNameText: string }>> = (props) => {
-    const {singlePageLink, entityNameText, children} = props
+    const { singlePageLink, entityNameText, children } = props
     return <>
         <Tooltip
             title={`Перейти на страницу ${entityNameText}`}>
-            <Link to={singlePageLink} className={"text-green-700"}>
+            <Link component={RouterLink} to={singlePageLink}>
                 {children}
             </Link>
         </Tooltip>
-        </>
+    </>
 }
 
 const EditButton: FC<{ handleEdit: () => void }> = (props) => {
-    const {handleEdit} = props
+    const { handleEdit } = props
     return <Tooltip title="Редактировать">
         <IconButton color="secondary" onClick={handleEdit}>
-            <EditIcon/>
+            <EditIcon />
         </IconButton>
     </Tooltip>
 }
 
 const DeleteButtonWithConfirmDialog: FC<{ handleDelete: () => void, entityNameText: string }> = (props) => {
-    const {handleDelete, entityNameText} = props
-    const {isOpen, handleModal} = useModal()
+    const { handleDelete, entityNameText } = props
+    const { isOpen, handleModal } = useModal()
     return <>
-        <Tooltip title="Удалить">
+        <Tooltip title={`Удалить ${entityNameText}`}>
             <IconButton color="error" onClick={() => {
                 handleModal()
             }}>
-                <DeleteIcon/>
+                <DeleteIcon />
             </IconButton>
         </Tooltip>
         <ConfirmDialog
@@ -53,8 +54,8 @@ const DeleteButtonWithConfirmDialog: FC<{ handleDelete: () => void, entityNameTe
 }
 
 const Wrapper: FC<PropsWithChildren> = (props) => {
-    const {children} = props
-    return <Box sx={{display: 'flex', gap: '1rem'}}>
+    const { children } = props
+    return <Box sx={{ display: 'flex', gap: '1rem' }}>
         {children}
     </Box>
 }

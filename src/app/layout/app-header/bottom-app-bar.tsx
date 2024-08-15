@@ -1,9 +1,12 @@
 import { type FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { AppBar, Box, Button, Toolbar } from '@mui/material'
+import { AppBar, Box, Button, LinearProgress, Toolbar } from '@mui/material'
 import { HideOnScroll } from 'shared/ui/hide-on-scroll'
 import { themeConfig } from 'shared/lib/theme'
 import { navItemType } from 'shared/lib/navigation'
+import { useSession } from 'entities/session'
+import { observer } from 'mobx-react-lite'
+import { Meta } from 'shared/api'
 
 const activeStyle = {
     color: '#fff'
@@ -13,9 +16,10 @@ const defaultStyle = {
     color: `${themeConfig.palette.primary.dark} !important`
 }
 
-export const BottomAppBar: FC<{ navItems: navItemType[] }> = (props) => {
+export const BottomAppBar: FC<{ navItems: navItemType[] }> = observer((props) => {
     const { navItems } = props
     const location = useLocation()
+    const session = useSession()
     return (
         <>
             <HideOnScroll>
@@ -47,9 +51,10 @@ export const BottomAppBar: FC<{ navItems: navItemType[] }> = (props) => {
                             ))}
                         </Box>
                     </Toolbar>
+                    {session?.meta === Meta.LOADING && <LinearProgress color={'secondary'} />}
                 </AppBar>
             </HideOnScroll>
             <Toolbar />
         </>
     )
-}
+})

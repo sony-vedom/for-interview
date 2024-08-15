@@ -4,6 +4,7 @@ import { TextFieldProps } from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
+import { observer } from 'mobx-react-lite'
 
 export type AutocompleteBaseProps = {
     defaultValue?: ISelectData
@@ -12,7 +13,7 @@ export type AutocompleteBaseProps = {
     label: string
 } & Partial<AutocompleteProps<any, any, any, any>>
 
-export const AutoCompleteBase: FC<AutocompleteBaseProps> = (props) => {
+export const AutoCompleteBase: FC<AutocompleteBaseProps> = observer((props) => {
     const { defaultValue, textFieldProps, data, label, ...rest } = props
     return (
         <Autocomplete
@@ -38,10 +39,10 @@ export const AutoCompleteBase: FC<AutocompleteBaseProps> = (props) => {
                     size={'small'}
                     InputProps={{
                         ...params.InputProps,
-                        type: 'search'
+                        type: 'search',
                     }}
                 />
             )}
         />
     )
-}
+})

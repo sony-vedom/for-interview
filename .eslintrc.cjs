@@ -9,7 +9,6 @@ module.exports = {
         "plugin:eslint-plugin-import/recommended",
         "plugin:react-hooks/recommended",
         "eslint-config-prettier",
-        "airbnb",
         "prettier",
     ],
     env: {
@@ -28,11 +27,11 @@ module.exports = {
                 pathGroups: [
                     {pattern: "react", group: "builtin"},
                     {pattern: "vite", group: "builtin"},
-                    {pattern: "shared/**", group: "internal"},
-                    {pattern: "entities/**", group: "internal"},
-                    {pattern: "features/**", group: "internal"},
-                    {pattern: "widgets/**", group: "internal"},
                     {pattern: "pages/**", group: "internal"},
+                    {pattern: "widgets/**", group: "internal"},
+                    {pattern: "features/**", group: "internal"},
+                    {pattern: "entities/**", group: "internal"},
+                    {pattern: "shared/**", group: "internal"},
                 ],
                 pathGroupsExcludedImportTypes: ["builtin"],
                 groups: [

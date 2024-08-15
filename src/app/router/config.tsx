@@ -1,9 +1,9 @@
 import { Navigate } from 'react-router-dom'
 import { AppLayout } from 'app/layout'
-import { LoginPage } from 'pages/login-page'
 import { AuthenticationGuard, AuthorizationGuard } from 'entities/session'
 import { navigationConfig } from 'app/router/navigation.tsx'
 import { ROUTES } from 'shared/config/routes'
+import { BasePageLayout } from 'shared/ui/base-page-layout'
 
 export const routerConfig = [
     {
@@ -19,26 +19,33 @@ export const routerConfig = [
         ),
         children: [
             { index: true, element: <Navigate to={ROUTES.DOCUMENTS} /> },
-            ...navigationConfig.base,
-            ...navigationConfig.profile,
             {
-                path: ROUTES.CREATE_REPORT,
-                displayName: 'Начало создания отчета',
-                lazy: async () => {
-                    let { CreateReportPage } = await import(
-                        'pages/create-report-page'
-                    )
-                    return { Component: CreateReportPage }
-                }
-            }
+                element: <BasePageLayout />,
+                children: [
+                    ...navigationConfig.base,
+                    {
+                        path: ROUTES.CREATE_REPORT,
+                        displayName: 'Начало создания отчета',
+                        lazy: async () => {
+                            let { CreateReportPage } = await import(
+                                'pages/create-report-page/ui'
+                                )
+                            return { Component: CreateReportPage }
+                        }
+                    }
+                ]
+            },
+            ...navigationConfig.user,
+            ...navigationConfig.profile,
         ]
     },
     {
         path: ROUTES.LOGIN,
-        element: <LoginPage />
-    },
-    {
-        path: ROUTES.LOGOUT,
-        element: <>Страница выхода</>
+        lazy: async () => {
+            let { LoginPage } = await import(
+                'pages/login-page'
+                )
+            return { Component: LoginPage }
+        }
     }
 ]

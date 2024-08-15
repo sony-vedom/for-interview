@@ -6,7 +6,6 @@ import { mockData } from 'pages/sbt-page/mockData.ts'
 export const SbtReportPage = () => {
     return (
         <>
-
                 <HeadingPage navItemPathname={ROUTES.SBT} />
                 <ReportTable data={mockData} />
         </>

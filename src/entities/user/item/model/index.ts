@@ -1,1 +1,2 @@
-export * from "./user.ts"
+export * as store from "./store"
+export * from './user.ts'

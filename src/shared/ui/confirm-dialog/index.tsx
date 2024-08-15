@@ -1,13 +1,11 @@
-"use client"
-
 import Button from '@mui/material/Button';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-import {FC} from "react";
+import React, {FC} from "react";
 
 export interface ConfirmationDialogRawProps {
-    onConfirm: () => void
+    onConfirm: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
     open: boolean;
     onClose: () => void;
     dialogText: string
