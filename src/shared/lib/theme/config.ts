@@ -1,6 +1,16 @@
 import { createTheme } from '@mui/material/styles'
 
 export const config = createTheme({
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+            xxl: 1700
+        }
+    },
     palette: {
         mode: 'light',
         primary: {
@@ -8,7 +18,8 @@ export const config = createTheme({
             dark: '#2A6D69'
         },
         secondary: {
-            main: '#de547b'
+            main: '#d5a693',
+            light: '#ffffff'
         }
     },
     components: {
@@ -51,10 +62,17 @@ export const config = createTheme({
                 }
             }
         },
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    color: '#2A6D69'
+                }
+            }
+        },
         MuiTextField: {
             defaultProps: {
                 size: 'small'
             }
-        }
+        },
     }
 })

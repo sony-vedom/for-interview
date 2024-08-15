@@ -1,1 +1,5 @@
-export { type User } from 'entities/user/item/model'
+export { type User } from '../model'
+
+export { type UserDTO } from '../api/dto'
+
+export { mapUser } from '../api/mapper'

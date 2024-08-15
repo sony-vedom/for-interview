@@ -1,72 +1,56 @@
-import type { FC, ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 import { Box, Typography } from '@mui/material'
-import dayjs from 'dayjs'
 import { AppAvatar } from 'shared/ui/app-avatar'
 import { ItemCardPaper, ItemCardWrapper } from 'shared/ui/item-card'
+import { User } from 'entities/user/item'
+import { observer } from 'mobx-react-lite'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface UserCardProps {
-    user: {
-        firstName: string
-        secondName: string
-        photoUrl: string | null
-        lastName: string
-        position: string
-        birthday: string
-    }
-    qualificationASNTComponent: ReactNode
-    qualificationSDANKComponent: ReactNode
+    user?: User | null
+    position?: string | null
 }
 
-export const UserCard: FC<UserCardProps> = (props) => {
-    const { user, qualificationASNTComponent, qualificationSDANKComponent } =
-        props
-    const userName =
-        user.lastName + ' ' + user.firstName + ' ' + user.secondName
-    const birthdayFormatted = dayjs(user.birthday).format('DD.MM.YYYY')
-    return (
-        <ItemCardWrapper cardProps={{ sx: { maxWidth: '1000px' } }}>
-            <ItemCardPaper
-                sx={{
-                    display: { sm: 'flex', xs: 'grid' },
-                    gap: '15px',
-                    marginBottom: '10px'
+export const UserCard: FC<PropsWithChildren<UserCardProps>> = observer((props) => {
+        const { user, position, children } =
+            props
+        if (!user) {
+            return <Box sx={{display: "flex", justifyContent: "center"}}><CircularProgress color={"secondary"} size={80}/></Box>
+        }
+        const userName =
+            `${user.last_name ?? ''} ${user.first_name ?? ''} ${user.second_name ?? ''}`
+        return (
+            <ItemCardWrapper>
+                <ItemCardPaper
+                    sx={{
+                        display: { sm: 'flex', xs: 'grid' },
+                        gap: '15px',
+                        marginBottom: '10px'
+                    }}>
+                    <AppAvatar alt={userName} />
+                    <Box
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            textAlign: { xs: 'center', sm: 'start' },
+                            justifyContent: 'center'
+                        }}>
+                        <Typography component={'div'} variant="h5">
+                            {userName}
+                        </Typography>
+                        <Typography component={'div'} variant="subtitle1" color={'secondary.dark'}>
+                            {position ?? 'Должность не указана'}
+                        </Typography>
+                    </Box>
+                </ItemCardPaper>
+                <ItemCardPaper sx={{
+                    display: 'grid',
+                    gap: 3
                 }}>
-                <AppAvatar alt={userName} src={`${user.photoUrl}`} />
-                <Box
-                    sx={{
-                        width: '100%',
-                        display: 'grid',
-                        justifySelf: { xs: 'center', sm: 'stretch' },
-                        justifyContent: { xs: 'center', sm: 'stretch' },
-                        textAlign: { xs: 'center', sm: 'start' }
-                    }}>
-                    <Typography component={'div'} variant="h5">
-                        {userName}
-                    </Typography>
-                    <Typography
-                        component={'div'}
-                        color={(theme) => theme.palette.text.secondary}
-                        variant="subtitle1">
-                        {birthdayFormatted}
-                    </Typography>
-                    <Typography component={'div'} variant="subtitle1">
-                        {user.position}
-                    </Typography>
-                </Box>
-            </ItemCardPaper>
-            <ItemCardPaper>
-                <Box
-                    sx={{
-                        display: 'grid',
-                        gap: '20px',
-                        gridTemplateColumns: {
-                            md: '1fr 1fr'
-                        }
-                    }}>
-                    {qualificationASNTComponent}
-                    {qualificationSDANKComponent}
-                </Box>
-            </ItemCardPaper>
-        </ItemCardWrapper>
-    )
-}
+                    {children}
+                </ItemCardPaper>
+            </ItemCardWrapper>
+        )
+    }
+)

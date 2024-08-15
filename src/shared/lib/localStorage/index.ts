@@ -1,1 +1,1 @@
-export {useLocalStorage} from "./useLocalStorage.ts"
+export * from "./useLocalStorage.ts"

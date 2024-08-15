@@ -13,6 +13,20 @@ export interface Role {
 
 export interface User {
     id: number
-    username: string
-    role: Role
+    login: string
+
+    first_name: string | null
+    last_name: string | null
+    second_name: null | string
+
+    position_id: null | number
+
+    role: Role | null
+    is_superuser: boolean
 }
+
+export type UserWithPositionName = User & {
+    position_name?: null | string
+}
+
+export type UserEdit = Partial<Omit<User, "id">>

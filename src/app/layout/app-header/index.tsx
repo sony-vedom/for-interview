@@ -5,7 +5,8 @@ import { BottomAppBar } from './bottom-app-bar'
 import { LogoButton } from './logo-button.tsx'
 import { useSession } from 'entities/session'
 import { navigationConfig } from 'app/router'
-import { hasArrMatchingProperty } from 'shared/lib/helpers'
+import { getNavItems } from 'app/router/getNavItems.ts'
+import { AvatarArea } from 'widgets/avatar-area'
 
 export const AppHeader = () => {
     const session = useSession()
@@ -15,20 +16,7 @@ export const AppHeader = () => {
         setIsDrawerMobileOpen((prevState) => !prevState)
     }
 
-    const navItems = navigationConfig.base.flatMap((navEl) => {
-        const isFindEl = hasArrMatchingProperty(
-            session?.user.role.read ?? [],
-            'pathName',
-            navEl.path!
-        )
-        if (isFindEl) {
-            return {
-                displayName: navEl.displayName,
-                path: navEl.path!
-            }
-        }
-        return []
-    })
+    const navItems = getNavItems(navigationConfig.base, session?.viewer)
 
     return (
         <>
@@ -39,6 +27,11 @@ export const AppHeader = () => {
             />
             <TopAppBar onDrawerToggle={handleDrawerToggle}>
                 <LogoButton />
+                <AvatarArea
+                    navItems={[
+                        ...navigationConfig.profile
+                    ]}
+                />
             </TopAppBar>
             <BottomAppBar navItems={navItems} />
         </>

@@ -1,20 +1,30 @@
-import { UserCard } from 'entities/user/item'
-import { QualificationASNTTable } from './qualification-asnt-table.tsx'
-import { QualificationSDANKTable } from './qualification-sdank-table.tsx'
+import { Navigate, useParams } from 'react-router-dom'
+import { UserPageProvider, useUserPageStore } from 'pages/user-page/model'
+import { observer } from 'mobx-react-lite'
+import { UserCardWrapper } from 'pages/user-page/ui'
 
-export const UserPage = () => {
+export const UserPage = observer(() => {
+    const { userId } = useParams()
+
+    const userPageStore = useUserPageStore()
+
+    if (!userId) {
+        return <Navigate to="/404" replace />
+    }
     return (
-        <UserCard
-            user={{
-                firstName: "Иван",
-                secondName: "Иванович",
-                lastName: "Иванов",
-                photoUrl: null,
-                position: "Дефектоскопист",
-                birthday: '1990-01-20',
-            }}
-            qualificationASNTComponent={<QualificationASNTTable/>}
-            qualificationSDANKComponent={<QualificationSDANKTable/>}
-        />
+        <UserPageProvider value={userPageStore}>
+            <UserCardWrapper user={userPageStore.userStore.user!} />
+        </UserPageProvider>
     )
-}
+})
+
+export const ProfilePage = observer(() => {
+    const userPageStore = useUserPageStore()
+
+
+    return (
+        <UserPageProvider value={userPageStore}>
+            <UserCardWrapper user={userPageStore.userStore.user!} />
+        </UserPageProvider>
+    )
+})

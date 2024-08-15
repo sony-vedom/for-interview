@@ -1,23 +1,24 @@
-import { FC, ReactNode, useContext } from 'react'
-import { AuthContext } from 'entities/session/model/context.ts'
+import { FC, ReactNode } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { hasArrMatchingProperty } from 'shared/lib/helpers'
+import { useSession } from 'entities/session'
 
-const aviableForAllPathnames = ['/profile', '/login', '/logout', '/']
+const aviableForAllPathnames = ['/profile', '/login', '/logout', '/', "/documents"]
 
 export const AuthorizationGuard: FC<{
     children: ReactNode
 }> = ({ children }) => {
-    const context = useContext(AuthContext)
+    const store = useSession()
+
     const location = useLocation()
 
     const isAvailablePage = aviableForAllPathnames.includes(location.pathname)
         ? true
         : hasArrMatchingProperty(
-              context?.user.role.read ?? [],
-              'pathName',
-              location.pathname
-          )
+            store?.viewer?.role?.read ?? [],
+            'pathName',
+            location.pathname
+        )
 
     if (!isAvailablePage) {
         return <Navigate to="/404" replace />
