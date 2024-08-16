@@ -6,6 +6,7 @@ export function filtersSerialize<T>(arg: Filters<T>) {
     return arg.reduce((acc, el) => {
         if (el.filterString) {
             acc[`${el.key as string}[${el.filterString}]`] = el.value
+            return acc
         }
         acc[el.key as string] = el.value
         return acc

@@ -8,7 +8,7 @@ import {
     StandardsProceduresSbt,
     StandardsProceduresSbtListStore,
     StandardsProceduresSbtStore
-} from 'entities/standards-procedures-sbt'
+} from 'entities/standards-procedures'
 
 export const StandardsProceduresSbtTable: FC<{
     standardsProceduresSbtStore: StandardsProceduresSbtStore

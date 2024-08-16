@@ -2,8 +2,9 @@ import type { FC, PropsWithChildren } from 'react'
 import { ModalProps } from 'shared/lib/modal'
 import { observer } from 'mobx-react-lite'
 import { Box, CardContent, IconButton, LinearProgress, Modal, Tooltip } from '@mui/material'
-import { CardLayout, CardStatus } from 'shared/ui/card-layout'
+import { CardLayout } from 'shared/ui/card-layout'
 import CloseIcon from '@mui/icons-material/Close'
+import { Meta } from 'shared/api'
 
 export const ModalLayout: FC<PropsWithChildren<ModalProps & { isLoading?: boolean }>> = observer((props) => {
     const { handleModal, isOpen, children, isLoading } = props
@@ -11,7 +12,7 @@ export const ModalLayout: FC<PropsWithChildren<ModalProps & { isLoading?: boolea
         <>
             <Modal open={isOpen} onClose={handleModal}>
                 <>
-                    <CardLayout minHeight={'50px'} minWidth={'50px'} status={CardStatus.SUCCESS} cardProps={{
+                    <CardLayout minHeight={'50px'} minWidth={'50px'} status={Meta.SUCCESS} cardProps={{
                         sx: {
                             position: 'absolute',
                             top: '50%',

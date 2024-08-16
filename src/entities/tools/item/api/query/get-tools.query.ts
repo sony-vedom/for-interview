@@ -10,3 +10,5 @@ export interface ToolsFiltersParams extends Tool {
 }
 
 export type GetToolsQueryFilters = Filters<ToolsFiltersParams>
+
+

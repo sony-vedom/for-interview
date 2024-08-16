@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Navigate, useSearchParams } from 'react-router-dom'
-import { Box, Button, LinearProgress } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import ReplayIcon from '@mui/icons-material/Replay'
-import CircularProgress from '@mui/material/CircularProgress'
 import { useSession } from 'entities/session'
 import { Meta } from 'shared/api'
+import { LoadingBox } from 'shared/ui/loading-box'
 
 export const LoginPage = observer(() => {
     const sessionStoreContext = useSession()
@@ -41,14 +41,6 @@ export const LoginPage = observer(() => {
     }
 
     return (
-        <>
-            <LinearProgress />
-            <Box sx={{
-                width: '100%',
-                display: 'grid',
-                justifyContent: 'center',
-                paddingTop: 5
-            }}><CircularProgress /></Box>
-        </>
+        <LoadingBox />
     )
 })

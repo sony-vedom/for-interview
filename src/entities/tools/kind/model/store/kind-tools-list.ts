@@ -1,37 +1,38 @@
-import { makeAutoObservable, reaction, runInAction } from 'mobx'
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { Meta } from 'shared/api'
 import { LifeCycledModel } from 'shared/lib/mobx'
 import * as kindToolsApi from '../../api'
 import { GetKindToolsQueryFilters } from '../../api/query/get-kind-tools.query.ts'
 import { KindTools } from '../types'
 
-export class KindToolsList implements LifeCycledModel {
+export class KindToolsListBase {
     private _meta: Meta = Meta.INITIAL
     private _list: KindTools[] | null = null
     private _filters?: GetKindToolsQueryFilters
-    private _disposers: any[] = []
 
     constructor(filters?: GetKindToolsQueryFilters) {
         this._filters = filters
-        makeAutoObservable(this, {})
-        this._disposers.push(
-            reaction(() => this._filters, () => {
-                this.load()
-            })
-        )
-    }
-
-    public init() {
-        this.load()
-    }
-
-    public destroy() {
-        this._disposers.forEach(dispose => dispose())
-        this._disposers = []
+        makeObservable<this, "_list" | "_filters" | "_meta" | "_setList" | "_setMeta">(this, {
+            _list: observable,
+            _filters: observable,
+            _meta: observable,
+            setFilters: action,
+            filters: computed,
+            meta: computed,
+            list: computed,
+            _setList: action,
+            _setMeta: action,
+            load: action
+        })
     }
 
     public setFilters(filters: GetKindToolsQueryFilters) {
+        this._list = null
         this._filters = filters
+    }
+
+    public get filters() {
+        return this._filters
     }
 
     get meta() {
@@ -67,5 +68,27 @@ export class KindToolsList implements LifeCycledModel {
         } catch {
             this._setMeta(Meta.ERROR)
         }
+    }
+}
+
+export class KindToolsList extends KindToolsListBase implements LifeCycledModel {
+    private _disposers: any[] = []
+
+    constructor(filters?: GetKindToolsQueryFilters) {
+        super(filters)
+        this._disposers.push(
+            reaction(() => super.filters, () => {
+                this.load()
+            })
+        )
+    }
+
+    public init() {
+        this.load()
+    }
+
+    public destroy() {
+        this._disposers.forEach(dispose => dispose())
+        this._disposers = []
     }
 }

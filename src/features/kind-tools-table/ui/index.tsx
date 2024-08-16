@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { MRT_ColumnDef } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
-import { kindToolsEducationTableConfig } from '../config'
+import { kindToolsTableConfig } from '../config'
 import { KindTools, KindToolsList, KindToolStore } from 'entities/tools/kind'
 
 export const KindToolsTable: FC<{
@@ -19,7 +19,7 @@ export const KindToolsTable: FC<{
     const meta = kindToolsListStore.meta
 
     const columns = useMemo<MRT_ColumnDef<KindTools>[]>(
-        () => kindToolsEducationTableConfig,
+        () => kindToolsTableConfig,
         [list]
     )
     return (

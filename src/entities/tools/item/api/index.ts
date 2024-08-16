@@ -3,7 +3,7 @@ import { preparedQueryParamsForRequest } from 'shared/lib/helpers'
 import {
     Tool,
     ToolsCreate,
-    ToolsEdit
+    ToolsEdit, ToolsLock
 } from '../model/types'
 import { ToolDTO } from './dto/tool.dto.ts'
 import { mapTools } from './mapper/map-tools.ts'
@@ -53,4 +53,14 @@ export const editTools = async (params: GetToolsQuery & ToolsEdit): Promise<Tool
 
 export const deleteTools = async (params: GetToolsQuery): Promise<any> => {
     return await apiInstance.delete(`${BASE_URL}${params.tools_id}`)
+}
+
+export const lockOrUnlockTools = async (params: ToolsLock & GetToolsQuery): Promise<Tool> => {
+    const { tools_id, ...rest } = params
+    const res = await apiInstance.patch<ToolDTO>(`${BASE_URL}lock_or_unlock_tools/${tools_id}`, {
+        ...rest
+    })
+    return {
+        ...mapTools(res.data)
+    }
 }

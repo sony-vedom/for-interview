@@ -1,44 +1,39 @@
-import { makeAutoObservable, reaction, runInAction } from 'mobx'
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { Meta, Pagination, PaginationQuery } from 'shared/api'
 import { LifeCycledModel } from 'shared/lib/mobx'
 import * as toolsApi from '../../api'
 import { GetToolsQueryFilters } from '../../api/query/get-tools.query.ts'
 import { Tool } from 'entities/tools/item/model/types'
 
-export class ToolsList implements LifeCycledModel {
+export class ToolsListBase {
     private _meta: Meta = Meta.INITIAL
     private _list: Pagination<Tool[]> | null = null
     private _paginationParams?: PaginationQuery
     private _filters?: GetToolsQueryFilters
-    private _disposers: any[] = []
 
     constructor(filters?: GetToolsQueryFilters) {
         this._filters = filters
-        makeAutoObservable(this, {})
-        this._disposers.push(
-            reaction(() => this._filters, () => {
-                this.load()
-            })
-        )
+        makeObservable<this, '_list' | '_filters' | '_meta' | '_setList' | '_setMeta' | '_paginationParams'>(this, {
+            _list: observable,
+            _filters: observable,
+            _meta: observable,
+            _paginationParams: observable,
+            setFilters: action,
+            filters: computed,
+            meta: computed,
+            list: computed,
+            _setList: action,
+            _setMeta: action,
+            load: action
+        })
     }
 
-    get queryParams() {
-        return [
-            this._paginationParams,
-            this._filters
-        ]
-    }
-
-    public init() {
-        this.load()
-    }
-
-    public destroy() {
-        this._disposers.forEach(dispose => dispose())
-        this._disposers = []
+    public get filters() {
+        return this._filters
     }
 
     public setFilters(filters: GetToolsQueryFilters) {
+        this._list = null
         this._filters = filters
     }
 
@@ -75,5 +70,27 @@ export class ToolsList implements LifeCycledModel {
         } catch {
             this._setMeta(Meta.ERROR)
         }
+    }
+}
+
+export class ToolsList extends ToolsListBase implements LifeCycledModel {
+    private _disposers: any[] = []
+
+    constructor(filters?: GetToolsQueryFilters) {
+        super(filters)
+        this._disposers.push(
+            reaction(() => super.filters, () => {
+                this.load()
+            })
+        )
+    }
+
+    public init() {
+        this.load()
+    }
+
+    public destroy() {
+        this._disposers.forEach(dispose => dispose())
+        this._disposers = []
     }
 }

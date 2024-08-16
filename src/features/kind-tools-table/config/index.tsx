@@ -1,7 +1,7 @@
 import { MRT_ColumnDef } from 'material-react-table'
 import { KindTools } from 'entities/tools/kind'
 import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
-import { ISelectData } from 'shared/ui/select'
+import { ISelectData } from 'shared/ui/select-mobx'
 
 const categories = [
     { id: 2, name: 2 },
@@ -11,7 +11,7 @@ const categories = [
 
 ]
 
-export const kindToolsEducationTableConfig: MRT_ColumnDef<KindTools>[] = [
+export const kindToolsTableConfig: MRT_ColumnDef<KindTools>[] = [
     {
         accessorKey: 'name',
         header: 'Название'

@@ -1,38 +1,65 @@
 import { MRT_ColumnDef } from 'material-react-table'
 import dayjs from 'dayjs'
-import { ReportBase } from 'entities/report'
+import { Report } from 'entities/report'
+import { AppDatePicker } from 'shared/ui/date-picker'
 
-export const columns: MRT_ColumnDef<ReportBase>[] = [
+function convertToIso(dateStr: string): string {
+    // Разбиваем строку по точкам
+    const [day, month, year] = dateStr.split('.').map(Number)
+
+    // Создаем объект Date с указанными значениями
+    const dateObj = new Date(year, month - 1, day)
+
+    // Преобразуем дату в ISO строку (формат YYYY-MM-DD)
+    return dateObj.toISOString().split('T')[0]
+}
+
+export const reportConfig: MRT_ColumnDef<Report>[] = [
     {
-        accessorKey: 'name',
+        accessorKey: 'report_number',
         header: 'Номер отчета'
     },
     {
-        accessorKey: 'start_date',
+        accessorKey: 'date_start_detection',
         header: 'Дата создания',
-        Cell: (props) => {
-            const value = props?.cell?.getValue() as string
+        Edit: ({ row }) => {
             return (
-                <>
-                    {value
-                    ? dayjs(value).format('DD.MM.YYYY')
-                    : 'Отчет ещё не завершен'}
-            </>
-        )
+                <AppDatePicker
+                    fieldName={'date_start_detection'}
+                    defaultValue={dayjs(convertToIso(row.original.date_start_detection))}
+                    label={'Дата прохождения'}
+                    onChange={(date) => {
+                        row._valuesCache['date_start_detection'] = date
+                    }} />
+            )
         }
     },
     {
-        accessorKey: 'end_date',
+        accessorKey: 'date_finish_detection',
         header: 'Дата завершения',
-        Cell: (props) => {
-            const value = props?.cell?.getValue() as string
+        Cell: ({renderedCellValue}) => renderedCellValue ? renderedCellValue : "Отчет пока не завершен",
+        Edit: ({ row }) => {
             return (
-                <span>
-                    {value
-                    ? dayjs(value).format('DD.MM.YYYY')
-                    : 'Отчет ещё не завершен'}
-            </span>
-        )
+                <AppDatePicker
+                    fieldName={'date_finish_detection'}
+                    defaultValue={row.original.date_finish_detection ? dayjs(convertToIso(row.original.date_finish_detection)) : dayjs()}
+                    label={'Дата прохождения'}
+                    onChange={(date) => {
+                        row._valuesCache['finish_date'] = date
+                    }} />
+            )
         }
+    },
+    {
+        accessorKey: 'customer',
+        header: 'Заказчик'
+    },
+    {
+        accessorKey: 'location',
+        header: 'Расположение'
+    },
+    {
+        accessorKey: 'number_order',
+        header: 'Заказ наряд №'
     }
 ]

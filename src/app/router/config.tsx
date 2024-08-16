@@ -10,7 +10,6 @@ export const routerConfig = [
         path: '/',
         element: (
             <AuthenticationGuard
-                pendingComponent={<>pending</>}
                 redirectToLoginComponent={<Navigate to={ROUTES.LOGIN} />}>
                 <AuthorizationGuard>
                     <AppLayout />
@@ -28,15 +27,31 @@ export const routerConfig = [
                         displayName: 'Начало создания отчета',
                         lazy: async () => {
                             let { CreateReportPage } = await import(
-                                'pages/create-report-page/ui'
+                                'pages/create-report-page'
                                 )
                             return { Component: CreateReportPage }
-                        }
+                        },
+                        children: [
+                            {
+                                index: true,
+                                element: <Navigate to={ROUTES.SBT}/>
+                            },
+                            {
+                                path: ROUTES.SBT,
+                                lazy: async () => {
+                                    let { CreateReportPageItem } = await import(
+                                        'pages/create-report-page'
+                                        )
+                                    return { Component: CreateReportPageItem }
+                                }
+                            },
+
+                        ]
                     }
                 ]
             },
             ...navigationConfig.user,
-            ...navigationConfig.profile,
+            ...navigationConfig.profile
         ]
     },
     {
@@ -46,6 +61,15 @@ export const routerConfig = [
                 'pages/login-page'
                 )
             return { Component: LoginPage }
+        }
+    },
+    {
+        path: ROUTES.LOGOUT,
+        lazy: async () => {
+            let { LogoutPage } = await import(
+                'pages/logout-page'
+                )
+            return { Component: LogoutPage }
         }
     }
 ]

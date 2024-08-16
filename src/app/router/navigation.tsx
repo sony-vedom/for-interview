@@ -28,10 +28,10 @@ const base: navItemType[] = [
                         path: ROUTES.SBT,
                         lazy: async () => {
                             let { SbtReportPage } = await import(
-                                'pages/sbt-page'
+                                'pages/reports-page'
                                 )
                             return { Component: SbtReportPage }
-                        }
+                        },
                     },
                     {
                         displayName: 'Отчеты по ТБТ',

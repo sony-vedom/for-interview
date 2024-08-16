@@ -12,6 +12,7 @@ import { type navItemType } from 'shared/lib/navigation'
 import { useAnchorEl } from 'shared/lib/ui/useAnchorEl'
 import { useSession } from 'entities/session'
 import { observer } from 'mobx-react-lite'
+import { ROUTES } from 'shared/config/routes'
 
 interface AvatarAreaProps {
     navItems: navItemType[]
@@ -65,7 +66,7 @@ export const AvatarArea: FC<AvatarAreaProps> = observer((props) => {
                     <MenuItem
                         onClick={() => {
                             handleCloseMenu()
-                            session?.logout()
+                            navigate(ROUTES.LOGOUT)
                         }}>
                         <Typography textAlign="center">Выйти</Typography>
                     </MenuItem>

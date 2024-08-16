@@ -1,7 +1,8 @@
 import { type FC } from 'react'
-import { CardLayout, CardStatus } from 'shared/ui/card-layout'
+import { CardLayout } from 'shared/ui/card-layout'
 import { Box, CardContent } from '@mui/material'
 import { AppAvatar } from 'shared/ui/app-avatar'
+import { Meta } from 'shared/api'
 
 export const ToolCard: FC = () => {
     return (
@@ -9,7 +10,7 @@ export const ToolCard: FC = () => {
             sx: {
                 width: "100%"
             }
-        }} status={CardStatus.SUCCESS} minHeight={'426px'}
+        }} status={Meta.SUCCESS} minHeight={'426px'}
                     minWidth={'500px'}>
             <CardContent sx={{
                 display: 'grid',

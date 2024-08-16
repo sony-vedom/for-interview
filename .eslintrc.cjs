@@ -87,7 +87,6 @@ module.exports = {
             files: ["./src/**/*.ts", "./src/**/*.tsx"],
             extends: [
                 "plugin:eslint-plugin-import/typescript",
-                "eslint-config-airbnb-typescript",
             ],
             parserOptions: {
                 ecmaVersion: "latest",
@@ -112,18 +111,7 @@ module.exports = {
                     },
                 ],
             },
-        },
-        {
-            files: ["**/__tests__/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
-            extends: ["plugin:testing-library/react"],
-            rules: {
-                "testing-library/no-debugging-utils": "warn",
-                "import/no-extraneous-dependencies": [
-                    "error",
-                    {devDependencies: true},
-                ],
-            },
-        },
+        }
     ],
     settings: {
         "import/resolver": {

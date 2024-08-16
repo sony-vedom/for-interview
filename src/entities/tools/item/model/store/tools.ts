@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { Meta } from 'shared/api'
 import * as toolsApi from '../../api'
-import { Tool, ToolsCreate, ToolsEdit } from '../types'
+import { Tool, ToolsCreate, ToolsEdit, ToolsLock } from '../types'
 import { ToolsList } from './tools-list.ts'
 
 export class ToolStore {
@@ -106,6 +106,27 @@ export class ToolStore {
             })
         } catch (e) {
             this._setMeta(Meta.ERROR)
+        }
+    }
+
+    public lockOrUnlockTools(id: number, body: ToolsLock) {
+        return async () => {
+            this._setMeta(Meta.DELETING)
+            try {
+                const positionResponse = await toolsApi.lockOrUnlockTools({
+                    tools_id: id,
+                    ...body
+                })
+                if (this._root) {
+                    await this._root.load()
+                }
+                runInAction(() => {
+                    this._setMedicalExamination(positionResponse)
+                    this._setMeta(Meta.SUCCESS)
+                })
+            } catch (e) {
+                this._setMeta(Meta.ERROR)
+            }
         }
     }
 }

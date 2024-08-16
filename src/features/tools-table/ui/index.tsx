@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { MRT_ColumnDef } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
-import { toolsEducationTableConfig } from '../config'
+import { toolsTableConfig } from '../config'
 import { Tool, ToolsList, ToolStore } from 'entities/tools/item'
 
 export const ToolsTable: FC<{
@@ -19,7 +19,7 @@ export const ToolsTable: FC<{
     const meta = toolsListStore.meta
 
     const columns = useMemo<MRT_ColumnDef<Tool>[]>(
-        () => toolsEducationTableConfig,
+        () => toolsTableConfig,
         [list]
     )
     return (

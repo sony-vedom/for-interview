@@ -1,7 +1,6 @@
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import dayjs from 'dayjs'
 
 type AppDatePickerProps = {
     fieldName: any,
@@ -12,7 +11,7 @@ type AppDatePickerProps = {
     disableManual?: boolean
     clearable?: boolean
     [rest: string]: any
-    value: string
+    value?: string
     onChange: (date: string | undefined) => void
 }
 
@@ -36,7 +35,7 @@ export function AppDatePicker(props: AppDatePickerProps) {
                 {...rest}
                 // minDate={!notMinDate ? dayjs().subtract(setDeltaMinDate || 0, 'day') : undefined}
                 label={label}
-                value={value ? dayjs(value) : null}
+                defaultValue={rest.defaultValue}
                 onChange={date => onChange(date?.format('YYYY-MM-DD'))}
                 slotProps={{
                     textField: {

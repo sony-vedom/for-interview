@@ -1,5 +1,5 @@
 import { LifeCycledModel, useMobXLocalStore } from 'shared/lib/mobx'
-import { StandardsProceduresSbtListStore, StandardsProceduresSbtStore } from 'entities/standards-procedures-sbt'
+import { StandardsProceduresSbtListStore, StandardsProceduresSbtStore } from 'entities/standards-procedures'
 
 export class StandardsProceduresSbtPageStore implements LifeCycledModel {
     public standardsProceduresSbtStore: StandardsProceduresSbtStore

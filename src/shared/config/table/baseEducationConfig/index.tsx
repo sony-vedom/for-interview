@@ -1,5 +1,6 @@
 import type { MRT_ColumnDef } from 'material-react-table'
 import { AppDatePicker } from 'shared/ui/date-picker'
+import dayjs from 'dayjs'
 
 export const baseEducationConfig: MRT_ColumnDef<{
     start_date: Date
@@ -17,7 +18,7 @@ export const baseEducationConfig: MRT_ColumnDef<{
             return (
                 <AppDatePicker
                     fieldName={'start_date'}
-                    value={row._valuesCache['start_date']}
+                    defaultValue={dayjs(row.original.start_date)}
                     label={'Дата прохождения'}
                     onChange={(date) => {
                         row._valuesCache['start_date'] = date
@@ -35,7 +36,7 @@ export const baseEducationConfig: MRT_ColumnDef<{
             return (
                 <AppDatePicker
                     fieldName={'finish_date'}
-                    value={row._valuesCache['finish_date']}
+                    defaultValue={dayjs(row.original.finish_date)}
                     label={'Дата прохождения'}
                     onChange={(date) => {
                         row._valuesCache['finish_date'] = date
@@ -49,9 +50,9 @@ export const baseEducationConfig: MRT_ColumnDef<{
         header: 'Комментарий',
         minSize: 150
     },
-    {
-        accessorKey: 'file',
-        header: 'Файл',
-        minSize: 150
-    }
+    // {
+    //     accessorKey: 'file',
+    //     header: 'Файл',
+    //     minSize: 150
+    // }
 ]

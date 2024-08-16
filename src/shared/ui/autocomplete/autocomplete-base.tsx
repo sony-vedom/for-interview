@@ -1,5 +1,5 @@
 import { type FC } from 'react'
-import { ISelectData } from 'shared/ui/select'
+import { ISelectData } from 'shared/ui/select-mobx'
 import { TextFieldProps } from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'

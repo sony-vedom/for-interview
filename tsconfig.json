@@ -29,6 +29,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/shared/lib/theme/theme-d.d.ts"],
+  "include": ["src", "src/shared/lib/theme/theme-d.d.ts", "src/shared/types/*.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

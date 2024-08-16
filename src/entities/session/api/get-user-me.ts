@@ -23,7 +23,7 @@ export const getUserMe = async (): Promise<User> => {
                 },
                 {
                     id: 3,
-                    pathName: 'create-report'
+                    pathName: ROUTES.CREATE_REPORT
                 },
                 {
                     id: 4,
@@ -61,7 +61,7 @@ export const getUserMe = async (): Promise<User> => {
                 },
                 {
                     id: 3,
-                    pathName: 'create-report'
+                    pathName: ROUTES.CREATE_REPORT
                 },
                 {
                     id: 4,

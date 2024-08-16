@@ -14,3 +14,8 @@ export interface Tool {
 export type ToolsCreate = Omit<Tool, 'id' | 'is_expired' | 'in_active_report'>
 
 export type ToolsEdit = Omit<Tool, 'id' | 'is_expired'>
+
+export interface ToolsLock {
+    in_active_report: boolean
+    sbt_report_id: number | null
+}

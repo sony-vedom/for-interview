@@ -5,7 +5,8 @@ export interface GetKindToolsQuery {
     kind_tools_id: number
 }
 
-export interface KindToolsFiltersParams extends KindTools {
+export interface KindToolsFiltersParams extends Omit<KindTools, "inspection_category_tbt_ubt" | "id"> {
+    inspection_category: number
 }
 
 export type GetKindToolsQueryFilters = Filters<KindToolsFiltersParams>

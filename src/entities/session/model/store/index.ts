@@ -53,7 +53,7 @@ export class SessionStore {
     }
 
     public init() {
-            this.load()
+        this.load()
     }
 
     public async login(code: string) {
@@ -70,10 +70,12 @@ export class SessionStore {
             runInAction(() => {
                 this._viewer = null
                 localStorage.clear()
-                this.setMeta(Meta.SUCCESS)
             })
             await logout()
             window.location.href = ROUTES.LOGIN
+            runInAction(() => {
+                this.setMeta(Meta.SUCCESS)
+            })
         } catch (e) {
             runInAction(() => {
                 this._viewer = null

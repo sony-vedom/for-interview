@@ -1,7 +1,7 @@
 import { MRT_ColumnDef } from 'material-react-table'
-import { StandardsProceduresSbt } from 'entities/standards-procedures-sbt'
+import { StandardsProceduresSbt } from 'entities/standards-procedures'
 import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
-import { ISelectData } from 'shared/ui/select'
+import { ISelectData } from 'shared/ui/select-mobx'
 
 const categories = [
     { id: 2, name: 2 },
