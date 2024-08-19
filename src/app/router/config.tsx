@@ -8,14 +8,12 @@ import { BasePageLayout } from 'shared/ui/base-page-layout'
 export const routerConfig = [
     {
         path: '/',
-        element: (
-            <AuthenticationGuard
+        element: <AuthenticationGuard
                 redirectToLoginComponent={<Navigate to={ROUTES.LOGIN} />}>
                 <AuthorizationGuard>
                     <AppLayout />
                 </AuthorizationGuard>
-            </AuthenticationGuard>
-        ),
+            </AuthenticationGuard>,
         children: [
             { index: true, element: <Navigate to={ROUTES.DOCUMENTS} /> },
             {
