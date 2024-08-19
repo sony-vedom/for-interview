@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { hasArrMatchingProperty } from 'shared/lib/helpers'
 import { useSession } from 'entities/session'
 
-const aviableForAllPathnames = ['/profile', '/login', '/logout', '/', "/documents"]
+const aviableForAllPathnames = ['/profile', '/login', '/logout', '/', "/documents", "/report"]
 
 export const AuthorizationGuard: FC<{
     children: ReactNode
@@ -19,6 +19,7 @@ export const AuthorizationGuard: FC<{
             'pathName',
             location.pathname
         )
+
 
     if (!isAvailablePage) {
         return <Navigate to="/404" replace />

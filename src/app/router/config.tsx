@@ -34,7 +34,7 @@ export const routerConfig = [
                         children: [
                             {
                                 index: true,
-                                element: <Navigate to={ROUTES.SBT}/>
+                                element: <Navigate to={ROUTES.SBT} />
                             },
                             {
                                 path: ROUTES.SBT,
@@ -44,14 +44,17 @@ export const routerConfig = [
                                         )
                                     return { Component: CreateReportPageItem }
                                 }
-                            },
+                            }
 
                         ]
+
                     }
                 ]
             },
             ...navigationConfig.user,
-            ...navigationConfig.profile
+            ...navigationConfig.createReport,
+            ...navigationConfig.profile,
+            ...navigationConfig.report
         ]
     },
     {

@@ -3,7 +3,8 @@ export interface SearchParamsCreateReportPage extends Record<string, string> {
 }
 
 export enum ROUTES_PARAMS {
-    userId = 'userId'
+    userId = 'userId',
+    reportId = 'reportId'
 }
 
 export enum ROUTES {
@@ -18,6 +19,8 @@ export enum ROUTES {
     CONTRACTS = 'contracts',
 
     CREATE_REPORT = '/create-report',
+
+    REPORT = '/report',
 
     DIRECTORY = '/directory',
     SBT_REJECTION_STANDARDS = 'sbt-rejection-standards',

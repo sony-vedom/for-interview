@@ -2,22 +2,29 @@ import { MRT_ColumnDef } from 'material-react-table'
 import dayjs from 'dayjs'
 import { Report } from 'entities/report'
 import { AppDatePicker } from 'shared/ui/date-picker'
+import { TableActionsRow } from 'shared/ui/table'
+import { ROUTES } from 'shared/config/routes'
 
 function convertToIso(dateStr: string): string {
-    // Разбиваем строку по точкам
     const [day, month, year] = dateStr.split('.').map(Number)
-
-    // Создаем объект Date с указанными значениями
     const dateObj = new Date(year, month - 1, day)
-
-    // Преобразуем дату в ISO строку (формат YYYY-MM-DD)
     return dateObj.toISOString().split('T')[0]
 }
 
 export const reportConfig: MRT_ColumnDef<Report>[] = [
     {
         accessorKey: 'report_number',
-        header: 'Номер отчета'
+        header: 'Номер отчета',
+        Cell: ({ table, row, cell }) => {
+            return (
+                <TableActionsRow.SinglePageLink
+                    singlePageLink={`${ROUTES.REPORT}/${table.getRow(row.id).original.id}`}
+                    entityNameText={'отчета'}>
+                    {cell.getValue() as string}
+                </TableActionsRow.SinglePageLink>
+
+            )
+        }
     },
     {
         accessorKey: 'date_start_detection',

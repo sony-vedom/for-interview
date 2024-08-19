@@ -20,11 +20,6 @@ interface AppDatePickerProps {
 
 export const AppDatePicker: FC<DatePickerProps<Dayjs> & AppDatePickerProps> = observer((props) => {
     const { field, ...rest } = props
-    console.log({
-        ...field.bind({
-            disabled: rest.disabled
-        })
-    })
     return (
         <LocalizationProvider
             localeText={customPtBRLocaleText}
