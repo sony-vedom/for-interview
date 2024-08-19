@@ -5,7 +5,8 @@ import { ROUTES } from 'shared/config/routes'
 
 export const apiInstance = axios.create({
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "http://192.168.1.101:3150",
     },
     withCredentials: true,
     baseURL: API_URL,
