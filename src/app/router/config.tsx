@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { AppLayout } from 'app/layout'
 import { AuthenticationGuard, AuthorizationGuard } from 'entities/session'
-import { navigationConfig } from 'app/router/navigation.tsx'
+import { navigationConfig } from 'app/router/navigation'
 import { ROUTES } from 'shared/config/routes'
 import { BasePageLayout } from 'shared/ui/base-page-layout'
 
@@ -18,6 +18,7 @@ export const routerConfig = [
             { index: true, element: <Navigate to={ROUTES.DOCUMENTS} /> },
             {
                 element: <BasePageLayout />,
+                path: "/",
                 children: [
                     ...navigationConfig.base,
                     {
