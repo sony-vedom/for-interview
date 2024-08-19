@@ -8,7 +8,6 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital'
 const base: navItemType[] = [
     {
         path: ROUTES.DOCUMENTS,
-        element: <Outlet />,
         displayName: 'Документы',
         children: [
             {

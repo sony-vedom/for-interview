@@ -25,20 +25,7 @@ const config = {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) =>
     mode === 'production'
-        ? {
-            ...config,
-            server: {
-                proxy: {
-                    '/api': {
-                        target: 'http://192.168.1.101:2500',
-                        changeOrigin: true,
-                        secure: false,
-                        rewrite: (p) => p.replace(/^\/api/, 'api')
-                    }
-                },
-                cors: false
-            }
-        }
+        ? config
         : {
             ...config,
             plugins: [

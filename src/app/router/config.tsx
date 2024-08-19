@@ -18,42 +18,14 @@ export const routerConfig = [
             { index: true, element: <Navigate to={ROUTES.DOCUMENTS} /> },
             {
                 element: <BasePageLayout />,
-                path: "/",
                 children: [
                     ...navigationConfig.base,
-                    {
-                        path: ROUTES.CREATE_REPORT,
-                        displayName: 'Начало создания отчета',
-                        lazy: async () => {
-                            let { CreateReportPage } = await import(
-                                'pages/create-report-page'
-                                )
-                            return { Component: CreateReportPage }
-                        },
-                        children: [
-                            {
-                                index: true,
-                                element: <Navigate to={ROUTES.SBT} />
-                            },
-                            {
-                                path: ROUTES.SBT,
-                                lazy: async () => {
-                                    let { CreateReportPageItem } = await import(
-                                        'pages/create-report-page'
-                                        )
-                                    return { Component: CreateReportPageItem }
-                                }
-                            }
-
-                        ]
-
-                    }
+                    ...navigationConfig.createReport,
                 ]
             },
             ...navigationConfig.user,
-            ...navigationConfig.createReport,
             ...navigationConfig.profile,
-            ...navigationConfig.report
+            ...navigationConfig.report,
         ]
     },
     {
