@@ -6,12 +6,20 @@ import { observer } from 'mobx-react-lite'
 export function TableBaseWithoutObserver<T extends MRT_RowData>(props: MRT_TableOptions<T>): ReactNode {
     const { ...rest } = props
     const table = useMaterialReactTable<T>({
+        muiTableBodyRowProps: ({ row }) => (
+            {
+                sx: {
+                    backgroundColor: row.original.is_expired ? '#ffcece' : 'initial',
+                },
+            }
+        ),
         ...rest,
         enableSorting: props.enableSorting ?? false,
         enableFilters: props.enableFilters ?? false,
         enableEditing: props.enableEditing ?? true,
         localization: MRT_Localization_RU,
         muiTablePaperProps: ({ table }) => ({
+            ...rest.muiTablePaperProps,
             style: {
                 zIndex: table.getState().isFullScreen ? 1500 : undefined,
             }
@@ -25,15 +33,7 @@ export function TableBaseWithoutObserver<T extends MRT_RowData>(props: MRT_Table
             'mrt-row-actions': {
                 size: 120, //make actions column wider
             },
-        },
-        muiTableBodyRowProps: ({ row }) => (
-            {
-                ...rest.muiTableBodyRowProps,
-                sx: {
-                    backgroundColor: row.original.is_expired ? '#ffcece' : 'initial'
-                }
-            }
-        )
+        }
     })
     return <>
         <MaterialReactTable table={table} />

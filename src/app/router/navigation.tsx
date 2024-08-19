@@ -31,7 +31,7 @@ const base: navItemType[] = [
                                 'pages/reports-page'
                                 )
                             return { Component: SbtReportPage }
-                        },
+                        }
                     },
                     {
                         displayName: 'Отчеты по ТБТ',
@@ -265,8 +265,53 @@ const user: navItemType[] = [
     }
 ]
 
+const createReport: navItemType[] = [
+    {
+        path: ROUTES.CREATE_REPORT,
+        displayName: 'Начало создания отчета',
+        lazy: async () => {
+            let { CreateReportPage } = await import(
+                'pages/create-report-page'
+                )
+            return { Component: CreateReportPage }
+        },
+        children: [
+            {
+                index: true,
+                element: <Navigate to={ROUTES.SBT} />
+            },
+            {
+                path: ROUTES.SBT,
+                lazy: async () => {
+                    let { CreateReportPageItem } = await import(
+                        'pages/create-report-page'
+                        )
+                    return { Component: CreateReportPageItem }
+                }
+            }
+
+        ]
+
+    }
+]
+
+const report: navItemType[] = [
+    {
+        path: `${ROUTES.REPORT}/:${ROUTES_PARAMS.reportId}`,
+        displayName: 'Отчет',
+        lazy: async () => {
+            let { ReportOnePage } = await import(
+                'pages/report-one-page'
+                )
+            return { Component: ReportOnePage }
+        }
+    }
+]
+
 export const navigationConfig = {
     base,
     profile,
-    user
+    user,
+    createReport,
+    report
 }

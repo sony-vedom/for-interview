@@ -17,7 +17,6 @@ export const NavTabs: FC<TabsProps> = (props) => {
     const navigate = useNavigate();
 
     const handlerChangeRoute = useCallback((_: React.SyntheticEvent, value: string) => {
-        console.log(value)
         navigate(value)
     }, [startHrefRedirect, value])
 

@@ -48,6 +48,10 @@ export const getUserMe = async (): Promise<User> => {
                 {
                     id: 8,
                     pathName: ROUTES.DIRECTORY,
+                },
+                {
+                    id: 9,
+                    pathName: ROUTES.REPORT,
                 }
             ],
             read: [
@@ -86,6 +90,10 @@ export const getUserMe = async (): Promise<User> => {
                 {
                     id: 8,
                     pathName: ROUTES.DIRECTORY,
+                },
+                {
+                    id: 9,
+                    pathName: ROUTES.REPORT,
                 }
             ]
         }

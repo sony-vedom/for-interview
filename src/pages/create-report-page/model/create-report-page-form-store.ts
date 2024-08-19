@@ -138,8 +138,6 @@ export default class CreateReportForm extends Form {
                 } as ReportCreate
                 const res = await form._reportStore.create(prepareValues)
                 if (values.tools && res?.id) {
-                    console.log(Object.values(values.tools))
-                    console.log(res?.id)
                     const promises = Object.values(values.tools).map((el) => {
                         return form._toolStore.lockOrUnlockTools((el as Tool).id, {
                             in_active_report: true,
@@ -153,9 +151,9 @@ export default class CreateReportForm extends Form {
                 }
 
             },
-            onError(form: CreateReportForm) {
+            onError(_: CreateReportForm) {
                 // get all form errors
-                console.log('All form errors', form.errors())
+                // console.log('All form errors', form.errors())
             }
         }
     }

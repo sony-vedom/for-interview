@@ -3,39 +3,78 @@ import { observer } from 'mobx-react-lite'
 import { MRT_ColumnDef } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
-import { getDataFromTableValues, sbtRejectionTableConfig } from '../config'
+import { currentPipeParametersSbt, mapCurrentParamsValues } from '../config'
 import {
-    SbtRejectionStandards,
-    SbtRejectionStandardsListStore,
-    SbtRejectionStandardsStore
-} from 'entities/sbt-rejection-standards/item'
+    CurrentPipeParameters,
+    CurrentPipeParametersList,
+    ICurrentSbtParams,
+    STATUS_PIPE
+} from 'entities/current-pipe-parameters/item'
+import { ReportStore } from 'entities/report'
 
-export const SbtRejectionStandardsTable: FC<{
-    sbtRejectionStandardsStore: SbtRejectionStandardsStore
-    sbtRejectionStandardsListStore: SbtRejectionStandardsListStore
+const getPipeColor = (status?: `${STATUS_PIPE}`) => {
+    switch (status) {
+        case STATUS_PIPE.DEFECT: { // Брак
+            return '#ffcece'
+        }
+        case STATUS_PIPE.REPAIR: { // Ремонт
+            return '#ffe4a0'
+        }
+        case STATUS_PIPE.NORMAL:
+        default: {
+            return '#c4f8c8'
+        }
+    }
+}
+
+
+export const CurrentPipeParametersSbtTable: FC<{
+    currentPipeParameters: CurrentPipeParameters
+    currentPipeParametersList: CurrentPipeParametersList
+    reportStore: ReportStore
 }> = observer((props) => {
     const {
-        sbtRejectionStandardsStore: sbtRejectionStandardsStore,
-        sbtRejectionStandardsListStore: sbtRejectionStandardsListStore
+        currentPipeParameters,
+        currentPipeParametersList,
+        reportStore
     } = props
 
-    const list = sbtRejectionStandardsListStore?.list
-    const meta = sbtRejectionStandardsListStore?.meta
+    const list = currentPipeParametersList.list
+    const meta = currentPipeParametersList.meta
 
-    const columns = useMemo<MRT_ColumnDef<SbtRejectionStandards>[]>(
-        () => sbtRejectionTableConfig,
+    const columns = useMemo<MRT_ColumnDef<ICurrentSbtParams>[]>(
+        () => currentPipeParametersSbt,
         [list]
     )
+
+    const report = reportStore.elem
     return (
         <>
             <TableBase columns={columns}
-                       rowCount={list?.total}
                        data={list?.items ?? []}
+                       state={
+                           {
+                               isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
+                               showProgressBars:
+                                   meta === Meta.FETCHING
+                           }
+                       }
+                       muiTableBodyRowProps={({ row }) => ({
+                           sx: {
+                               backgroundColor: getPipeColor(row.original.status_pipe)
+                           }
+                       })}
                        enableColumnActions={false}
                        muiTableHeadCellProps={() => ({
                            sx: {
                                border: '1px solid rgba(81, 81, 81, .2)',
                                fontSize: '12px',
+                               whiteSpace: 'normal',
+                               padding: '4px !important',
+                               textAlign: 'center',
+                               display: 'grid',
+                               justifyContent: 'center',
+                               alignContent: 'start',
                                '& *': {
                                    whiteSpace: 'normal'
                                }
@@ -46,7 +85,12 @@ export const SbtRejectionStandardsTable: FC<{
                                sx: {
                                    border: '1px solid rgba(81, 81, 81, .2)',
                                    fontSize: '12px !important',
-                                   whiteSpace: 'normal'
+                                   whiteSpace: 'normal',
+                                   textAlign: 'center',
+                                   display: 'grid',
+                                   justifyContent: 'center',
+                                   alignContent: 'start'
+
                                }
                            }
                        )}
@@ -57,13 +101,6 @@ export const SbtRejectionStandardsTable: FC<{
                                }
                            }
                        )}
-                       state={
-                           {
-                               isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
-                               showProgressBars:
-                                   meta === Meta.FETCHING
-                           }
-                       }
                        editDisplayMode={'row'}
                        createDisplayMode={'row'}
                        renderTopToolbarCustomActions={({ table }) =>
@@ -71,7 +108,7 @@ export const SbtRejectionStandardsTable: FC<{
                                <TableActionsToolbar.Wrapper>
                                    {meta !== Meta.LOADING && meta !== Meta.INITIAL && <>
                                        <TableActionsToolbar.CreateButton
-                                           createIconText={'Добавить нормы отбраковки'}
+                                           createIconText={'Добавить текущие параметры'}
                                            handleCreate={() => {
                                                table.setCreatingRow(true)
                                            }}
@@ -82,21 +119,28 @@ export const SbtRejectionStandardsTable: FC<{
                        }
                        enablePagination={false}
                        onEditingRowSave={({ row, values, table }) => {
-                           sbtRejectionStandardsStore.edit(row.original.id, getDataFromTableValues(values)).then(() => {
+                           currentPipeParameters.edit(row.original.id, mapCurrentParamsValues(values)).then(() => {
                                table.setEditingRow(null)
                            })
                        }}
                        onCreatingRowSave={({ values, table }) => {
-                           sbtRejectionStandardsStore.create(getDataFromTableValues(values)).then(() => {
+                           currentPipeParameters.create(mapCurrentParamsValues(values, {
+                               minimum_wall_thickness_class_2: Number(report!.minimum_wall_thickness_class_2!),
+                               minimum_wall_thickness_premium: Number(report!.minimum_wall_thickness_premium!),
+                               minimum_wall_thickness_ultra: Number(report!.minimum_wall_thickness_ultra!),
+                               report_id: Number(report!.id),
+                               standards_procedures: Number(report!.standards_procedures.id),
+                               rejection_standard_id: Number(report!.rejection_standard_id)
+                           })).then(() => {
                                table.setCreatingRow(null)
                            })
                        }}
                        renderRowActions={({ row, table }) => {
                            return <TableActionsRow.Wrapper>
                                <TableActionsRow.DeleteButtonWithConfirmDialog
-                                   entityNameText={'нормы отбраковки'}
+                                   entityNameText={'параметры'}
                                    handleDelete={() => {
-                                       sbtRejectionStandardsStore.delete(row.original.id)
+                                       currentPipeParameters.delete(row.original.id)
                                    }}
                                />
                                <TableActionsRow.EditButton

@@ -58,7 +58,6 @@ export class PositionStore {
     public async create(body: PositionCreate) {
         this._setMeta(Meta.SAVING)
         try {
-            console.log('position create')
             const positionResponse = await positionApi.createPosition({
                 ...body
             })

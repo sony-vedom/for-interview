@@ -18,7 +18,6 @@ export const setLocalStorage = (keyName: string, newValue: any) => {
     try {
         window.localStorage.setItem(keyName, JSON.stringify(newValue))
     } catch (err) {
-        console.log(err)
     }
 }
 
