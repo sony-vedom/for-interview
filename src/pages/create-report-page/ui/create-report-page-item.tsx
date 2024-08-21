@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 import { SaveButton } from 'shared/ui/save-button'
 import { AppDivider } from 'shared/ui/app-divider'
 import { BasicDataFields } from 'pages/create-report-page/ui/basic-data-fields'
@@ -17,33 +17,33 @@ export const CreateReportPageItem: FC = () => {
     const form = createReportStore.createReportForm
     return (
         <CreateReportPageProvider value={createReportStore}>
-                <Box
-                    sx={{
-                        display: 'grid',
-                        padding: { xxl: 6, lg: 4, md: 3, xs: 2 },
-                        justifyItems: 'center',
-                        justifyContent: 'center',
-                        gap: 2
-                    }}
-                    component={'form'}
-                    onSubmit={(evt) => {
-                        form.onSubmit(evt).then(() => {
+            <Box
+                sx={{
+                    display: 'grid',
+                    padding: { xxl: 6, lg: 4, md: 3, xs: 2 },
+                    justifyItems: 'center',
+                    justifyContent: 'center',
+                    gap: 2
+                }}
+                component={'form'}
+                onSubmit={(evt) => {
+                    form.onSubmit(evt).then(() => {
 
-                        })
-                    }}>
-                    <UserField/>
-                    <BasicDataFields />
-                    <AppDivider>ОПИСАНИЕ КОМПЛЕКТА</AppDivider>
-                    <DescriptionKitFields />
-                    <AppDivider>
-                        СТАНДАРТЫ И ОБОРУДОВАНИЕ
-                    </AppDivider>
-                    <StandardToolsFields />
-                    <SaveButton
-                        sx={{ mt: 5, width: '100%', maxWidth }}
-                        loading={form.submitting}
-                    />
-                </Box>
+                    })
+                }}>
+                <UserField />
+                <BasicDataFields />
+                <AppDivider>ОПИСАНИЕ КОМПЛЕКТА</AppDivider>
+                <DescriptionKitFields />
+                <AppDivider>
+                    СТАНДАРТЫ И ОБОРУДОВАНИЕ
+                </AppDivider>
+                <StandardToolsFields />
+                <SaveButton
+                    sx={{ mt: 5, width: '100%', maxWidth }}
+                    loading={form.submitting}
+                />
+            </Box>
         </CreateReportPageProvider>
     )
 }

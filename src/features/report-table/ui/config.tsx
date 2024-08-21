@@ -5,12 +5,6 @@ import { AppDatePicker } from 'shared/ui/date-picker'
 import { TableActionsRow } from 'shared/ui/table'
 import { ROUTES } from 'shared/config/routes'
 
-function convertToIso(dateStr: string): string {
-    const [day, month, year] = dateStr.split('.').map(Number)
-    const dateObj = new Date(year, month - 1, day)
-    return dateObj.toISOString().split('T')[0]
-}
-
 export const reportConfig: MRT_ColumnDef<Report>[] = [
     {
         accessorKey: 'report_number',
@@ -29,11 +23,13 @@ export const reportConfig: MRT_ColumnDef<Report>[] = [
     {
         accessorKey: 'date_start_detection',
         header: 'Дата создания',
+        accessorFn: (originalRow) => originalRow.date_start_detection ? new Date(originalRow.date_start_detection) : originalRow.date_start_detection,
+        Cell: ({ cell }) => cell.getValue<Date | null>() ? cell.getValue<Date>().toLocaleDateString() : cell.getValue<null>(),
         Edit: ({ row }) => {
             return (
                 <AppDatePicker
                     fieldName={'date_start_detection'}
-                    defaultValue={dayjs(convertToIso(row.original.date_start_detection))}
+                    defaultValue={dayjs(row.original.date_start_detection)}
                     label={'Дата прохождения'}
                     onChange={(date) => {
                         row._valuesCache['date_start_detection'] = date
@@ -44,15 +40,16 @@ export const reportConfig: MRT_ColumnDef<Report>[] = [
     {
         accessorKey: 'date_finish_detection',
         header: 'Дата завершения',
-        Cell: ({renderedCellValue}) => renderedCellValue ? renderedCellValue : "Отчет пока не завершен",
+        accessorFn: (originalRow) => originalRow.date_finish_detection ? new Date(originalRow.date_finish_detection) : originalRow.date_finish_detection,
+        Cell: ({ cell }) => cell.getValue<Date | null>() ? cell.getValue<Date>().toLocaleDateString() : cell.getValue<null>(),
         Edit: ({ row }) => {
             return (
                 <AppDatePicker
                     fieldName={'date_finish_detection'}
-                    defaultValue={row.original.date_finish_detection ? dayjs(convertToIso(row.original.date_finish_detection)) : dayjs()}
+                    defaultValue={dayjs(row.original.date_finish_detection)}
                     label={'Дата прохождения'}
                     onChange={(date) => {
-                        row._valuesCache['finish_date'] = date
+                        row._valuesCache['date_finish_detection'] = date
                     }} />
             )
         }

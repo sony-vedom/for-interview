@@ -31,7 +31,7 @@ export const SimpleEducationTable: FC<{
     const modal = useModal()
     return (
         <>
-            <ModalCreateEducations modal={modal} {...rest}/>
+            <ModalCreateEducations modal={modal} {...rest} />
             <TableBase columns={columns}
                        data={list ?? []}
                        state={

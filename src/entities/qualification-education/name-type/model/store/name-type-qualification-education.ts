@@ -10,14 +10,21 @@ import {
 } from 'entities/qualification-education/name-type/model/store/name-type-qualification-education-list.ts'
 import * as nameTypeSimpleEducationApi from '../../api'
 import { getQualificationEducationUrlParams } from 'entities/qualification-education/item'
+import { KIND_QUALIFICATION_EDUCATION } from 'entities/qualification-education/kind'
 
 export class NameTypeQualificationEducationStore {
     private _meta: Meta = Meta.INITIAL
     private _item: NameTypeQualificationEducation | null = null
     private _root?: NameTypeQualificationEducationListStore
+    private _kindEducation?: KIND_QUALIFICATION_EDUCATION
 
-    constructor({ id, root }: { id?: number, root?: NameTypeQualificationEducationListStore }) {
+    constructor({ id, root, kindEducation }: {
+        id?: number,
+        root?: NameTypeQualificationEducationListStore,
+        kindEducation?: KIND_QUALIFICATION_EDUCATION
+    }) {
         this._root = root
+        this._kindEducation = kindEducation
         makeAutoObservable<this, '_root'>(this, {
             _root: false
         })
@@ -66,7 +73,7 @@ export class NameTypeQualificationEducationStore {
         try {
             const response = await nameTypeSimpleEducationApi.createTypeQualificationEducation({
                 ...body,
-                kind_education: getQualificationEducationUrlParams(),
+                kind_education: getQualificationEducationUrlParams()
             })
             if (this._root) {
                 await this._root.load()
@@ -85,7 +92,8 @@ export class NameTypeQualificationEducationStore {
         try {
             const response = await nameTypeSimpleEducationApi.editNameTypeQualificationEducation({
                 name_type_qualification_education_id: id,
-                ...body
+                ...body,
+                kind_education: this._kindEducation ?? KIND_QUALIFICATION_EDUCATION.SDANK
             })
             if (this._root) {
                 await this._root.load()

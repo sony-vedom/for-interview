@@ -22,7 +22,7 @@ export class SimpleEducationPageStore implements LifeCycledModel {
 
     constructor(userId?: number) {
         this.sessionStore = new SessionStore()
-        this.userStore = new UserStore({ userId: userId ?? this.sessionStore.viewer?.id })
+        this.userStore = new UserStore({ userId: userId ? userId : this.sessionStore.viewer?.id })
 
 
         this.typesSimpleEducationListStore = new TypeSimpleEducationListStore()

@@ -8,6 +8,8 @@ import { useLifecycledModelEffect, useMobXLocalStore } from 'shared/lib/mobx'
 import { ConsumerListStore } from 'entities/consumer/item'
 import { ContractListStore } from 'entities/contract/item/model/store'
 import { maxWidth } from 'pages/create-report-page/config'
+import { Meta } from 'shared/api'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export const BasicDataFields: FC = observer(() => {
         const { createReportForm: form } = useCreateReportPage()
@@ -25,8 +27,10 @@ export const BasicDataFields: FC = observer(() => {
                     flexDirection: { xs: 'column', md: 'row' },
                     gap: { xl: 3, xs: 2 },
                     alignItems: 'center',
-                    justifyContent: 'center'
-
+                    justifyContent: 'center',
+                    minWidth: {
+                        xl: `calc(${maxWidth} * 2)`
+                    }
                 }}>
                 <Box sx={{
                     display: 'grid',
@@ -62,6 +66,9 @@ export const BasicDataFields: FC = observer(() => {
                         data={consumerList?.list?.items ?? []}
                         label={form.$('consumers').label}
                         onChangeParameterName={(rowId, rowName) => {
+                            contractList.setFilters([
+                                { key: 'consumer_id', value: rowId }
+                            ])
                             form.$('consumers').onChange({
                                 id: rowId,
                                 name: rowName
@@ -72,21 +79,21 @@ export const BasicDataFields: FC = observer(() => {
                         }}
 
                     />
-                    <AutoCompleteMobXField
-                        key={`${contractList?.list?.[0]?.id}-contractList`}
-                        data={contractList?.list ?? []}
-                        label={form.$('contract_numbers').label}
-                        disabled={!form.$('consumers').value}
-                        onChangeParameterName={(rowId, rowName) => {
-                            form.$('contract_numbers').onChange({
-                                id: rowId,
-                                name: rowName
-                            })
-                        }}
-                        textFieldProps={{
-                            required: true
-                        }}
-                    />
+                    {contractList.meta === Meta.LOADING || contractList.meta === Meta.FETCHING ?
+                        <CircularProgress color={'secondary'} /> : <AutoCompleteMobXField
+                            data={contractList?.list ?? undefined}
+                            label={form.$('contract_numbers').label}
+                            disabled={!form.$('consumers').value}
+                            onChangeParameterName={(rowId, rowName) => {
+                                form.$('contract_numbers').onChange({
+                                    id: rowId,
+                                    name: rowName
+                                })
+                            }}
+                            textFieldProps={{
+                                required: true
+                            }}
+                        />}
                     <AppMobXTextInput
                         required
                         field={form.$('application')}

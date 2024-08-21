@@ -27,7 +27,6 @@ const getPipeColor = (status?: `${STATUS_PIPE}`) => {
     }
 }
 
-
 export const CurrentPipeParametersSbtTable: FC<{
     currentPipeParameters: CurrentPipeParameters
     currentPipeParametersList: CurrentPipeParametersList
@@ -70,7 +69,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                border: '1px solid rgba(81, 81, 81, .2)',
                                fontSize: '12px',
                                whiteSpace: 'normal',
-                               padding: '4px !important',
+                               padding: '2px !important',
                                textAlign: 'center',
                                display: 'grid',
                                justifyContent: 'center',
@@ -84,12 +83,20 @@ export const CurrentPipeParametersSbtTable: FC<{
                            {
                                sx: {
                                    border: '1px solid rgba(81, 81, 81, .2)',
-                                   fontSize: '12px !important',
                                    whiteSpace: 'normal',
                                    textAlign: 'center',
                                    display: 'grid',
                                    justifyContent: 'center',
-                                   alignContent: 'start'
+                                   alignContent: 'start',
+                                   fontSize: '12px !important',
+                                   '& *': {
+                                       fontSize: '12px !important'
+                                   },
+                                   '& .MuiIconButton-root svg': {
+                                       fontSize: '14px !important',
+                                       width: '1.5em',
+                                       height: '1.5em'
+                                   }
 
                                }
                            }
@@ -97,7 +104,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                        muiEditTextFieldProps={() => (
                            {
                                sx: {
-                                   fontSize: '12px'
+                                   fontSize: '12px !important'
                                }
                            }
                        )}
