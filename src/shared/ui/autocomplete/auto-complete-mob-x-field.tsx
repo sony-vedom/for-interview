@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 type ParameterEditFieldProps<T> = {
     onChangeParameterName: (rowId: number | string, rowName: string) => void
-    data?: T[]
+    data?: T[] | null
     defaultValue?: ISelectData
     label: string
 } & Partial<AutocompleteBaseProps>

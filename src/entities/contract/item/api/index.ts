@@ -14,6 +14,7 @@ import {
 } from './mapper/map-contract-edit.ts'
 import { preparedQueryParamsForRequest } from 'shared/lib/helpers'
 import { mapContractCreate } from 'entities/contract/item/api/mapper/map-contract-create.ts'
+import { getConsumer } from 'entities/consumer/item/@x'
 
 
 const BASE_URL = '/contract/'
@@ -22,7 +23,17 @@ export const getContracts = async (filters?: GetContractQueryFilters): Promise<C
     const res = await apiInstance.get<ContractDTO[]>(`${BASE_URL}`, {
         params: preparedQueryParamsForRequest(undefined, filters)
     })
-    return res.data.map(mapContract)
+    const preparedContractsList = res.data.map(mapContract)
+    return await Promise.all(preparedContractsList.map(async (el) => {
+        if (el.consumer_id) {
+            const resKind = await getConsumer({ consumer_id: el.consumer_id })
+            return {
+                ...el,
+                consumer_name: resKind.name
+            }
+        }
+        return el
+    }))
 }
 
 export const createContract = async (body: ContractCreate): Promise<Contract> => {

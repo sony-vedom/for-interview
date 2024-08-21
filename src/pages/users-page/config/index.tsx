@@ -1,11 +1,8 @@
 import type { MRT_ColumnDef, MRT_Row } from 'material-react-table'
 import { User } from 'entities/user/item'
 import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
-import { observer, useLocalObservable } from 'mobx-react-lite'
-import { PositionStore } from 'entities/position'
+import { observer } from 'mobx-react-lite'
 import { FC } from 'react'
-import { Meta } from 'shared/api'
-import CircularProgress from '@mui/material/CircularProgress'
 import { useUserPage } from 'pages/users-page/model'
 import { NestedForm } from 'shared/ui/nested-form'
 import { useModal } from 'shared/lib/modal'
@@ -18,16 +15,9 @@ import { ROUTES } from 'shared/config/routes'
 import { getDisabledButton } from 'shared/lib/form'
 import { ModalLayout } from 'shared/ui/modal-layout'
 
-const PositionCell: FC<{ id: number }> = observer((props) => {
-    const { id } = props
-    const { position, meta } = useLocalObservable(() => new PositionStore({ id }))
-    return <>{meta === Meta.LOADING ? <CircularProgress /> : position?.name}</>
-})
-
-const PositionEdit: FC<{ id?: null | number, row: MRT_Row<User> }> = observer((props) => {
-    const { id, row } = props
+const PositionEdit: FC<{ row: MRT_Row<User> }> = observer((props) => {
+    const {row} = props
     const { positionListStore, positionStore } = useUserPage()
-    const { position, meta } = useLocalObservable(() => new PositionStore({ id }))
     const modal = useModal()
     const formStore = new MyForm({
         fields: positionListStore.list?.map(({ name, id }) => ({
@@ -39,9 +29,6 @@ const PositionEdit: FC<{ id?: null | number, row: MRT_Row<User> }> = observer((p
         }))
     }, {}, positionStore)
     const disabledFormButton = getDisabledButton(positionStore.meta) || getDisabledButton(positionListStore.meta)
-    if (!position?.name && meta === Meta.LOADING) {
-        return <CircularProgress sx={{ ml: '160px' }} />
-    }
     return <>
         <Box sx={{
             display: 'flex',
@@ -49,9 +36,9 @@ const PositionEdit: FC<{ id?: null | number, row: MRT_Row<User> }> = observer((p
         }}>
             <AutoCompleteMobXField data={positionListStore.list ?? []}
                                    label={'Должность'}
-                                   defaultValue={position?.name ? {
-                                       id: row._valuesCache['position_id'],
-                                       name: position?.name
+                                   defaultValue={row.original[`position_id`] && row.original[`position_name`] ? {
+                                       id: row.original[`position_id`],
+                                       name: row.original[`position_name`]
                                    } : undefined}
                                    onChangeParameterName={(rowId, _) => {
                                        row._valuesCache['position_id'] = rowId
@@ -104,20 +91,12 @@ export const userTableConfig: MRT_ColumnDef<User>[] = [
         header: 'Отчество'
     },
     {
-        accessorKey: 'position_id',
+        accessorKey: 'position_name',
         header: 'Должность',
         size: 150,
         minSize: 380,
-        Cell: ({ row }) => {
-            const id = row.original.position_id
-            if (id) {
-                return <PositionCell id={id} />
-            }
-            return null
-        },
         Edit: ({ row }) => {
-            const id = row.original.position_id
-            return <PositionEdit id={id} row={row} />
+            return <PositionEdit row={row} />
         }
     }
 ]

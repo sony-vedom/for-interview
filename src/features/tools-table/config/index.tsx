@@ -1,47 +1,48 @@
 import { MRT_ColumnDef } from 'material-react-table'
 import { Tool } from 'entities/tools/item'
 import { AppDatePicker } from 'shared/ui/date-picker'
-import { KindToolsCell, KindToolsEdit } from 'features/tools-table/config/kind-cell-edit.tsx'
-import { TypeToolsCell, TypeToolsEdit } from 'features/tools-table/config/type-cell-edit.tsx'
 import dayjs from 'dayjs'
+import { AutoCompleteTableEditField } from 'shared/ui/autocomplete-table-edit-field'
+import { KindToolsList } from 'entities/tools/kind'
+import { TypeToolsList } from 'entities/tools/type'
 
 export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
     {
-        accessorKey: 'kind_id',
+        accessorKey: 'kind_name',
         header: 'Вид оборудования',
         minSize: 400,
-        Cell: ({ row }) => {
-            const id = row.original.kind_id
-            if (id) {
-                return <KindToolsCell id={id} />
-            }
-            return null
-        },
         Edit: ({ row }) => {
-            const id = row.original.kind_id
-            return <KindToolsEdit id={id} row={row} />
+            return <AutoCompleteTableEditField<Tool>
+                entityName={'kind'}
+                AutoCompleteStore={KindToolsList}
+                row={row}
+                label={'Вид оборудования'}
+                onChangeEditField={(rowId, rowName) => {
+                    row._valuesCache['kind_id'] = rowId
+                    row._valuesCache['kind_name'] = rowName
+                }} />
         }
     },
     {
-        accessorKey: 'type_id',
+        accessorKey: 'type_name',
         header: 'Тип оборудования',
         minSize: 400,
-        Cell: ({ row }) => {
-            const id = row.original.type_id
-            if (id) {
-                return <TypeToolsCell id={id} />
-            }
-            return null
-        },
         Edit: ({ row }) => {
-            const id = row.original.type_id
-            return <TypeToolsEdit id={id} row={row} />
+            return <AutoCompleteTableEditField<Tool>
+                entityName={'type'}
+                AutoCompleteStore={TypeToolsList}
+                row={row}
+                label={'Тип оборудования'}
+                onChangeEditField={(rowId, rowName) => {
+                    row._valuesCache['type_id'] = rowId
+                    row._valuesCache['type_name'] = rowName
+                }} />
         }
     },
     {
         accessorKey: 'factory_number',
         header: 'Заводской номер',
-        minSize: 200,
+        minSize: 200
     },
     {
         accessorKey: 'start_date',

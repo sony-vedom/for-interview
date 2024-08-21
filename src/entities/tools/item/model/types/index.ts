@@ -8,6 +8,8 @@ export interface Tool {
     in_active_report: boolean
     kind_id: number
     type_id: number
+    kind_name?: string
+    type_name?: string
     sbt_report_id: number
 }
 
