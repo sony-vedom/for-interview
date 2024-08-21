@@ -1,48 +1,42 @@
 import { LiteralUnion, MRT_ColumnDef } from 'material-react-table'
-import { ICurrentSbtParams } from 'entities/current-pipe-parameters/item'
+import { ICurrentSbtParams, STATUS_VIK } from 'entities/current-pipe-parameters/item'
 import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
 import {
     STATUS_CARBIDE_SURFACING_COLLAPSE,
     STATUS_DEFECTS,
-    STATUS_VIK, STATUS_VIK_PIPE
+    STATUS_VIK_PIPE
 } from 'entities/current-pipe-parameters/item/model/parameters-statuces'
 import { ISelectData } from 'shared/ui/select-mobx'
 import { DeepKeys } from '@tanstack/react-table'
 
-const defects: ISelectData[] = Object.values(STATUS_DEFECTS).map((el) => {
-    return {
-        id: el,
-        name: el
-    }
-})
+const getAutoCompleteIdenticalData = (obj: object): ISelectData[] => {
+    return Object.values(obj).map((el) => {
+        return {
+            id: el,
+            name: el
+        }
+    })
+}
 
-const vik: ISelectData[] = Object.values(STATUS_VIK).map((el) => {
-    return {
-        id: el,
-        name: el
-    }
-})
+const defects: ISelectData[] = getAutoCompleteIdenticalData(STATUS_DEFECTS)
 
-const vikPipe: ISelectData[] = Object.values(STATUS_VIK_PIPE).map((el) => {
-    return {
-        id: el,
-        name: el
-    }
-})
-const carbide_surfacing: ISelectData[] = Object.values(STATUS_CARBIDE_SURFACING_COLLAPSE).map((el) => {
-    return {
-        id: el,
-        name: el
-    }
-})
+const vik: ISelectData[] = getAutoCompleteIdenticalData(STATUS_VIK)
 
+const vikPipe: ISelectData[] = getAutoCompleteIdenticalData(STATUS_VIK_PIPE)
+
+const carbide_surfacing: ISelectData[] = getAutoCompleteIdenticalData(STATUS_CARBIDE_SURFACING_COLLAPSE)
+
+const maxSize = 70
+const middleMaxSize = 90
+const bigMaxSize = 120
+const veryBigMaxSize = 140
 
 export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
     {
         accessorKey: 'serial_number',
         header: 'Серийный номер',
-        maxSize: 110,
-        Header: () => <>Серийный<br/>номер</>
+        maxSize,
+        Header: () => <>Серийный<br />номер</>
     },
 
 
@@ -52,7 +46,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'pipe_body.wall_thickness',
                 header: 'Средняя толщина стенки',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -62,115 +56,181 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'pipe_body.curvature',
                 header: 'Искривл.',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.curvature ? {
-                                                   id: row.original.pipe_body.curvature,
-                                                   name: row.original.pipe_body.curvature
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.curvature'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.curvature ? {
+                                id: row.original.pipe_body.curvature,
+                                name: row.original.pipe_body.curvature
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.curvature'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.emc',
                 header: 'ЭМК',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.emc ? {
-                                                   id: row.original.pipe_body.emc,
-                                                   name: row.original.pipe_body.emc
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.emc'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.emc ? {
+                                id: row.original.pipe_body.emc,
+                                name: row.original.pipe_body.emc
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.emc'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.outer_diameter_wear',
                 header: 'Износ по наружному Ø',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.outer_diameter_wear ? {
-                                                   id: row.original.pipe_body.outer_diameter_wear,
-                                                   name: row.original.pipe_body.outer_diameter_wear
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.outer_diameter_wear'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.outer_diameter_wear ? {
+                                id: row.original.pipe_body.outer_diameter_wear,
+                                name: row.original.pipe_body.outer_diameter_wear
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.outer_diameter_wear'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.ultrasound_landing_zones',
                 header: 'УЗК Зоны высадки и мест захвата клиньями',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.ultrasound_landing_zones ? {
-                                                   id: row.original.pipe_body.ultrasound_landing_zones,
-                                                   name: row.original.pipe_body.ultrasound_landing_zones
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.ultrasound_landing_zones'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.ultrasound_landing_zones ? {
+                                id: row.original.pipe_body.ultrasound_landing_zones,
+                                name: row.original.pipe_body.ultrasound_landing_zones
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.ultrasound_landing_zones'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.magnet_landing_zones',
                 header: 'МПД Зоны высадки и мест захвата клиньями',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.magnet_landing_zones ? {
-                                                   id: row.original.pipe_body.magnet_landing_zones,
-                                                   name: row.original.pipe_body.magnet_landing_zones
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.magnet_landing_zones'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.magnet_landing_zones ? {
+                                id: row.original.pipe_body.magnet_landing_zones,
+                                name: row.original.pipe_body.magnet_landing_zones
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.magnet_landing_zones'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.inspection_landing_zones',
                 header: 'ВИК Зоны высадки и мест захвата клиньями',
-                maxSize: 150,
+                maxSize: veryBigMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 120 }} data={vikPipe}
-                                               label={''}
-                                               defaultValue={row.original?.pipe_body?.inspection_landing_zones ? {
-                                                   id: row.original.pipe_body.inspection_landing_zones,
-                                                   name: row.original.pipe_body.inspection_landing_zones
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['pipe_body.inspection_landing_zones'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 120 }} data={vikPipe}
+                            label={''}
+                            defaultValue={row.original?.pipe_body?.inspection_landing_zones ? {
+                                id: row.original.pipe_body.inspection_landing_zones,
+                                name: row.original.pipe_body.inspection_landing_zones
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['pipe_body.inspection_landing_zones'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'pipe_body.total_length',
                 header: 'Общая длина',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -180,7 +240,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'pipe_body.body_class',
                 header: 'Класс тела трубы',
-                maxSize: 100,
+                maxSize,
                 enableEditing: false
             }
         ]
@@ -194,7 +254,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'nipple.outer_diameter',
                 header: 'Наруж. Ø',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -204,7 +264,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'nipple.chamfer_diameter',
                 header: 'Диаметр фаски',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -214,7 +274,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'nipple.key_installation_location',
                 header: 'Место уст. ключа',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -224,7 +284,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             // {
             //     accessorKey: 'nipple.carbide_surfacing',
             //     header: 'Тв.сплавная наплавка муфты',
-            //     maxSize: 130,
+            //     maxSize,
             //     Edit: ({ row }) => {
             //         return (
             //             <AutoCompleteMobXField sx={{ minWidth: 100 }} data={carbide_surfacing}
@@ -242,7 +302,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'nipple.inner_diameter',
                 header: 'Внутр. Ø',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -252,49 +312,71 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'nipple.magnet',
                 header: 'МПД резьб. соед.',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.nipple?.magnet ? {
-                                                   id: row.original.nipple.magnet,
-                                                   name: row.original.nipple.magnet
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['nipple.magnet'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.nipple?.magnet ? {
+                                id: row.original.nipple.magnet,
+                                name: row.original.nipple.magnet
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['nipple.magnet'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'nipple.vik',
                 header: 'ВИК резьб. соед.',
-                maxSize: 170,
+                maxSize: bigMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 140 }} data={vik}
-                                               label={''}
-                                               defaultValue={row.original?.nipple?.vik ? {
-                                                   id: row.original.nipple?.vik,
-                                                   name: row.original.nipple?.vik
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['nipple.vik'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 115 }} data={vik}
+                            label={''}
+                            defaultValue={row.original?.nipple?.vik ? {
+                                id: row.original.nipple?.vik,
+                                name: row.original.nipple?.vik
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['nipple.vik'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'nipple.condition_lock_connection',
                 header: 'Cост. замк. соед.',
-                maxSize: 100,
+                maxSize,
                 enableEditing: false
             },
             {
                 accessorKey: 'nipple.lock_connection_class',
                 header: 'Класс замк. соед.',
-                maxSize: 100,
+                maxSize,
                 enableEditing: false
             }
         ]
@@ -307,7 +389,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.outer_diameter',
                 header: 'Наруж. Ø',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -317,7 +399,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.chamfer_diameter',
                 header: 'Диаметр фаски',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -327,7 +409,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.thrust_shoulder_width',
                 header: 'Ширина уп. запл. муфты',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -337,7 +419,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.diameter_cone_recess',
                 header: 'Диаметр конусной выточки муфты',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -347,7 +429,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.key_installation_location',
                 header: 'Место установки ключа муфты',
-                maxSize: 100,
+                maxSize,
                 muiEditTextFieldProps: () => {
                     return {
                         type: 'number'
@@ -357,67 +439,100 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             {
                 accessorKey: 'coupling.carbide_surfacing',
                 header: 'Тв.сплавная наплавка муфты',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={carbide_surfacing}
-                                               label={''}
-                                               defaultValue={row.original?.coupling?.carbide_surfacing ? {
-                                                   id: row.original.coupling.carbide_surfacing,
-                                                   name: row.original.coupling.carbide_surfacing
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['coupling.carbide_surfacing'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 70 }} data={carbide_surfacing}
+                            label={''}
+                            defaultValue={row.original?.coupling?.carbide_surfacing ? {
+                                id: row.original.coupling.carbide_surfacing,
+                                name: row.original.coupling.carbide_surfacing
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['coupling.carbide_surfacing'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'coupling.magnet',
                 header: 'МПД резьб. соед.',
-                maxSize: 130,
+                maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 100 }} data={defects}
-                                               label={''}
-                                               defaultValue={row.original?.coupling?.magnet ? {
-                                                   id: row.original.coupling.magnet,
-                                                   name: row.original.coupling.magnet
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['coupling.magnet'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 80 }} data={defects}
+                            label={''}
+                            defaultValue={row.original?.coupling?.magnet ? {
+                                id: row.original.coupling.magnet,
+                                name: row.original.coupling.magnet
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['coupling.magnet'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'coupling.vik',
                 header: 'ВИК резьб. соед.',
-                maxSize: 160,
+                maxSize: veryBigMaxSize,
                 Edit: ({ row }) => {
                     return (
-                        <AutoCompleteMobXField sx={{ minWidth: 130 }} data={vik}
-                                               label={''}
-                                               defaultValue={row.original?.coupling?.vik ? {
-                                                   id: row.original.coupling.vik,
-                                                   name: row.original.coupling.vik
-                                               } : undefined}
-                                               onChangeParameterName={(rowId, _) => {
-                                                   row._valuesCache['coupling.vik'] = rowId
-                                               }} />
+                        <AutoCompleteMobXField
+                            slotProps={{
+                                popper: {
+                                    sx: {
+                                        fontSize: '12px',
+                                        '& *': {
+                                            fontSize: '12px !important'
+                                        }
+                                    }
+                                }
+                            }}
+                            sx={{ minWidth: 130 }} data={vik}
+                            label={''}
+                            defaultValue={row.original?.coupling?.vik ? {
+                                id: row.original.coupling.vik,
+                                name: row.original.coupling.vik
+                            } : undefined}
+                            onChangeParameterName={(rowId, _) => {
+                                row._valuesCache['coupling.vik'] = rowId
+                            }} />
                     )
                 }
             },
             {
                 accessorKey: 'coupling.condition_lock_connection',
                 header: 'Cост. замк. соед. муфты',
-                maxSize: 100,
+                maxSize,
                 enableEditing: false
             },
             {
                 accessorKey: 'coupling.lock_connection_class',
                 header: 'Класс замк. соед. муфты',
-                maxSize: 100,
+                maxSize,
                 enableEditing: false
             }
         ]
@@ -426,12 +541,12 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
 
     {
         accessorKey: 'comment',
-        header: 'Комментарий',
-        maxSize: 150,
+        header: 'Коммент.',
+        maxSize: middleMaxSize,
         muiTableBodyCellProps: () => (
             {
                 sx: {
-                    fontSize: "11px",
+                    fontSize: '11px',
                     wordBreak: 'break-all'
                 }
             }
@@ -440,25 +555,25 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
     {
         accessorKey: 'status_pipe',
         header: 'Итоговое состояние трубы',
-        maxSize: 100,
+        maxSize,
         enableEditing: false
     },
     {
         accessorKey: 'final_class_pipe',
         header: 'Финальный класс трубы',
-        maxSize: 100,
+        maxSize: middleMaxSize,
         enableEditing: false
     },
     {
         accessorKey: 'pre_repair_condition',
         header: 'Предремонт. сост.',
-        maxSize: 100,
-        Cell: ({renderedCellValue}) => <>{renderedCellValue ? "Да" : "Нет"}</>,
+        maxSize: middleMaxSize,
+        Cell: ({ renderedCellValue }) => <>{renderedCellValue ? 'Да' : 'Нет'}</>,
         enableEditing: false
     }
 ]
 
-export const mapCurrentParamsValues = (values:  Record<LiteralUnion<string & DeepKeys<ICurrentSbtParams>>, any>, additionalValues?: any) => {
+export const mapCurrentParamsValues = (values: Record<LiteralUnion<string & DeepKeys<ICurrentSbtParams>>, any>, additionalValues?: any) => {
     return {
         ...additionalValues,
         serial_number: values.serial_number,

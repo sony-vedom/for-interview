@@ -21,6 +21,9 @@ const TypeField: FC<{ tool_field_name: string }> = observer((props) => {
     const { createReportForm: form } = useCreateReportPage()
     const field = form.$(`tools.${tool_field_name}`)
     return <AutoCompleteMobXField
+        sx={{
+            minWidth: '100px'
+        }}
         data={typesList?.list?.map(el => ({
             id: el.id,
             name: el.name
@@ -59,7 +62,8 @@ const FactoryField: FC<{ tool_field_name: string }> = observer((props) => {
             toolsListStore.setFilters([
                 { key: 'kind_id', value: field.value.kind_id },
                 { key: 'type_id', value: field.value.type_id },
-                { key: 'in_active_report', value: false }
+                { key: 'in_active_report', value: false },
+                { key: 'is_expired', value: false }
             ])
         })
     }, [])
@@ -81,6 +85,9 @@ const FactoryField: FC<{ tool_field_name: string }> = observer((props) => {
 
 
     return <AutoCompleteMobXField
+        sx={{
+            minWidth: '100px'
+        }}
         data={data ?? []}
         label={'Заводской номер'}
         disabled={!field.value.type_id}
@@ -97,7 +104,7 @@ const FactoryField: FC<{ tool_field_name: string }> = observer((props) => {
             })
             setFactoryNumber({
                 id: rowId,
-                name: rowId,
+                name: rowId
             })
         }}
         textFieldProps={{
@@ -230,6 +237,9 @@ export const StandardToolsFields = observer(
                                         }
                                     }}>
                                     <AutoCompleteMobXField
+                                        sx={{
+                                            minWidth: '100px'
+                                        }}
                                         data={[{
                                             id: value.kind_id,
                                             name: value.kind_name

@@ -46,6 +46,7 @@ export const ReportTable: FC<ReportTableProps> = observer((props) => {
         return (
             <TableBase columns={columns}
                        data={list?.items ?? []}
+                       rowCount={list?.total}
                        state={
                            {
                                isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
@@ -74,7 +75,6 @@ export const ReportTable: FC<ReportTableProps> = observer((props) => {
                                </TableActionsToolbar.Wrapper>
                            )
                        }
-                       enablePagination={false}
                        onEditingRowSave={({ row, values, table }) => {
                            reportStore.edit(row.original.id, { ...values }).then(() => {
                                table.setEditingRow(null)

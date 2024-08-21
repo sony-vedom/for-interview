@@ -25,10 +25,10 @@ export const DescriptionKitFields = observer(() => {
                 display: 'grid',
                 width: '100%',
                 justifyContent: { md: 'space-around' },
-                gridTemplateColumns: {
-                    lg: `1fr minmax(650px, 1fr)`
-                },
-                gap: { xl: 2, xs: 2 }
+                gap: { xl: 2, xs: 2 },
+                "@media (min-width: 1450px)": {
+                    minWidth: `calc(${maxWidth} * 1.5)`
+                }
             }}>
             <Box
                 sx={{
@@ -42,6 +42,20 @@ export const DescriptionKitFields = observer(() => {
                 <AppMobXTextInput
                     required
                     field={form.$('report_number')}
+                />
+                <SelectFieldMobX items={[
+                    {
+                        id: 1,
+                        name: 'Бывший в употреблении'
+                    },
+                    {
+                        id: 2,
+                        name: 'Новый'
+                    }
+                ]}
+                                 field={form.$('kit_state')}
+                                 required
+                                 label={'Состояние'}
                 />
                 <AutoCompleteMobXField
                     data={pipeParameterList?.list?.items}
@@ -57,20 +71,6 @@ export const DescriptionKitFields = observer(() => {
                         required: true
                     }}
 
-                />
-                <SelectFieldMobX items={[
-                    {
-                        id: 1,
-                        name: 'Бывший в употреблении'
-                    },
-                    {
-                        id: 2,
-                        name: 'Новый'
-                    }
-                ]}
-                                 field={form.$('kit_state')}
-                                 required
-                                 label={'Состояние'}
                 />
             </Box>
             <DefaultParametersCard

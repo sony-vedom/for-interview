@@ -37,7 +37,9 @@ export enum STATUS_VIK {
     SEAL_CORROSION = 'КТ',
     THREAD_AND_SEAL_CORROSION = 'КРиУ',
     COUPLING_SWELLING = 'РМ',
-    DIMENSIONS_TOLERANCE_OUT = 'РВД'
+    DIMENSIONS_TOLERANCE_OUT = 'РВД',
+    CRACK_REPAIR = 'Трещина/Ремонт',
+    CRACK_DEFECT = 'Трещина/Брак'
 }
 
 export enum STATUS_VIK_PIPE {

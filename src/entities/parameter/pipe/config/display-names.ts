@@ -5,7 +5,7 @@ export const displayNamesPipeParameter = {
     reinforcement: 'Армирование',
     internal_coating: 'Внутреннее покрытие',
     pipe_inner_diameter: 'Внутренний диаметр трубы',
-    lock_outside_diameter: 'Наружний диаметр замка',
+    lock_outside_diameter: 'Наружный диаметр замка',
     lock_inner_diameter: 'Внутренний диаметр замка',
     strength_group: 'Группа прочности',
     size_range: 'Размерный ряд',

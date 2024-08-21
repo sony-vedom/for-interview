@@ -25,6 +25,11 @@ export class ReportListStore implements LifeCycledModel {
                 this.load()
             })
         )
+        this._disposers.push(
+            reaction(() => this._pagination, () => {
+                this.load()
+            })
+        )
     }
 
     public init() {

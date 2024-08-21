@@ -50,7 +50,8 @@ export class QualificationEducationPageStore implements LifeCycledModel {
             {key: "kind", value: getQualificationEducationUrlParams()}
         ])
         this.nameTypeQualificationEducation = new NameTypeQualificationEducationStore({
-            root: this.nameTypeQualificationEducationListStore
+            root: this.nameTypeQualificationEducationListStore,
+            kindEducation: getQualificationEducationUrlParams()
         })
 
         this.qualificationEducationTableStore = new QualificationEducationTableStore({
