@@ -13,6 +13,7 @@ import {
     mapTypeToolsEdit
 } from './mapper/map-type-tools-edit.ts'
 import { preparedQueryParamsForRequest } from 'shared/lib/helpers'
+import { getKindTools } from 'entities/tools/kind/@x'
 
 const BASE_URL = '/type_tools/'
 
@@ -20,7 +21,17 @@ export const getTypeToolsList = async (filters?: GetTypeToolsQueryFilters): Prom
     const res = await apiInstance.get<TypeToolsDTO[]>(`${BASE_URL}`, {
         params: preparedQueryParamsForRequest(undefined, filters)
     })
-    return res.data.map(mapTypeTools)
+    const resDataMapped = res.data.map(mapTypeTools)
+    return await Promise.all(resDataMapped.map(async (el) => {
+        if (el.kind_id) {
+            const resKind = await getKindTools({ kind_tools_id: el.kind_id })
+            return {
+                ...el,
+                kind_name: resKind.name
+            }
+        }
+        return el
+    }))
 }
 
 export const createTypeTools = async (body: TypeToolsCreate): Promise<TypeToolsDTO> => {

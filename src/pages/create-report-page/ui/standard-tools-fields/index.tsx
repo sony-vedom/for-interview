@@ -16,10 +16,12 @@ import { ISelectData } from 'shared/ui/select-mobx'
 
 const TypeField: FC<{ tool_field_name: string }> = observer((props) => {
     const { tool_field_name } = props
-    const typesList = useMobXLocalStore(() => new TypeToolsList())
-    useLifecycledModelEffect(typesList)
     const { createReportForm: form } = useCreateReportPage()
     const field = form.$(`tools.${tool_field_name}`)
+    const typesList = useMobXLocalStore(() => new TypeToolsList([
+        { key: 'kind_id', value: field.value.kind_id }
+    ]))
+    useLifecycledModelEffect(typesList)
     return <AutoCompleteMobXField
         sx={{
             minWidth: '100px'
@@ -88,7 +90,7 @@ const FactoryField: FC<{ tool_field_name: string }> = observer((props) => {
         sx={{
             minWidth: '100px'
         }}
-        data={data ?? []}
+        data={data}
         label={'Заводской номер'}
         disabled={!field.value.type_id}
         value={factoryNumber}

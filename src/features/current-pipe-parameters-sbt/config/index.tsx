@@ -31,21 +31,44 @@ const middleMaxSize = 90
 const bigMaxSize = 120
 const veryBigMaxSize = 140
 
-export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
-    {
-        accessorKey: 'serial_number',
-        header: 'Серийный номер',
-        maxSize,
-        Header: () => <>Серийный<br />номер</>
-    },
+const pipeCurrentParamsTableConfig = {
+    'pipe_body.wall_thickness': { displayName: 'Средняя толщина стенки', category: 2 },
+    'pipe_body.curvature': { displayName: 'Искривление', category: 1 },
+    'pipe_body.emc': { displayName: 'ЭМК', category: 3 },
+    'pipe_body.outer_diameter_wear': { displayName: 'Износ по наружному Ø', category: 1 },
+    'pipe_body.ultrasound_landing_zones': { displayName: 'УЗК Зоны высадки и мест захвата клиньями', category: 5 },
+    'pipe_body.magnet_landing_zones': { displayName: 'МПД Зоны высадки и мест захвата клиньями', category: 4 },
+    'pipe_body.inspection_landing_zones': { displayName: 'ВИК Зоны высадки и мест захвата клиньями', category: 1 },
+    'pipe_body.total_length': { displayName: 'Общая длина', category: 2 },
+    'pipe_body.body_class': { displayName: 'Класс тела трубы', category: null },
+    'nipple.outer_diameter': { displayName: 'Наруж. Ø', category: 2 },
+    'nipple.chamfer_diameter': { displayName: 'Диаметр фаски', category: 3 },
+    'nipple.key_installation_location': { displayName: 'Место уст. ключа', category: 2 },
+    'nipple.inner_diameter': { displayName: 'Внутр. Ø', category: 2 },
+    'nipple.magnet': { displayName: 'МПД резьб. соед.', category: 5 },
+    'nipple.vik': { displayName: 'ВИК резьб. соед.', category: 1 },
+    'nipple.condition_lock_connection': { displayName: 'Cост. замк. соед.', category: null },
+    'nipple.lock_connection_class': { displayName: 'Класс замк. соед.', category: null },
+    'coupling.outer_diameter': { displayName: 'Наруж. Ø', category: 2 },
+    'coupling.chamfer_diameter': { displayName: 'Диаметр фаски', category: 3 },
+    'coupling.thrust_shoulder_width': { displayName: 'Ширина уп. запл. муфты', category: 3 },
+    'coupling.diameter_cone_recess': { displayName: 'Диаметр конусной выточки муфты', category: 3 },
+    'coupling.key_installation_location': { displayName: 'Место установки ключа муфты', category: 2 },
+    'coupling.carbide_surfacing': { displayName: 'Тв.сплавная наплавка муфты', category: 2 },
+    'coupling.magnet': { displayName: 'МПД резьб. соед.', category: 5 },
+    'coupling.vik': { displayName: 'ВИК резьб. соед.', category: 1 },
+    'coupling.condition_lock_connection': { displayName: 'Cост. замк. соед.', category: null },
+    'coupling.lock_connection_class': { displayName: 'Класс замк. соед.', category: null }
 
+}
 
+export const currentParamsConfig: MRT_ColumnDef<ICurrentSbtParams>[] = [
     {
         header: 'Тело трубы',
         columns: [
             {
                 accessorKey: 'pipe_body.wall_thickness',
-                header: 'Средняя толщина стенки',
+                header: pipeCurrentParamsTableConfig['pipe_body.wall_thickness'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -55,7 +78,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.curvature',
-                header: 'Искривл.',
+                header: pipeCurrentParamsTableConfig['pipe_body.curvature'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -84,7 +107,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.emc',
-                header: 'ЭМК',
+                header: pipeCurrentParamsTableConfig['pipe_body.emc'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -113,7 +136,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.outer_diameter_wear',
-                header: 'Износ по наружному Ø',
+                header: pipeCurrentParamsTableConfig['pipe_body.outer_diameter_wear'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -142,7 +165,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.ultrasound_landing_zones',
-                header: 'УЗК Зоны высадки и мест захвата клиньями',
+                header: pipeCurrentParamsTableConfig['pipe_body.ultrasound_landing_zones'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -171,7 +194,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.magnet_landing_zones',
-                header: 'МПД Зоны высадки и мест захвата клиньями',
+                header: pipeCurrentParamsTableConfig['pipe_body.magnet_landing_zones'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -200,7 +223,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.inspection_landing_zones',
-                header: 'ВИК Зоны высадки и мест захвата клиньями',
+                header: pipeCurrentParamsTableConfig['pipe_body.inspection_landing_zones'].displayName,
                 maxSize: veryBigMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -229,7 +252,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.total_length',
-                header: 'Общая длина',
+                header: pipeCurrentParamsTableConfig['pipe_body.total_length'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -239,7 +262,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'pipe_body.body_class',
-                header: 'Класс тела трубы',
+                header: pipeCurrentParamsTableConfig['pipe_body.body_class'].displayName,
                 maxSize,
                 enableEditing: false
             }
@@ -248,12 +271,11 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
 
 
     {
-        accessorKey: 'nipple',
         header: 'Ниппель',
         columns: [
             {
                 accessorKey: 'nipple.outer_diameter',
-                header: 'Наруж. Ø',
+                header: pipeCurrentParamsTableConfig['nipple.outer_diameter'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -263,7 +285,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'nipple.chamfer_diameter',
-                header: 'Диаметр фаски',
+                header: pipeCurrentParamsTableConfig['nipple.chamfer_diameter'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -273,7 +295,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'nipple.key_installation_location',
-                header: 'Место уст. ключа',
+                header: pipeCurrentParamsTableConfig['nipple.key_installation_location'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -301,7 +323,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             // },
             {
                 accessorKey: 'nipple.inner_diameter',
-                header: 'Внутр. Ø',
+                header: pipeCurrentParamsTableConfig['nipple.inner_diameter'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -311,7 +333,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'nipple.magnet',
-                header: 'МПД резьб. соед.',
+                header: pipeCurrentParamsTableConfig['nipple.magnet'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -340,7 +362,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'nipple.vik',
-                header: 'ВИК резьб. соед.',
+                header: pipeCurrentParamsTableConfig['nipple.vik'].displayName,
                 maxSize: bigMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -369,13 +391,13 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'nipple.condition_lock_connection',
-                header: 'Cост. замк. соед.',
+                header: pipeCurrentParamsTableConfig['nipple.condition_lock_connection'].displayName,
                 maxSize,
                 enableEditing: false
             },
             {
                 accessorKey: 'nipple.lock_connection_class',
-                header: 'Класс замк. соед.',
+                header: pipeCurrentParamsTableConfig['nipple.lock_connection_class'].displayName,
                 maxSize,
                 enableEditing: false
             }
@@ -383,12 +405,11 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
     },
 
     {
-        accessorKey: 'coupling',
         header: 'Муфта',
         columns: [
             {
                 accessorKey: 'coupling.outer_diameter',
-                header: 'Наруж. Ø',
+                header: pipeCurrentParamsTableConfig['coupling.outer_diameter'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -408,7 +429,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.thrust_shoulder_width',
-                header: 'Ширина уп. запл. муфты',
+                header: pipeCurrentParamsTableConfig['coupling.thrust_shoulder_width'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -418,7 +439,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.diameter_cone_recess',
-                header: 'Диаметр конусной выточки муфты',
+                header: pipeCurrentParamsTableConfig['coupling.diameter_cone_recess'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -428,7 +449,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.key_installation_location',
-                header: 'Место установки ключа муфты',
+                header: pipeCurrentParamsTableConfig['coupling.key_installation_location'].displayName,
                 maxSize,
                 muiEditTextFieldProps: () => {
                     return {
@@ -438,7 +459,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.carbide_surfacing',
-                header: 'Тв.сплавная наплавка муфты',
+                header: pipeCurrentParamsTableConfig['coupling.carbide_surfacing'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -467,7 +488,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.magnet',
-                header: 'МПД резьб. соед.',
+                header: pipeCurrentParamsTableConfig['coupling.magnet'].displayName,
                 maxSize: middleMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -496,7 +517,7 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.vik',
-                header: 'ВИК резьб. соед.',
+                header: pipeCurrentParamsTableConfig['coupling.vik'].displayName,
                 maxSize: veryBigMaxSize,
                 Edit: ({ row }) => {
                     return (
@@ -525,20 +546,66 @@ export const currentPipeParametersSbt: MRT_ColumnDef<ICurrentSbtParams>[] = [
             },
             {
                 accessorKey: 'coupling.condition_lock_connection',
-                header: 'Cост. замк. соед. муфты',
+                header: pipeCurrentParamsTableConfig['coupling.condition_lock_connection'].displayName,
                 maxSize,
                 enableEditing: false
             },
             {
                 accessorKey: 'coupling.lock_connection_class',
-                header: 'Класс замк. соед. муфты',
+                header: pipeCurrentParamsTableConfig['coupling.lock_connection_class'].displayName,
                 maxSize,
                 enableEditing: false
             }
         ]
+    }
+]
+
+function preparedElem(el: MRT_ColumnDef<ICurrentSbtParams>, reportCategory: number): MRT_ColumnDef<ICurrentSbtParams> {
+    const accessorKey = el.accessorKey
+    const elemCategory = accessorKey && accessorKey in pipeCurrentParamsTableConfig ? pipeCurrentParamsTableConfig[accessorKey as keyof typeof pipeCurrentParamsTableConfig]?.category : null
+    const enableEditing = elemCategory ? elemCategory <= reportCategory : false
+    return {
+        ...el,
+        enableEditing: enableEditing
+    }
+}
+
+function eachChild(element: MRT_ColumnDef<ICurrentSbtParams>, func: (node: MRT_ColumnDef<ICurrentSbtParams>) => any) {
+    return element.columns!.map(func)
+}
+
+function preparedColumn(reportCategory: number) {
+    return function traverse(node: MRT_ColumnDef<ICurrentSbtParams>) {
+        if (!node.columns) {
+            return preparedElem(node, reportCategory)
+        }
+        return eachChild(node, traverse)
+    }
+}
+
+export const preparedRows = (reportCategory: number) => {
+    return function recursiveRows(elements: MRT_ColumnDef<ICurrentSbtParams>[]): MRT_ColumnDef<ICurrentSbtParams>[] {
+        const traverse = preparedColumn(reportCategory)
+        return elements.map((el) => {
+            if (el.columns) {
+                return {
+                    ...el,
+                    columns: traverse(el) as MRT_ColumnDef<ICurrentSbtParams, unknown>[] | undefined
+                }
+            }
+            return el
+        })
+    }
+}
+
+export const currentPipeParametersSbt: (reportCategory: number) => MRT_ColumnDef<ICurrentSbtParams>[] = (reportCategory: number) => [
+    {
+        accessorKey: 'serial_number',
+        header: 'Серийный номер',
+        maxSize,
+        Header: () => <>Серийный<br />номер</>
     },
-
-
+    ...preparedRows(reportCategory)(currentParamsConfig),
     {
         accessorKey: 'comment',
         header: 'Коммент.',

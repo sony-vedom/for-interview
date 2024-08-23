@@ -41,8 +41,10 @@ export const CurrentPipeParametersSbtTable: FC<{
     const list = currentPipeParametersList.list
     const meta = currentPipeParametersList.meta
 
+    const category = reportStore.elem?.standards_procedures.inspection_category
+
     const columns = useMemo<MRT_ColumnDef<ICurrentSbtParams>[]>(
-        () => currentPipeParametersSbt,
+        () => currentPipeParametersSbt(category!),
         [list]
     )
 
@@ -136,7 +138,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                minimum_wall_thickness_premium: Number(report!.minimum_wall_thickness_premium!),
                                minimum_wall_thickness_ultra: Number(report!.minimum_wall_thickness_ultra!),
                                report_id: Number(report!.id),
-                               standards_procedures: Number(report!.standards_procedures.id),
+                               standards_procedures: Number(report!.standards_procedures.inspection_category),
                                rejection_standard_id: Number(report!.rejection_standard_id)
                            })).then(() => {
                                table.setCreatingRow(null)

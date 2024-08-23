@@ -1,5 +1,10 @@
 import { StandardsProceduresSbt } from 'entities/standards-procedures/@x'
 
+enum ConditionPipeInReport {
+    NEW = "Новый",
+    OLD = "Бывший в употреблении"
+}
+
 export interface Report {
     date_start_detection: string
     date_finish_detection: string | null
@@ -17,6 +22,9 @@ export interface Report {
     minimum_wall_thickness_premium: string
     minimum_wall_thickness_class_2: string
     id: number
+    kit_number: null | string
+    application: null | string
+    condition: `${ConditionPipeInReport}`
 }
 
 export interface ReportCreate {
@@ -26,10 +34,12 @@ export interface ReportCreate {
     location: string
     contract_number: string
     number_order: string
-    report_number: string
     standards_procedures_id: number
     user_id: number
     parameter_id: number
+    kit_number: string
+    application: string
+    condition: `${ConditionPipeInReport}`
 }
 
 export type ReportEdit = Partial<ReportCreate> & {}

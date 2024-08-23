@@ -14,6 +14,8 @@ import {
     mapToolsEdit
 } from './mapper/map-tools-edit.ts'
 import { mapToolsCreate } from 'entities/tools/item/api/mapper/map-tools-create.ts'
+import { getKindTools } from 'entities/tools/kind/@x'
+import { getTypeTools } from 'entities/tools/type/@x'
 
 
 const BASE_URL = '/tools/'
@@ -22,9 +24,33 @@ export const getToolsList = async (params?: PaginationQuery, filters?: GetToolsQ
     const res = await apiInstance.get<Pagination<ToolDTO[]>>(`${BASE_URL}`, {
         params: preparedQueryParamsForRequest(params, filters)
     })
+
+    const preparedToolsList = res.data.items.map(mapTools)
+
+    const toolsListWithTypeKindName = await Promise.all(preparedToolsList.map(async (el) => {
+        let updatedEl = {
+            ...el
+        }
+        if (el.kind_id) {
+            const resKind = await getKindTools({ kind_tools_id: el.kind_id })
+            updatedEl = {
+                ...updatedEl,
+                kind_name: resKind.name
+            }
+        }
+        if (el.type_id) {
+            const resType = await getTypeTools({ type_tools_id: el.type_id })
+            updatedEl = {
+                ...updatedEl,
+                type_name: resType.name,
+            }
+        }
+        return updatedEl
+    }))
+
     return {
         ...res.data,
-        items: res.data.items.map(mapTools)
+        items: toolsListWithTypeKindName
     }
 }
 

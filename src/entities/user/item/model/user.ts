@@ -20,6 +20,7 @@ export interface User {
     second_name: null | string
 
     position_id: null | number
+    position_name?: string
 
     role: Role | null
     is_superuser: boolean
