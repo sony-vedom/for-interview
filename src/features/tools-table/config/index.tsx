@@ -1,42 +1,92 @@
-import { MRT_ColumnDef } from 'material-react-table'
+import { MRT_ColumnDef, MRT_Row } from 'material-react-table'
 import { Tool } from 'entities/tools/item'
 import { AppDatePicker } from 'shared/ui/date-picker'
 import dayjs from 'dayjs'
-import { AutoCompleteTableEditField } from 'shared/ui/autocomplete-table-edit-field'
 import { KindToolsList } from 'entities/tools/kind'
 import { TypeToolsList } from 'entities/tools/type'
+import { Box } from '@mui/material'
+import { observer, useLocalObservable } from 'mobx-react-lite'
+import { useLifecycledModelEffect } from 'shared/lib/mobx'
+import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
+import { FC, useState } from 'react'
+
+const EditTypeKindValue: FC<{ row: MRT_Row<Tool> }> = observer((props) => {
+    const { row } = props
+    const kindStore = useLocalObservable(() => new KindToolsList())
+    useLifecycledModelEffect(kindStore)
+    const typeStore = useLocalObservable(() => new TypeToolsList([
+        { key: 'kind_id', value: row.original.kind_id }
+    ]))
+    useLifecycledModelEffect(typeStore)
+    const [typeField, setTypeField] = useState<{
+        id: string | number,
+        name: string
+    } | null>(() => {
+        if (row.original.type_name) {
+            return {
+                id: row.original.type_id,
+                name: row.original.type_name
+            }
+        }
+        if (row._valuesCache['type_id']) {
+            return {
+                id: row._valuesCache['type_id'],
+                name: row._valuesCache['type_name']
+            }
+        }
+        return null
+    })
+    return (
+        <Box sx={{
+            display: 'flex',
+            gap: '10px'
+        }}>
+            <AutoCompleteMobXField
+                sx={{
+                    minWidth: '320px'
+                }}
+                data={kindStore.list ?? undefined}
+                label={'Вид оборудования'}
+                key={row.original[`kind_name`]}
+                defaultValue={row.original[`kind_id`] && row.original[`kind_name`] ? {
+                    id: row.original[`kind_id`],
+                    name: row.original[`kind_name`]
+                } : undefined}
+                onChangeParameterName={(rowId, rowName) => {
+                    row._valuesCache['kind_id'] = rowId
+                    row._valuesCache['kind_name'] = rowName
+                    typeStore.setFilters([
+                        { key: 'kind_id', value: rowId }
+                    ])
+                    setTypeField(null)
+                }} />
+            <AutoCompleteMobXField
+                sx={{
+                    minWidth: '200px'
+                }}
+                data={typeStore.list ?? undefined}
+                label={'Тип оборудования'}
+                key={row.original[`type_name`]}
+                value={typeField}
+                onChangeParameterName={(rowId, rowName) => {
+                    row._valuesCache['type_id'] = rowId
+                    row._valuesCache['type_name'] = rowName
+                    setTypeField({
+                        id: rowId,
+                        name: rowName
+                    })
+                }} />
+        </Box>
+    )
+})
 
 export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
     {
-        accessorKey: 'kind_name',
-        header: 'Вид оборудования',
-        minSize: 400,
+        accessorFn: (originalRow) => originalRow.kind_name + ' ' + originalRow.type_name,
+        header: 'Вид и тип оборудования',
+        minSize: 550,
         Edit: ({ row }) => {
-            return <AutoCompleteTableEditField<Tool>
-                entityName={'kind'}
-                AutoCompleteStore={KindToolsList}
-                row={row}
-                label={'Вид оборудования'}
-                onChangeEditField={(rowId, rowName) => {
-                    row._valuesCache['kind_id'] = rowId
-                    row._valuesCache['kind_name'] = rowName
-                }} />
-        }
-    },
-    {
-        accessorKey: 'type_name',
-        header: 'Тип оборудования',
-        minSize: 400,
-        Edit: ({ row }) => {
-            return <AutoCompleteTableEditField<Tool>
-                entityName={'type'}
-                AutoCompleteStore={TypeToolsList}
-                row={row}
-                label={'Тип оборудования'}
-                onChangeEditField={(rowId, rowName) => {
-                    row._valuesCache['type_id'] = rowId
-                    row._valuesCache['type_name'] = rowName
-                }} />
+            return <EditTypeKindValue row={row} />
         }
     },
     {
@@ -85,8 +135,9 @@ export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
         header: 'Комментарий'
     },
     {
-        accessorKey: 'sbt_report_id',
-        header: 'Отчет',
+        accessorKey: 'in_active_report',
+        header: 'В отчете?',
+        Cell: ({ renderedCellValue }) => <>{renderedCellValue ? 'Да' : 'Нет'}</>,
         enableEditing: false
     }
 ]

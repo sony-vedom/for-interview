@@ -4,6 +4,8 @@ import { Box } from '@mui/material'
 import { AutoCompleteMobXField } from 'shared/ui/autocomplete'
 import { Pagination } from 'shared/api'
 import { LifeCycledModel, useLifecycledModelEffect, useMobXLocalStore } from 'shared/lib/mobx'
+import { AutocompleteBaseProps } from 'shared/ui/autocomplete/autocomplete-base.tsx'
+import { runInAction } from 'mobx'
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
@@ -23,8 +25,8 @@ interface Props<T extends MRT_RowData> {
     AutoCompleteStore: Constructor<AutoCompleteStoreInstance>;
 }
 
-export const AutoCompleteTableEditField = observer(<T extends MRT_RowData>(props: Props<T>) => {
-    const { row, entityName, onChangeEditField, label, AutoCompleteStore } = props
+export const AutoCompleteTableEditField = observer(<T extends MRT_RowData>(props: Props<T> & Partial<AutocompleteBaseProps>) => {
+    const { row, entityName, onChangeEditField, label, AutoCompleteStore, ...rest } = props
     const store = useMobXLocalStore(() => new AutoCompleteStore())
     const list = store.list && 'items' in store.list ? store.list.items : store.list
 
@@ -34,15 +36,20 @@ export const AutoCompleteTableEditField = observer(<T extends MRT_RowData>(props
             display: 'flex',
             gap: 1
         }}>
-            <AutoCompleteMobXField data={list ?? undefined}
-                                   label={label}
-                                   defaultValue={row.original[`${entityName}_id`] && row.original[`${entityName}_name`] ? {
-                                       id: row.original[`${entityName}_id`],
-                                       name: row.original[`${entityName}_name`]
-                                   } : undefined}
-                                   onChangeParameterName={(rowId, rowName) => {
-                                       onChangeEditField(rowId, rowName)
-                                   }} />
+            <AutoCompleteMobXField
+                {...rest}
+                data={list ?? undefined}
+                label={label}
+                key={row.original[`${entityName}_name`]}
+                defaultValue={row.original[`${entityName}_id`] && row.original[`${entityName}_name`] ? {
+                    id: row.original[`${entityName}_id`],
+                    name: row.original[`${entityName}_name`]
+                } : undefined}
+                onChangeParameterName={(rowId, rowName) => {
+                    runInAction(() => {
+                        onChangeEditField(rowId, rowName)
+                    })
+                }} />
         </Box>
     )
 })

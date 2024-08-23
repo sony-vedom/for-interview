@@ -1,6 +1,7 @@
 import { MRT_ColumnDef } from 'material-react-table'
-import { TypeTools, TypeToolsList } from 'entities/tools/type'
+import { TypeTools } from 'entities/tools/type'
 import { AutoCompleteTableEditField } from 'shared/ui/autocomplete-table-edit-field'
+import { KindToolsList } from 'entities/tools/kind'
 
 export const typeToolsEducationTableConfig: MRT_ColumnDef<TypeTools>[] = [
     {
@@ -13,12 +14,12 @@ export const typeToolsEducationTableConfig: MRT_ColumnDef<TypeTools>[] = [
         Edit: ({ row }) => {
             return <AutoCompleteTableEditField<TypeTools>
                 entityName={'type'}
-                AutoCompleteStore={TypeToolsList}
+                AutoCompleteStore={KindToolsList}
                 row={row}
-                label={'Тип оборудования'}
+                label={'Вид оборудования'}
                 onChangeEditField={(rowId, rowName) => {
-                    row._valuesCache['type_id'] = rowId
-                    row._valuesCache['type_name'] = rowName
+                    row._valuesCache['kind_id'] = rowId
+                    row._valuesCache['kind_name'] = rowName
                 }} />
         }
     }

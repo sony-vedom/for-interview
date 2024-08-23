@@ -90,7 +90,7 @@ export default class CreateReportForm extends Form {
                     rules: 'required'
                 },
                 {
-                    name: 'report_number',
+                    name: 'kit_number',
                     label: 'Номер комплекта',
                     rules: 'required'
                 },
@@ -104,7 +104,7 @@ export default class CreateReportForm extends Form {
                     name: 'kit_state',
                     label: 'Состояние',
                     rules: 'required',
-                    value: 1
+                    value: 'Бывший в употреблении'
                 },
                 // для standards_procedures_id
                 {
@@ -131,10 +131,12 @@ export default class CreateReportForm extends Form {
                     location: values.location,
                     contract_number: values.contract_numbers.name,
                     number_order: values.number_order,
-                    report_number: values.report_number,
+                    kit_number: values.kit_number,
                     standards_procedures_id: values.standards_procedures.id,
                     user_id: values.user.id,
-                    parameter_id: values.parameter.id
+                    parameter_id: values.parameter.id,
+                    application: values.parameter.application,
+                    condition: values.kit_state
                 } as ReportCreate
                 const res = await form._reportStore.create(prepareValues)
                 if (values.tools && res?.id) {

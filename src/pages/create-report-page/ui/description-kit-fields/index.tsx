@@ -41,15 +41,15 @@ export const DescriptionKitFields = observer(() => {
                 }}>
                 <AppMobXTextInput
                     required
-                    field={form.$('report_number')}
+                    field={form.$('kit_number')}
                 />
                 <SelectFieldMobX items={[
                     {
-                        id: 1,
+                        id: 'Бывший в употреблении',
                         name: 'Бывший в употреблении'
                     },
                     {
-                        id: 2,
+                        id: 'Новый',
                         name: 'Новый'
                     }
                 ]}
