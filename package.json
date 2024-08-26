@@ -32,7 +32,6 @@
     "qs": "^6.12.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.51.4",
     "react-router-dom": "^6.23.0",
     "sort-by": "^1.2.0",
     "validatorjs": "^3.22.1",

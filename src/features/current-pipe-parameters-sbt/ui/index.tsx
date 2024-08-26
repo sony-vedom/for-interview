@@ -11,6 +11,7 @@ import {
     STATUS_PIPE
 } from 'entities/current-pipe-parameters/item'
 import { ReportStore } from 'entities/report'
+import { FinishReportButton } from 'features/current-pipe-parameters-sbt/ui/finish-report-button.tsx'
 
 const getPipeColor = (status?: `${STATUS_PIPE}`) => {
     switch (status) {
@@ -62,7 +63,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                        }
                        muiTableBodyRowProps={({ row }) => ({
                            sx: {
-                               backgroundColor: getPipeColor(row.original.status_pipe)
+                               backgroundColor: "status_pipe" in row.original ? getPipeColor(row.original.status_pipe) : "initial"
                            }
                        })}
                        enableColumnActions={false}
@@ -122,6 +123,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                                table.setCreatingRow(true)
                                            }}
                                        />
+                                       <FinishReportButton/>
                                    </>}
                                </TableActionsToolbar.Wrapper>
                            )

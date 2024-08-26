@@ -84,7 +84,7 @@ export const ReportTable: FC<ReportTableProps> = observer((props) => {
                            const id = row.original.id
                            return <TableActionsRow.Wrapper>
                                <TableActionsRow.DeleteButtonWithConfirmDialog
-                                   entityNameText={'договор'}
+                                   entityNameText={'отчет'}
                                    handleDelete={() => {
                                        toolListStore.setFilters([
                                            { key: 'sbt_report_id', value: id }

@@ -1,17 +1,20 @@
-import {type FC, type PropsWithChildren} from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { type FC, type PropsWithChildren } from 'react'
+import Button, { ButtonProps } from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import { observer } from 'mobx-react-lite'
 
-const CreateButton: FC<{
+interface CreateButtonProps {
     createIconText: string,
     handleCreate: () => void,
     disabled?: boolean
-}> = (props) => {
-    const {createIconText, handleCreate, disabled} = props
+}
+
+const CreateButton: FC<Partial<ButtonProps> & CreateButtonProps> = (props) => {
+    const { createIconText, handleCreate, disabled, ...rest } = props
     return <>
         <Button
-            size={"medium"}
+            {...rest}
+            size={'medium'}
             variant="contained"
             onClick={handleCreate}
             disabled={disabled}
@@ -22,8 +25,8 @@ const CreateButton: FC<{
 }
 
 const Wrapper: FC<PropsWithChildren> = observer((props) => {
-    const {children} = props
-    return <Box sx={{display: 'flex', gap: '20px', width: "100%"}}>
+    const { children } = props
+    return <Box sx={{ display: 'flex', gap: '20px', width: '100%' }}>
         {children}
     </Box>
 })
