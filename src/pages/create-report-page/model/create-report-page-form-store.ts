@@ -135,7 +135,7 @@ export default class CreateReportForm extends Form {
                     standards_procedures_id: values.standards_procedures.id,
                     user_id: values.user.id,
                     parameter_id: values.parameter.id,
-                    application: values.parameter.application,
+                    application: values.application,
                     condition: values.kit_state
                 } as ReportCreate
                 const res = await form._reportStore.create(prepareValues)
@@ -143,10 +143,11 @@ export default class CreateReportForm extends Form {
                     const preparedVal = Object.values(values.tools)
 
                     return await Promise.all(preparedVal.map(async (el) => {
-                        return await form._toolStore.lockOrUnlockTools((el as Tool).id, {
+                        await form._toolStore.lockOrUnlockTools((el as Tool).id, {
                             in_active_report: true,
                             sbt_report_id: res.id
                         })()
+                        return
                     })).then(() => {
                         const pipeType = getPipeTypeFromRouter()
                         window.location.href = `${window.location.origin}${ROUTES.DOCUMENTS}/${pipeType}`

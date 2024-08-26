@@ -5,6 +5,7 @@ import {
 } from '../types'
 import { ReportListStore } from 'entities/report/model/store/report-list-store.ts'
 import * as reportApi from '../../api'
+import { toolsApi } from 'entities/tools/item'
 
 export class ReportStore {
     private _meta: Meta = Meta.INITIAL
@@ -97,14 +98,25 @@ export class ReportStore {
     public async delete(id: number) {
         this._setMeta(Meta.DELETING)
         try {
-            const positionResponse = await reportApi.deleteReport({
+            const toolsList = await toolsApi.getToolsList({page_index: 1, page_size: 100}, [
+                { key: "sbt_report_id", value: id}
+            ])
+            await Promise.all(await Promise.all(toolsList.items.map(async (el) => {
+                await toolsApi.lockOrUnlockTools({
+                    tools_id: el.id,
+                    in_active_report: false,
+                    sbt_report_id: null
+                })
+                return
+            })))
+            const res = await reportApi.deleteReport({
                 report_id: id
             })
             if (this._root) {
                 await this._root.load()
             }
             runInAction(() => {
-                this._setElem(positionResponse)
+                this._setElem(res)
                 this._setMeta(Meta.SUCCESS)
             })
         } catch (e) {
