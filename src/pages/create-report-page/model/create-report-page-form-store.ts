@@ -140,13 +140,14 @@ export default class CreateReportForm extends Form {
                 } as ReportCreate
                 const res = await form._reportStore.create(prepareValues)
                 if (values.tools && res?.id) {
-                    const promises = Object.values(values.tools).map((el) => {
-                        return form._toolStore.lockOrUnlockTools((el as Tool).id, {
+                    const preparedVal = Object.values(values.tools)
+
+                    return await Promise.all(preparedVal.map(async (el) => {
+                        return await form._toolStore.lockOrUnlockTools((el as Tool).id, {
                             in_active_report: true,
                             sbt_report_id: res.id
-                        })
-                    })
-                    Promise.all(promises).then(() => {
+                        })()
+                    })).then(() => {
                         const pipeType = getPipeTypeFromRouter()
                         window.location.href = `${window.location.origin}${ROUTES.DOCUMENTS}/${pipeType}`
                     })
