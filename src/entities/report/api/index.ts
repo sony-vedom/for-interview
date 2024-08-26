@@ -4,7 +4,7 @@ import {
     GetReportQueryFilters
 } from './query/get-sbt-rejection-standards.query.ts'
 import { preparedQueryParamsForRequest } from 'shared/lib/helpers'
-import { Report, ReportCreate, ReportEdit } from 'entities/report'
+import { Report, ReportCreate, ReportEdit, ReportFinish } from 'entities/report'
 
 const BASE_URL = '/report_sbt/'
 
@@ -33,4 +33,10 @@ export const editReport = async (params: GetReportQuery & ReportEdit): Promise<R
 
 export const deleteReport = async (params: GetReportQuery): Promise<any> => {
     return await apiInstance.delete(`${BASE_URL}${params.report_id}`)
+}
+
+export const finishReport = async(params: GetReportQuery & ReportFinish): Promise<Report> => {
+    const { report_id, ...rest } = params
+    const res = await apiInstance.patch<Report>(`${BASE_URL}finish_report/${report_id}`, rest)
+    return res.data
 }
