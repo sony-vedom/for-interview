@@ -6,8 +6,8 @@ enum ConditionPipeInReport {
 }
 
 export interface Report {
-    date_start_detection: string
-    date_finish_detection: string | null
+    date_start_detection: Date
+    date_finish_detection: Date | null
     customer: string
     location: string
     contract_number: string
@@ -43,3 +43,7 @@ export interface ReportCreate {
 }
 
 export type ReportEdit = Partial<ReportCreate> & {}
+
+export type ReportFinish = {
+    date_finish_detection: Date
+}

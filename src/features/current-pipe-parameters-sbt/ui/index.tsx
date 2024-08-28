@@ -11,14 +11,18 @@ import {
     STATUS_PIPE
 } from 'entities/current-pipe-parameters/item'
 import { ReportStore } from 'entities/report'
+import { FinishReportButton } from 'features/current-pipe-parameters-sbt/ui/finish-report-button.tsx'
 
-const getPipeColor = (status?: `${STATUS_PIPE}`) => {
+const getPipeColor = (pre_repair_condition: boolean, status?: `${STATUS_PIPE}`) => {
+    if (pre_repair_condition) {
+        return "#cbf3fd"
+    }
     switch (status) {
         case STATUS_PIPE.DEFECT: { // Брак
             return '#ffcece'
         }
         case STATUS_PIPE.REPAIR: { // Ремонт
-            return '#ffe4a0'
+            return '#7498d8'
         }
         case STATUS_PIPE.NORMAL:
         default: {
@@ -62,7 +66,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                        }
                        muiTableBodyRowProps={({ row }) => ({
                            sx: {
-                               backgroundColor: getPipeColor(row.original.status_pipe)
+                               backgroundColor: "status_pipe" in row.original && "pre_repair_condition" in row.original ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : "initial"
                            }
                        })}
                        enableColumnActions={false}
@@ -122,6 +126,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                                table.setCreatingRow(true)
                                            }}
                                        />
+                                       <FinishReportButton/>
                                    </>}
                                </TableActionsToolbar.Wrapper>
                            )

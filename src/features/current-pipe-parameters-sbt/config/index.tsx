@@ -26,10 +26,10 @@ const vikPipe: ISelectData[] = getAutoCompleteIdenticalData(STATUS_VIK_PIPE)
 
 const carbide_surfacing: ISelectData[] = getAutoCompleteIdenticalData(STATUS_CARBIDE_SURFACING_COLLAPSE)
 
-const maxSize = 70
-const middleMaxSize = 90
-const bigMaxSize = 120
-const veryBigMaxSize = 140
+const maxSize = 80
+const middleMaxSize = 100
+const bigMaxSize = 130
+const veryBigMaxSize = 150
 
 const pipeCurrentParamsTableConfig = {
     'pipe_body.wall_thickness': { displayName: 'Средняя толщина стенки', category: 2 },
@@ -602,7 +602,7 @@ export const currentPipeParametersSbt: (reportCategory: number) => MRT_ColumnDef
     {
         accessorKey: 'serial_number',
         header: 'Серийный номер',
-        maxSize,
+        maxSize: middleMaxSize,
         Header: () => <>Серийный<br />номер</>
     },
     ...preparedRows(reportCategory)(currentParamsConfig),
