@@ -25,7 +25,6 @@ export const baseEducationConfig: MRT_ColumnDef<{
                     }} />
             )
         },
-        minSize: 250
     },
     {
         accessorKey: 'finish_date',
@@ -43,12 +42,10 @@ export const baseEducationConfig: MRT_ColumnDef<{
                     }} />
             )
         },
-        minSize: 250
     },
     {
         accessorKey: 'notes',
         header: 'Комментарий',
-        minSize: 150
     },
     // {
     //     accessorKey: 'file',
