@@ -47,6 +47,14 @@ export const QualificationEducationTable: FC<{
                                    meta === Meta.FETCHING
                            }
                        }
+                       muiTableHeadCellProps={() => ({
+                           sx: {
+
+                               '& *': {
+                                   whiteSpace: 'normal'
+                               }
+                           }
+                       })}
                        enableEditing={isHasQualificationEducation}
                        editDisplayMode={'row'}
                        renderTopToolbarCustomActions={() =>

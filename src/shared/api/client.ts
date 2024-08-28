@@ -2,6 +2,7 @@ import axios from 'axios'
 import Qs from 'qs'
 import { API_URL, ACCESS } from 'shared/config/api'
 import { ROUTES } from 'shared/config/routes'
+import { getToken } from 'shared/api/lib'
 
 export const apiInstance = axios.create({
     headers: {
@@ -17,7 +18,7 @@ export const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
     async (config) => {
-        const token: string | null = localStorage.getItem(ACCESS)
+        const token = getToken()
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
         }

@@ -10,6 +10,9 @@ export function TableBaseWithoutObserver<T extends MRT_RowData>(props: MRT_Table
             {
                 sx: {
                     backgroundColor: row.original.is_expired ? '#ffcece' : 'initial',
+                    "& > .MuiTableCell-root:first-of-type": {
+                        padding: 0
+                    }
                 },
             }
         ),
@@ -31,7 +34,7 @@ export function TableBaseWithoutObserver<T extends MRT_RowData>(props: MRT_Table
         displayColumnDefOptions: {
             ...props.displayColumnDefOptions,
             'mrt-row-actions': {
-                size: 120, //make actions column wider
+                size: 130,
             },
         }
     })

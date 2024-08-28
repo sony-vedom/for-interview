@@ -86,6 +86,7 @@ export const MedicalExaminationTable: FC<{
                                }
                                }
                            />
+                           <TableActionsRow.FileButton />
                        </TableActionsRow.Wrapper>
                    }
                    }
