@@ -91,7 +91,7 @@ export class CurrentPipeParameters {
         }
     }
 
-    public async edit(id: number, body: IEditCurrentSbtParams) {
+    public async edit(id: number, body: Required<IEditCurrentSbtParams>) {
         this._setMeta(Meta.EDITING)
         try {
             const positionResponse = await currentPipeParameters.editCurrentParam({

@@ -5,34 +5,15 @@ import {
     mapEditSbtNippleMapper
 } from 'entities/current-pipe-parameters/item/api/mapper/edit-map-sbt/edit-nipple-sbt.ts'
 import { mapEditSbtCoupling } from 'entities/current-pipe-parameters/item/api/mapper/edit-map-sbt/edit-coupling-sbt.ts'
+import { mapEditBasePipe } from 'entities/current-pipe-parameters/item/api/mapper/base-type/pipe.ts'
 
 export const mapEditSbtCurrentParameter = (
     model: IEditCurrentSbtParams
 ) => {
-    let preparedData = {
-        comment: model.comment
-    }
-    if (model.pipe_body) {
-        preparedData = {
-            ...preparedData,
-            ...mapEditSbtPipeBody(model.pipe_body)
-        }
-    }
-    if (model.nipple) {
-        preparedData = {
-            ...preparedData,
-            ...mapEditSbtNippleMapper(model.nipple)
-        }
-    }
-    if (model.coupling) {
-        preparedData = {
-            ...preparedData,
-            ...mapEditSbtCoupling(model.coupling)
-        }
-    }
     return {
-        ...preparedData,
-        serial_number: model.serial_number,
-        comment: model.comment
+        ...mapEditBasePipe(model),
+        ...mapEditSbtPipeBody(model.pipe_body),
+        ...mapEditSbtNippleMapper(model.nipple),
+        ...mapEditSbtCoupling(model.coupling)
     } as EditSbtDTO
 }

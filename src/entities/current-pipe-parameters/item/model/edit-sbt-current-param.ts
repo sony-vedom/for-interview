@@ -21,5 +21,5 @@ export interface IEditSbtPipeBody
     extends Partial<Omit<ISbtPipeBody, 'pipe_body_class'>> {}
 
 export interface IEditCurrentSbtParams
-    extends Partial<IEditBasePipeCurrentParam<IEditSbtPipeBody, IEditSbtNipple, IEditSbtCoupling>> {
+    extends Required<IEditBasePipeCurrentParam<IEditSbtPipeBody, IEditSbtNipple, IEditSbtCoupling>> {
 }
