@@ -64,11 +64,14 @@ export const CurrentPipeParametersSbtTable: FC<{
                                    meta === Meta.FETCHING
                            }
                        }
-                       muiTableBodyRowProps={({ row }) => ({
-                           sx: {
-                               backgroundColor: "status_pipe" in row.original && "pre_repair_condition" in row.original ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : "initial"
+                       muiTableBodyRowProps={({ row }) => {
+                           return {
+                               sx: {
+                                   // @ts-ignore
+                                   backgroundColor: "status_pipe" in row.original && "pre_repair_condition" in row.original && row.original.status_pipe !== "" ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : "initial"
+                               }
                            }
-                       })}
+                       }}
                        enableColumnActions={false}
                        muiTableHeadCellProps={() => ({
                            sx: {
