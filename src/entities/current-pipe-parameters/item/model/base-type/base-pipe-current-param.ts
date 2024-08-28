@@ -13,6 +13,9 @@ export interface IMainPipeCurrentParam {
     final_class_pipe: `${STATUS_CLASS}`,
     standards_procedures: number,
     rejection_standard_id: number
+    minimum_wall_thickness_ultra: number
+    minimum_wall_thickness_premium: number
+    minimum_wall_thickness_class_2: number
 }
 
 export interface IBasePipeCurrentParam<PipeBody, Nipple, Coupling>
@@ -29,6 +32,9 @@ export interface ICreateMainPipeCurrentParam
         | 'pre_repair_condition'
         | 'status_pipe'
         | 'final_class_pipe'
+        | 'minimum_wall_thickness_ultra'
+        | 'minimum_wall_thickness_class_2'
+        | 'minimum_wall_thickness_premium'
     > {}
 
 export interface ICreateBasePipeCurrentParam<PipeBody, Nipple, Coupling>
@@ -41,12 +47,7 @@ export interface ICreateBasePipeCurrentParam<PipeBody, Nipple, Coupling>
 export interface IEditMainPipeCurrentParam
     extends Omit<
         IMainPipeCurrentParam,
-        | 'id'
-        | 'pre_repair_condition'
-        | 'status_pipe'
-        | 'final_class_pipe'
-        | 'standards_procedures'
-        | 'rejection_standard_id'
+        ""
     > {}
 
 export interface IEditBasePipeCurrentParam<PipeBody, Nipple, Coupling>

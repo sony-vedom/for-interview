@@ -22,7 +22,7 @@ const getPipeColor = (pre_repair_condition: boolean, status?: `${STATUS_PIPE}`) 
             return '#ffcece'
         }
         case STATUS_PIPE.REPAIR: { // Ремонт
-            return '#7498d8'
+            return 'rgba(148,183,244,0.84)'
         }
         case STATUS_PIPE.NORMAL:
         default: {
@@ -136,7 +136,15 @@ export const CurrentPipeParametersSbtTable: FC<{
                        }
                        enablePagination={false}
                        onEditingRowSave={({ row, values, table }) => {
-                           currentPipeParameters.edit(row.original.id, mapCurrentParamsValues(values)).then(() => {
+                           currentPipeParameters.edit(row.original.id, mapCurrentParamsValues(values, {
+                               id: row.original.id,
+                               minimum_wall_thickness_class_2: Number(report!.minimum_wall_thickness_class_2!),
+                               minimum_wall_thickness_premium: Number(report!.minimum_wall_thickness_premium!),
+                               minimum_wall_thickness_ultra: Number(report!.minimum_wall_thickness_ultra!),
+                               report_id: Number(report!.id),
+                               standards_procedures: Number(report!.standards_procedures.inspection_category),
+                               rejection_standard_id: Number(report!.rejection_standard_id)
+                           })).then(() => {
                                table.setEditingRow(null)
                            })
                        }}

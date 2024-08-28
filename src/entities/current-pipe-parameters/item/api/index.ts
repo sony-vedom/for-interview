@@ -42,9 +42,9 @@ export const getCurrentParamBySerialNumber = async (params: CurrentParamBySerial
     return mapSbtCurrentParameter(res.data)
 }
 
-export const editCurrentParam = async (params: CurrentParamByIdQuery & IEditCurrentSbtParams): Promise<ICurrentSbtParams> => {
+export const editCurrentParam = async (params: CurrentParamByIdQuery & Required<IEditCurrentSbtParams>): Promise<ICurrentSbtParams> => {
     const { current_params_id, ...rest } = params
-    const res = await apiInstance.patch<ICurrentSbtParamsDTO>(`${BASE_URL}${current_params_id}/`,
+    const res = await apiInstance.put<ICurrentSbtParamsDTO>(`${BASE_URL}${current_params_id}/`,
         mapEditSbtCurrentParameter(rest))
     return mapSbtCurrentParameter(res.data)
 }
