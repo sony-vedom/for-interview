@@ -5,6 +5,7 @@ import type { MRT_ColumnDef } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
 import { baseEducationConfig } from 'shared/config/table/baseEducationConfig'
+import { BASE_FILE_URLS } from 'entities/file'
 
 export const MedicalExaminationTable: FC<{
     userId?: number,
@@ -86,7 +87,7 @@ export const MedicalExaminationTable: FC<{
                                }
                                }
                            />
-                           <TableActionsRow.FileButton />
+                           <TableActionsRow.FileButton idName={"medical_id"} baseFileUrl={BASE_FILE_URLS.ANNUAL_MEDICAL_EXAMINATION} entityId={row_id} />
                        </TableActionsRow.Wrapper>
                    }
                    }

@@ -23,6 +23,11 @@ export class CurrentPipeParametersList implements LifeCycledModel {
                 this.load()
             })
         )
+        this._disposers.push(
+            reaction(() => this._pagination, () => {
+                this.load()
+            })
+        )
     }
 
     public init() {
@@ -42,16 +47,24 @@ export class CurrentPipeParametersList implements LifeCycledModel {
         return this._meta
     }
 
+    get pagination() {
+        return this._pagination
+    }
+
     get list() {
         return this._list
     }
 
-    private _setMedicalExaminations(list: Pagination<ICurrentSbtParams[]>) {
+    private _setList(list: Pagination<ICurrentSbtParams[]>) {
         this._list = list
     }
 
     private _setMeta(meta: Meta) {
         this._meta = meta
+    }
+
+    setPagination(pagination: PaginationQuery) {
+        this._pagination = pagination
     }
 
     public async load() {
@@ -61,13 +74,13 @@ export class CurrentPipeParametersList implements LifeCycledModel {
             this._setMeta(Meta.FETCHING)
         }
         try {
-            const usersResponse = await currentPipeParameters
+            const res = await currentPipeParameters
                 .getCurrentParamList(this._pagination ? {
                     page_index: this._pagination.page_index + 1,
                     page_size: this._pagination.page_size
                 } : undefined, this._filters)
             runInAction(() => {
-                this._setMedicalExaminations(usersResponse)
+                this._setList(res)
                 this._setMeta(Meta.SUCCESS)
             })
         } catch {

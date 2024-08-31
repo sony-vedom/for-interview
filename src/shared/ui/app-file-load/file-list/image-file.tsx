@@ -25,21 +25,24 @@ export const ImageBox = styled(Box)(({ theme }) => ({
     }
 }))
 
-export const ImageFileList: FC<{
-    files: FileList,
-    onDeleteFile: (lastModified: number) => void
+export const ImageFile: FC<{
+    file: File,
+    onDelete: () => void
+    isDeleting?: boolean
 }> = (props) => {
-    const { files, onDeleteFile } = props
+    const { onDelete, isDeleting } = props
     return <>
-        {Object.entries(files).map(([key, file]) => (
-            <ImageBox key={key}>
-                <img src={window.URL.createObjectURL(file)} alt="uploaded" />
-                <IconButton onClick={() => {
-                    onDeleteFile(file.lastModified)
-                }}>
-                    <ClearIcon />
-                </IconButton>
-            </ImageBox>
-        ))}
+        <ImageBox>
+            <img src={window.URL.createObjectURL(props.file)} alt="uploaded" />
+            <IconButton
+                disabled={isDeleting}
+                onClick={onDelete}
+                //     onClick={() => {
+                //     onDeleteFile(props.file.lastModified)
+                // }}
+            >
+                <ClearIcon />
+            </IconButton>
+        </ImageBox>
     </>
 }

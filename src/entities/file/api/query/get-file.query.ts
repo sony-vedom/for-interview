@@ -11,4 +11,7 @@ export interface CreateFileQuery {
     id: number
 }
 
-export type GetFileQueryFilters = Filters<idNames>
+
+export type GetFileQueryFilters = Filters<Partial<{
+    [key in idNames]: number
+}>>

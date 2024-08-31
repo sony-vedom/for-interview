@@ -5,6 +5,7 @@ import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table
 import { Meta } from 'shared/api'
 import { toolsTableConfig } from '../config'
 import { Tool, ToolsList, ToolStore } from 'entities/tools/item'
+import { BASE_FILE_URLS } from 'entities/file'
 
 export const ToolsTable: FC<{
     toolStore: ToolStore
@@ -74,6 +75,7 @@ export const ToolsTable: FC<{
                                        table.setEditingRow(row)
                                    }}
                                />
+                               <TableActionsRow.FileButton idName={"tools_id"} baseFileUrl={BASE_FILE_URLS.TOOLS} entityId={row.original.id} />
                            </TableActionsRow.Wrapper>
                        }
                        }

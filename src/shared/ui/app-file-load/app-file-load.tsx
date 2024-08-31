@@ -1,18 +1,21 @@
 import { ChangeEvent, FC, useState } from 'react'
-import { Box, Button, FormControlLabel, Stack } from '@mui/material'
+import { Box, FormControlLabel, Stack } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { FileType } from 'shared/ui/app-file-load/types.ts'
 import { getAccept } from 'shared/ui/app-file-load/get-accept.ts'
-import { TypeFileList } from 'shared/ui/app-file-load/file-list'
+import { FileListRender } from 'shared/ui/app-file-load/file-list'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { observer } from 'mobx-react-lite'
+import LoadingButton from '@mui/lab/LoadingButton'
+import CircularProgress from '@mui/material/CircularProgress'
+import { Meta } from 'shared/api'
 
-export const ButtonFileUpload = styled(FormControlLabel)(({ theme }) => ({
+export const ButtonFileUpload = styled(FormControlLabel)(({ theme, disabled }) => ({
     margin: 0,
     padding: '0.5rem 0.6rem',
     borderRadius: '0.3rem',
     width: '100%',
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: !disabled ? theme.palette.primary.dark : 'rgba(0, 0, 0, 0.12)',
     color: theme.palette.common.white,
     display: 'inline-grid',
     justifyContent: 'center',
@@ -25,94 +28,126 @@ export const ButtonFileUpload = styled(FormControlLabel)(({ theme }) => ({
 }))
 
 
-interface FileUploadProps {
+interface AppFileLoadProps {
     typeFile: FileType[] | FileType
     multiple?: boolean,
     files?: FileList | null
+    createFile: (formData: FormData) => void
+    deleteFile: (fileName: string) => void
+    canAddFile?: boolean
+    isUploading: boolean
+    meta?: Meta
+    isDeleting?: boolean
 }
 
+export const AppFileLoad: FC<AppFileLoadProps> = observer((props) => {
+        const {
+            typeFile,
+            multiple,
+            files: incomingFiles = null,
+            createFile,
+            deleteFile,
+            canAddFile,
+            isUploading,
+            meta,
+            isDeleting
+        } = props
 
-// function uploadFiles(files) {
-//     const data = new FormData()
-//
-//     for (const file of files) {
-//         data.append('file', file)
-//     }
-// }
-
-export const AppFileLoad: FC<FileUploadProps> = observer((props) => {
-        const { typeFile, multiple, files = null } = props
-
-        const [currentFiles, setCurrentFiles] = useState<FileList | null>(() => files)
-        console.log(currentFiles)
-        // const [status, setStatus] = useState<
-        //     'initial' | 'uploading' | 'success' | 'fail'
-        // >('initial')
+        const [currentFiles, setCurrentFiles] = useState<FileList | null>(null)
         const accept = getAccept(typeFile)
-
         const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
             if (e.target.files) {
-                // setStatus('initial')
                 setCurrentFiles(e.target.files)
             }
         }
+        const [inputValue, setInputValue] = useState<string>('')
+        const handleFileDelete = (files: FileList | null, lastModified: number) => {
+            if (files) {
+                let list = new DataTransfer();
+                [...files].forEach((item) => {
+                    if (item.lastModified !== lastModified) {
+                        list.items.add(item)
+                    }
+                })
+                setCurrentFiles(list.files)
+                setInputValue('')
+            }
+        }
 
-        const handleFileDelete = (files: FileList, lastModified: number) => {
-            let list = new DataTransfer();
-            [...files].forEach((item) => {
-                if (item.lastModified !== lastModified) {
-                    list.items.add(item)
+        const handleIncomingFileDelete = (fileName: string) => {
+            deleteFile(fileName)
+        }
+
+        const handleUploadFiles = () => {
+            const data = new FormData()
+            if (currentFiles) {
+                for (const file of currentFiles) {
+                    data.append('file', file)
                 }
-            })
-            setCurrentFiles(list.files)
+            }
+            createFile(data)
+            setCurrentFiles(null)
+            setInputValue('')
         }
 
         return (
-            <Stack spacing={2} sx={{
-                width: '100%'
-            }} component={'form'}
-                   onSubmit={(event) => {
-                       event.preventDefault()
-                       // uploadFiles(fileInput.files);
-                   }}>
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'center'
-                }}>
-                    <ButtonFileUpload
-                        label={<Box sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '5px'
-                        }}>
-                            <AttachFileIcon />
-                            <span>ДОБАВИТЬ ФАЙЛ</span>
-                        </Box>}
-                        control={
-                            <input
-                                multiple={multiple}
-                                name="upload-image"
-                                type="file"
-                                accept={accept}
-                                onChange={handleFileChange}
-                            />
-                        }
-                    />
-                </Box>
-                {currentFiles?.length ? (
-                    <>
-                        <TypeFileList typeFile={typeFile} files={currentFiles} onDeleteFile={(lastModified) => {
-                            handleFileDelete(currentFiles, lastModified)
-                        }} />
-                    </>
-                ) : (
-                    <Box component={'p'} sx={{
-                        textAlign: 'center',
-                        width: '100%'
-                    }}>Пока файлов нет.</Box>
-                )}
-                <Button type={'submit'} variant={'contained'} disabled={!currentFiles?.length}>Загрузить</Button>
-            </Stack>
+            <>
+                <Stack spacing={2} sx={{
+                    width: '100%'
+                }} component={'form'}
+                       onSubmit={(event) => {
+                           event.preventDefault()
+                           handleUploadFiles()
+                       }}>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }}>
+                        <ButtonFileUpload
+                            disabled={!canAddFile || isUploading}
+                            label={<Box sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '5px'
+                            }}>
+                                <AttachFileIcon />
+                                <span>ДОБАВИТЬ ФАЙЛ</span>
+                            </Box>}
+                            control={
+                                <input
+                                    multiple={multiple}
+                                    name="upload-image"
+                                    type="file"
+                                    accept={accept}
+                                    value={inputValue}
+                                    onChange={(e) => {
+                                        handleFileChange(e)
+                                        setInputValue(e.target.value)
+                                    }}
+                                />
+                            }
+                        />
+                    </Box>
+                    {currentFiles?.length || incomingFiles?.length ? (
+                        <>
+                            <FileListRender isDeleting={isDeleting} isNew files={currentFiles} onDeleteFile={(file) => {
+                                handleFileDelete(currentFiles, file.lastModified)
+                            }} />
+                            <FileListRender isDeleting={isDeleting} fileNameIncludeId files={incomingFiles} onDeleteFile={(file) => {
+                                handleIncomingFileDelete(file.name)
+                            }} />
+                        </>
+                    ) : (
+                        <Box component={'p'} sx={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{!isUploading && meta !== Meta.LOADING && meta !== Meta.FETCHING ? 'Пока файлов нет.' :
+                            <CircularProgress color={'info'} />}</Box>
+                    )}
+                    <LoadingButton loading={isUploading} disabled={!canAddFile || !currentFiles?.length} type={'submit'}
+                                   variant={'contained'}>Загрузить</LoadingButton>
+                </Stack>
+            </>
         )
     }
 )

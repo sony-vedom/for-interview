@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 import { observer } from 'mobx-react-lite'
-import { MRT_ColumnDef } from 'material-react-table'
+import { MRT_ColumnDef, MRT_Updater } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
 import { currentPipeParametersSbt, mapCurrentParamsValues } from '../config'
@@ -53,15 +53,33 @@ export const CurrentPipeParametersSbtTable: FC<{
     )
 
     const report = reportStore.elem
+    const handlePaginationChange = (updater: MRT_Updater<{
+        pageIndex: number,
+        pageSize: number,
+    }>) => {
+        const res = updater instanceof Function ? updater({
+            pageSize: currentPipeParametersList?.pagination?.page_size!,
+            pageIndex: currentPipeParametersList?.pagination?.page_index!
+        }) : updater
+        currentPipeParametersList?.setPagination({
+            page_size: res.pageSize,
+            page_index: res.pageIndex
+        })
+    }
     return (
         <>
             <TableBase columns={columns}
                        data={list?.items ?? []}
+                       rowCount={list?.total}
                        state={
                            {
                                isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
                                showProgressBars:
-                                   meta === Meta.FETCHING
+                                   meta === Meta.FETCHING,
+                               pagination: {
+                                   pageSize: currentPipeParametersList?.pagination?.page_size ?? 20,
+                                   pageIndex: currentPipeParametersList?.pagination?.page_index ?? 1
+                               }
                            }
                        }
                        muiTableBodyRowProps={({ row }) => {
@@ -72,6 +90,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                }
                            }
                        }}
+                       onPaginationChange={handlePaginationChange}
                        enableColumnActions={false}
                        muiTableHeadCellProps={() => ({
                            sx: {
@@ -134,7 +153,6 @@ export const CurrentPipeParametersSbtTable: FC<{
                                </TableActionsToolbar.Wrapper>
                            )
                        }
-                       enablePagination={false}
                        onEditingRowSave={({ row, values, table }) => {
                            currentPipeParameters.edit(row.original.id, mapCurrentParamsValues(values, {
                                id: row.original.id,

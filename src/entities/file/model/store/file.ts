@@ -11,7 +11,7 @@ export class FileStore {
     private _root?: FileListStore
     private readonly _base_url: BASE_FILE_URLS
 
-    constructor({ base_url, id, root }: { base_url: BASE_FILE_URLS, id: number, root?: FileListStore }) {
+    constructor(base_url: BASE_FILE_URLS, id?: number, root?: FileListStore) {
         this._root = root
         this._base_url = base_url
         makeAutoObservable<this, '_root'>(this, {

@@ -6,18 +6,15 @@ import { GetFileQueryFilters } from 'entities/file/api/query/get-file.query.ts'
 import * as fileApi from '../../api'
 
 const getFileName = (contentDisposition: string) => {
-    // Улучшенное регулярное выражение для имени файла с кодировкой
     let filenameMatch = contentDisposition.match(/filename\*=utf-8''(.+)$/);
     if (!filenameMatch) {
-        // Попытка извлечь имя файла без указания кодировки, в кавычках
         filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
     }
     if (filenameMatch && filenameMatch[1]) {
         return decodeURIComponent(filenameMatch[1]);
     }
-    return null;  // Возвращает null, если имя файла не найдено
+    return null;
 }
-
 
 export class FileListStore implements LifeCycledModel {
     private _meta: Meta = Meta.INITIAL
@@ -119,10 +116,11 @@ export class FileListStore implements LifeCycledModel {
                 const res = await fileApi.getFileAxiosResponse(this._base_url, {
                     id
                 })
-                console.log(getFileName(res.headers['content-disposition'] ?? ""))
                 const type = res.headers['content-type'] as string
                 const blob = new Blob([res.data], { type })
-                return new File([blob], getFileName(res.headers['content-disposition']) || `file_${id}`, { type })
+                return new File([blob], `${getFileName(res.headers['content-disposition'])}#${id}` || `file_${id}#${id}`, {
+                    type
+                })
 
             }))
             filesList.forEach((item) => {
