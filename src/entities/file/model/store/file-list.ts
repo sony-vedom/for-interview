@@ -5,6 +5,20 @@ import { AppFile, BASE_FILE_URLS } from 'entities/file/model'
 import { GetFileQueryFilters } from 'entities/file/api/query/get-file.query.ts'
 import * as fileApi from '../../api'
 
+const getFileName = (contentDisposition: string) => {
+    // Улучшенное регулярное выражение для имени файла с кодировкой
+    let filenameMatch = contentDisposition.match(/filename\*=utf-8''(.+)$/);
+    if (!filenameMatch) {
+        // Попытка извлечь имя файла без указания кодировки, в кавычках
+        filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
+    }
+    if (filenameMatch && filenameMatch[1]) {
+        return decodeURIComponent(filenameMatch[1]);
+    }
+    return null;  // Возвращает null, если имя файла не найдено
+}
+
+
 export class FileListStore implements LifeCycledModel {
     private _meta: Meta = Meta.INITIAL
     private _list: AppFile[] | null = null
@@ -94,7 +108,6 @@ export class FileListStore implements LifeCycledModel {
         }
         try {
             const files = this._list ? this._list : await this.load()
-            console.log(files)
             if (!files) {
                 runInAction(() => {
                     this._fileList = null
@@ -106,17 +119,13 @@ export class FileListStore implements LifeCycledModel {
                 const res = await fileApi.getFileAxiosResponse(this._base_url, {
                     id
                 })
+                console.log(getFileName(res.headers['content-disposition'] ?? ""))
                 const type = res.headers['content-type'] as string
-                console.log(type)
-                const blob = new Blob([res.data], { type });
-                console.log(blob)
-                console.log(window.URL.createObjectURL(blob))
-                const fileName = `file_${id}`; // используем имя файла из ответа или создаем уникальное имя
-                return new File([blob], fileName, { type });
+                const blob = new Blob([res.data], { type })
+                return new File([blob], getFileName(res.headers['content-disposition']) || `file_${id}`, { type })
 
             }))
             filesList.forEach((item) => {
-                console.log(window.URL.createObjectURL(item))
                 list.items.add(item)
             })
             runInAction(() => {

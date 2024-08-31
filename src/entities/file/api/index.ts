@@ -18,7 +18,9 @@ export const getFile = async (baseURL: BASE_FILE_URLS, params: GetFileQuery): Pr
 }
 
 export const getFileAxiosResponse = async (baseURL: BASE_FILE_URLS, params: GetFileQuery) => {
-    return await apiInstance.get<Blob>(`${getUrl(baseURL)}/${params.id}`)
+    return await apiInstance.get<Blob>(`${getUrl(baseURL)}/${params.id}`, {
+        responseType: 'blob'
+    })
 }
 
 export const createFile = async (baseURL: BASE_FILE_URLS, params: CreateFileQuery, body: FormData): Promise<AppFile> => {

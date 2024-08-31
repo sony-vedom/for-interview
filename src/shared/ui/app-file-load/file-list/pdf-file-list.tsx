@@ -17,7 +17,6 @@ export const PDFFileList: FC<{
         backgroundColor: 'background.paper'
     }}>
         {Object.entries(files).map(([key, file], index) => {
-            console.log(index !== files.length)
             return (
                 <Fragment key={key}>
                     <ListItem
@@ -30,7 +29,9 @@ export const PDFFileList: FC<{
                                 <ClearIcon />
                             </IconButton>
                         }>
-                        <div>{file.name}</div>
+                        <a href={window.URL.createObjectURL(file)} download>
+                            <div>{file.name}</div>
+                        </a>
                     </ListItem>
                     {index !== files.length - 1 && <Divider variant="middle" component="li" />}
                 </Fragment>

@@ -70,11 +70,11 @@ export const AppFileLoad: FC<FileUploadProps> = observer((props) => {
         return (
             <Stack spacing={2} sx={{
                 width: '100%'
-            }} component={'form'} onSubmit={(event) => {
-                event.preventDefault()
-                console.log(currentFiles)
-                // uploadFiles(fileInput.files);
-            }}>
+            }} component={'form'}
+                   onSubmit={(event) => {
+                       event.preventDefault()
+                       // uploadFiles(fileInput.files);
+                   }}>
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'center'

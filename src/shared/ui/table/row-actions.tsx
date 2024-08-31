@@ -65,7 +65,6 @@ const FileModal: FC<ModalProps> = observer((props) => {
     const { isOpen, handleModal } = props
     const store = useLocalObservable(() => new FileListStore(BASE_FILE_URLS.ANNUAL_MEDICAL_EXAMINATION))
     useLifecycledModelEffect(store)
-    console.log(store.fileList)
     return (
         <Dialog open={isOpen} onClose={handleModal}>
             <DialogTitle sx={{ display: 'grid', minHeight: '50px' }}>
@@ -89,7 +88,7 @@ const FileModal: FC<ModalProps> = observer((props) => {
                 }
             }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <AppFileLoad files={store.fileList} typeFile={FileType.IMAGE} multiple={false} />
+                    <AppFileLoad files={store.fileList} typeFile={FileType.PDF} multiple={false} />
                 </Box>
             </DialogContent>
         </Dialog>

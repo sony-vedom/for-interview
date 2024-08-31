@@ -4,7 +4,8 @@ import { ImageFileList } from './image-file-list.tsx'
 import { PDFFileList } from './pdf-file-list.tsx'
 
 export const TypeFileList: FC<{
-    typeFile: FileType | FileType[], files: FileList,
+    typeFile: FileType | FileType[],
+    files: FileList,
     onDeleteFile: (lastModified: number) => void
 }> = (props) => {
     const { typeFile, ...rest } = props
