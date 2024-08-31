@@ -33,7 +33,6 @@ export function AppDatePicker(props: AppDatePickerProps) {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
             <DatePicker
                 {...rest}
-                // minDate={!notMinDate ? dayjs().subtract(setDeltaMinDate || 0, 'day') : undefined}
                 label={label}
                 defaultValue={rest.defaultValue}
                 onChange={date => onChange(date?.format('YYYY-MM-DD'))}

@@ -9,6 +9,7 @@ export enum BASE_FILE_URLS {
     QUALIFICATION_EDUCATION = 'qualification_education',
     TOOLS = 'tools',
     CONTRACT = 'contract',
+    REPORT_SBT='report_sbt'
 }
 
-export type idNames = 'medical_id' | 'education_id' | 'tools_id' | "contract_id"
+export type idNames = 'medical_id' | 'education_id' | 'tools_id' | "contract_id" | "report_id"

@@ -128,10 +128,8 @@ export const QualificationEducationTable: FC<{
                                    }}
                                />
                                <TableActionsRow.FileButton idName={"education_id"} baseFileUrl={BASE_FILE_URLS.QUALIFICATION_EDUCATION} entityId={row.original.id} />
-
                            </TableActionsRow.Wrapper>
-                       }
-                       }
+                       }}
             />
         </>
     )

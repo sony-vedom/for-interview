@@ -1,63 +1,52 @@
-import { makeAutoObservable, reaction, runInAction } from 'mobx'
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { Meta } from 'shared/api'
 import { LifeCycledModel } from 'shared/lib/mobx'
 import { AppFile, BASE_FILE_URLS } from 'entities/file/model'
 import { GetFileQueryFilters } from 'entities/file/api/query/get-file.query.ts'
 import * as fileApi from '../../api'
+import { getFileName } from 'entities/file'
 
-const getFileName = (contentDisposition: string) => {
-    let filenameMatch = contentDisposition.match(/filename\*=utf-8''(.+)$/);
-    if (!filenameMatch) {
-        filenameMatch = contentDisposition.match(/filename="([^"]+)"/);
-    }
-    if (filenameMatch && filenameMatch[1]) {
-        return decodeURIComponent(filenameMatch[1]);
-    }
-    return null;
-}
-
-export class FileListStore implements LifeCycledModel {
+export class FileListStoreBase {
     private _meta: Meta = Meta.INITIAL
     private _list: AppFile[] | null = null
     private _filters?: GetFileQueryFilters
-    private _disposers: any[] = []
     private readonly _base_url: BASE_FILE_URLS
     private _fileList: FileList | null = null
 
     constructor(base_url: BASE_FILE_URLS, filters?: GetFileQueryFilters) {
         this._filters = filters
         this._base_url = base_url
-        makeAutoObservable(this, {})
-        this._disposers.push(
-            reaction(() => this._filters, () => {
-                this.load()
-            })
-        )
-        this._disposers.push(
-            reaction(() => this._list, () => {
-                this.loadFilesList()
-            })
-        )
+        makeObservable<this, '_list' | '_filters' | '_meta' | '_setList' | '_setMeta' | '_base_url' | '_fileList'>(this, {
+            _list: observable,
+            _filters: observable,
+            _meta: observable,
+            _base_url: observable,
+            setFilters: action,
+            filters: computed,
+            meta: computed,
+            list: computed,
+            _setList: action,
+            _setMeta: action,
+            load: action,
+            baseUrl: computed,
+            loadFilesList: action,
+            _fileList: observable,
+            fileList: computed
+        })
+    }
+
+    public get filters() {
+        return this._filters
     }
 
     public get baseUrl() {
         return this._base_url
     }
 
-    public init() {
-        this.load().then(() => {
-            this.loadFilesList()
-        })
-    }
-
     public get fileList() {
         return this._fileList
     }
 
-    public destroy() {
-        this._disposers.forEach(dispose => dispose())
-        this._disposers = []
-    }
 
     public setFilters(filters: GetFileQueryFilters) {
         this._filters = filters
@@ -133,5 +122,38 @@ export class FileListStore implements LifeCycledModel {
         } catch {
             this._setMeta(Meta.ERROR)
         }
+    }
+}
+
+
+export class FileListStore extends FileListStoreBase implements LifeCycledModel {
+    private _disposers: any[] = []
+
+    constructor(base_url: BASE_FILE_URLS, filters?: GetFileQueryFilters) {
+        super(base_url, filters)
+        this._disposers.push(
+            reaction(() => super.filters, () => {
+                this.load()
+            })
+        )
+        this._disposers.push(
+            reaction(() => super.filters, () => {
+                this.load()
+            })
+        )
+        this._disposers.push(
+            reaction(() => super.list, () => {
+                this.loadFilesList()
+            })
+        )
+    }
+
+    public init() {
+        this.load()
+    }
+
+    public destroy() {
+        this._disposers.forEach(dispose => dispose())
+        this._disposers = []
     }
 }

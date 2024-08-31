@@ -56,15 +56,17 @@ const DeleteButtonWithConfirmDialog: FC<{ handleDelete: () => void, entityNameTe
     </>
 }
 
-const FileButton: FC<{ entityId: number, baseFileUrl: BASE_FILE_URLS, idName: idNames }> = (props) => {
+const FileButton: FC<{ entityId?: number, baseFileUrl: BASE_FILE_URLS, idName: idNames }> = (props) => {
     const modal = useModal()
     return <>
         <Tooltip title={`Файл`}>
-            <IconButton color="primary" onClick={() => {
-                modal.handleModal()
-            }}>
+            <span>
+                <IconButton disabled={!props.entityId} color="primary" onClick={() => {
+                    modal.handleModal()
+                }}>
                 <UploadFileIcon />
             </IconButton>
+            </span>
         </Tooltip>
         {modal.isOpen &&
             <FileModal idName={props.idName} baseFileUrl={props.baseFileUrl} entityId={props.entityId} {...modal} />}

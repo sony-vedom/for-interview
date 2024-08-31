@@ -13,7 +13,7 @@ import { Meta } from 'shared/api'
 import { ConfirmDialog } from 'shared/ui/confirm-dialog'
 
 export const FileModal: FC<ModalProps & {
-    entityId: number,
+    entityId?: number,
     baseFileUrl: BASE_FILE_URLS,
     idName: idNames
 }> = observer((props) => {
@@ -60,7 +60,9 @@ export const FileModal: FC<ModalProps & {
                                 confirmDialogModal.handleModal()
                             }}
                             createFile={(formData: FormData) => {
-                                fileStore.create({ id: entityId }, formData)
+                                if (entityId) {
+                                    fileStore.create({ id: entityId }, formData)
+                                }
                             }}
                             files={fileListStore.fileList}
                             typeFile={FileType.PDF}

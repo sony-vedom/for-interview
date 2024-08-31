@@ -60,6 +60,16 @@ export class FileStore {
             this._setMeta(Meta.ERROR)
         }
     }
+    public async loadAxiosResponse(id: number) {
+        this._setMeta(Meta.LOADING)
+        try {
+            return await fileApi.getFileAxiosResponse(this._base_url, {
+                id
+            })
+        } catch (e) {
+            this._setMeta(Meta.ERROR)
+        }
+    }
 
     public async create(params: CreateFileQuery, body: FormData) {
         this._setMeta(Meta.SAVING)

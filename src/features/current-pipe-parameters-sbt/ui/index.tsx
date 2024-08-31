@@ -12,10 +12,11 @@ import {
 } from 'entities/current-pipe-parameters/item'
 import { ReportStore } from 'entities/report'
 import { FinishReportButton } from 'features/current-pipe-parameters-sbt/ui/finish-report-button.tsx'
+import { DownloadFileReportButton } from 'features/current-pipe-parameters-sbt/ui/download-file-report-button.tsx'
 
 const getPipeColor = (pre_repair_condition: boolean, status?: `${STATUS_PIPE}`) => {
     if (pre_repair_condition) {
-        return "#cbf3fd"
+        return '#cbf3fd'
     }
     switch (status) {
         case STATUS_PIPE.DEFECT: { // Брак
@@ -44,15 +45,13 @@ export const CurrentPipeParametersSbtTable: FC<{
 
     const list = currentPipeParametersList.list
     const meta = currentPipeParametersList.meta
-
-    const category = reportStore.elem?.standards_procedures.inspection_category
+    const report = reportStore.elem
 
     const columns = useMemo<MRT_ColumnDef<ICurrentSbtParams>[]>(
-        () => currentPipeParametersSbt(category!),
-        [list]
+        () => currentPipeParametersSbt(reportStore.elem?.standards_procedures.inspection_category!),
+        [list, reportStore.elem?.standards_procedures.inspection_category]
     )
 
-    const report = reportStore.elem
     const handlePaginationChange = (updater: MRT_Updater<{
         pageIndex: number,
         pageSize: number,
@@ -71,6 +70,7 @@ export const CurrentPipeParametersSbtTable: FC<{
             <TableBase columns={columns}
                        data={list?.items ?? []}
                        rowCount={list?.total}
+                       enableEditing={!reportStore.elem?.is_finished}
                        state={
                            {
                                isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
@@ -86,7 +86,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                            return {
                                sx: {
                                    // @ts-ignore
-                                   backgroundColor: "status_pipe" in row.original && "pre_repair_condition" in row.original && row.original.status_pipe !== "" ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : "initial"
+                                   backgroundColor: 'status_pipe' in row.original && 'pre_repair_condition' in row.original && row.original.status_pipe !== '' ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : 'initial'
                                }
                            }
                        }}
@@ -148,7 +148,11 @@ export const CurrentPipeParametersSbtTable: FC<{
                                                table.setCreatingRow(true)
                                            }}
                                        />
-                                       <FinishReportButton/>
+                                       {!reportStore.elem?.is_finished &&
+                                           <FinishReportButton reportStore={reportStore} />}
+                                       {reportStore.elem?.is_finished &&
+                                           <DownloadFileReportButton reportStore={reportStore}/>}
+
                                    </>}
                                </TableActionsToolbar.Wrapper>
                            )
@@ -192,8 +196,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                    }}
                                />
                            </TableActionsRow.Wrapper>
-                       }
-                       }
+                       }}
             />
         </>
     )
