@@ -6,6 +6,9 @@ import Box from '@mui/material/Box'
 import { ConfirmDialog } from 'shared/ui/confirm-dialog'
 import { Link as RouterLink } from 'react-router-dom'
 import { useModal } from 'shared/lib/modal'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import { FileModal } from 'shared/ui/file-modal'
+import { BASE_FILE_URLS, idNames } from 'entities/file'
 
 
 export const SinglePageLink: FC<PropsWithChildren<{ singlePageLink: string, entityNameText: string }>> = (props) => {
@@ -53,9 +56,26 @@ const DeleteButtonWithConfirmDialog: FC<{ handleDelete: () => void, entityNameTe
     </>
 }
 
+const FileButton: FC<{ entityId?: number, baseFileUrl: BASE_FILE_URLS, idName: idNames }> = (props) => {
+    const modal = useModal()
+    return <>
+        <Tooltip title={`Файл`}>
+            <span>
+                <IconButton disabled={!props.entityId} color="primary" onClick={() => {
+                    modal.handleModal()
+                }}>
+                <UploadFileIcon />
+            </IconButton>
+            </span>
+        </Tooltip>
+        {modal.isOpen &&
+            <FileModal idName={props.idName} baseFileUrl={props.baseFileUrl} entityId={props.entityId} {...modal} />}
+    </>
+}
+
 const Wrapper: FC<PropsWithChildren> = (props) => {
     const { children } = props
-    return <Box sx={{ display: 'flex', gap: '1rem' }}>
+    return <Box sx={{ display: 'flex', gap: '0.2rem' }}>
         {children}
     </Box>
 }
@@ -64,5 +84,6 @@ export const TableActionsRow = {
     Wrapper,
     EditButton,
     DeleteButtonWithConfirmDialog,
-    SinglePageLink
+    SinglePageLink,
+    FileButton
 }

@@ -37,6 +37,11 @@ export const deleteReport = async (params: GetReportQuery): Promise<any> => {
 
 export const finishReport = async(params: GetReportQuery & ReportFinish): Promise<Report> => {
     const { report_id, ...rest } = params
-    const res = await apiInstance.patch<Report>(`${BASE_URL}finish_report/${report_id}`, rest)
+    const res = await apiInstance.post<Report>(`${BASE_URL}finish_report/${report_id}`, rest)
+    return res.data
+}
+
+export const fileReportSbt = async (params: GetReportQuery): Promise<null> => {
+    const res = await apiInstance.get<null>(`/file_sbt/${params.report_id}`)
     return res.data
 }

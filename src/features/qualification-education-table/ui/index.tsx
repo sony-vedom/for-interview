@@ -12,6 +12,7 @@ import {
     NameTypeQualificationEducationListStore,
     NameTypeQualificationEducationStore
 } from 'entities/qualification-education/name-type'
+import { BASE_FILE_URLS } from 'entities/file'
 
 export const QualificationEducationTable: FC<{
     userId?: number,
@@ -47,6 +48,14 @@ export const QualificationEducationTable: FC<{
                                    meta === Meta.FETCHING
                            }
                        }
+                       muiTableHeadCellProps={() => ({
+                           sx: {
+
+                               '& *': {
+                                   whiteSpace: 'normal'
+                               }
+                           }
+                       })}
                        enableEditing={isHasQualificationEducation}
                        editDisplayMode={'row'}
                        renderTopToolbarCustomActions={() =>
@@ -118,9 +127,9 @@ export const QualificationEducationTable: FC<{
                                        table.setEditingRow(row)
                                    }}
                                />
+                               <TableActionsRow.FileButton idName={"education_id"} baseFileUrl={BASE_FILE_URLS.QUALIFICATION_EDUCATION} entityId={row.original.id} />
                            </TableActionsRow.Wrapper>
-                       }
-                       }
+                       }}
             />
         </>
     )

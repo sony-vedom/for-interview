@@ -8,6 +8,7 @@ import { simpleEducationTableConfig } from '../config'
 import { ModalCreateEducations } from 'features/simple-education-table/ui/modal-create-educations.tsx'
 import { useModal } from 'shared/lib/modal'
 import { TypeSimpleEducationListStore, TypeSimpleEducationStore } from 'entities/simple-education/type'
+import { BASE_FILE_URLS } from 'entities/file'
 
 export const SimpleEducationTable: FC<{
     userId?: number,
@@ -92,6 +93,7 @@ export const SimpleEducationTable: FC<{
                                        table.setEditingRow(row)
                                    }}
                                />
+                               <TableActionsRow.FileButton idName={"education_id"} baseFileUrl={BASE_FILE_URLS.SIMPLE_EDUCATION} entityId={row.original.id} />
                            </TableActionsRow.Wrapper>
                        }
                        }

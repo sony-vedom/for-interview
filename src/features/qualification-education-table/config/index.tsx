@@ -7,20 +7,20 @@ export const qualificationEducationTableConfig: MRT_ColumnDef<QualificationEduca
     {
         accessorKey: 'type_name',
         header: 'Тип обучения',
-        minSize: 250,
         enableEditing: false
     },
     {
         accessorKey: 'license_number',
         header: 'Номер удостоверения',
-        minSize: 250
     },
     {
         accessorKey: 'level',
         header: 'Уровень',
-        minSize: 350,
         Edit: ({ row }) => {
             return <AutoCompleteMobXField
+                sx={{
+                    minWidth: "130px"
+                }}
                 data={[
                     {
                         id: 1, name: 1

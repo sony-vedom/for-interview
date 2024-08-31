@@ -25,6 +25,7 @@ export interface Report {
     kit_number: null | string
     application: null | string
     condition: `${ConditionPipeInReport}`
+    is_finished: boolean
 }
 
 export interface ReportCreate {

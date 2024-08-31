@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 import { observer } from 'mobx-react-lite'
-import { MRT_ColumnDef } from 'material-react-table'
+import { MRT_ColumnDef, MRT_Updater } from 'material-react-table'
 import { TableActionsRow, TableActionsToolbar, TableBase } from 'shared/ui/table'
 import { Meta } from 'shared/api'
 import { currentPipeParametersSbt, mapCurrentParamsValues } from '../config'
@@ -12,10 +12,11 @@ import {
 } from 'entities/current-pipe-parameters/item'
 import { ReportStore } from 'entities/report'
 import { FinishReportButton } from 'features/current-pipe-parameters-sbt/ui/finish-report-button.tsx'
+import { DownloadFileReportButton } from 'features/current-pipe-parameters-sbt/ui/download-file-report-button.tsx'
 
 const getPipeColor = (pre_repair_condition: boolean, status?: `${STATUS_PIPE}`) => {
     if (pre_repair_condition) {
-        return "#cbf3fd"
+        return '#cbf3fd'
     }
     switch (status) {
         case STATUS_PIPE.DEFECT: { // Брак
@@ -44,34 +45,52 @@ export const CurrentPipeParametersSbtTable: FC<{
 
     const list = currentPipeParametersList.list
     const meta = currentPipeParametersList.meta
-
-    const category = reportStore.elem?.standards_procedures.inspection_category
+    const report = reportStore.elem
 
     const columns = useMemo<MRT_ColumnDef<ICurrentSbtParams>[]>(
-        () => currentPipeParametersSbt(category!),
-        [list]
+        () => currentPipeParametersSbt(reportStore.elem?.standards_procedures.inspection_category!),
+        [list, reportStore.elem?.standards_procedures.inspection_category]
     )
 
-    const report = reportStore.elem
+    const handlePaginationChange = (updater: MRT_Updater<{
+        pageIndex: number,
+        pageSize: number,
+    }>) => {
+        const res = updater instanceof Function ? updater({
+            pageSize: currentPipeParametersList?.pagination?.page_size!,
+            pageIndex: currentPipeParametersList?.pagination?.page_index!
+        }) : updater
+        currentPipeParametersList?.setPagination({
+            page_size: res.pageSize,
+            page_index: res.pageIndex
+        })
+    }
     return (
         <>
             <TableBase columns={columns}
                        data={list?.items ?? []}
+                       rowCount={list?.total}
+                       enableEditing={!reportStore.elem?.is_finished}
                        state={
                            {
                                isLoading: meta === Meta.LOADING || meta === Meta.INITIAL,
                                showProgressBars:
-                                   meta === Meta.FETCHING
+                                   meta === Meta.FETCHING,
+                               pagination: {
+                                   pageSize: currentPipeParametersList?.pagination?.page_size ?? 20,
+                                   pageIndex: currentPipeParametersList?.pagination?.page_index ?? 1
+                               }
                            }
                        }
                        muiTableBodyRowProps={({ row }) => {
                            return {
                                sx: {
                                    // @ts-ignore
-                                   backgroundColor: "status_pipe" in row.original && "pre_repair_condition" in row.original && row.original.status_pipe !== "" ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : "initial"
+                                   backgroundColor: 'status_pipe' in row.original && 'pre_repair_condition' in row.original && row.original.status_pipe !== '' ? getPipeColor(row.original.pre_repair_condition, row.original.status_pipe) : 'initial'
                                }
                            }
                        }}
+                       onPaginationChange={handlePaginationChange}
                        enableColumnActions={false}
                        muiTableHeadCellProps={() => ({
                            sx: {
@@ -129,12 +148,15 @@ export const CurrentPipeParametersSbtTable: FC<{
                                                table.setCreatingRow(true)
                                            }}
                                        />
-                                       <FinishReportButton/>
+                                       {!reportStore.elem?.is_finished &&
+                                           <FinishReportButton reportStore={reportStore} />}
+                                       {reportStore.elem?.is_finished &&
+                                           <DownloadFileReportButton reportStore={reportStore}/>}
+
                                    </>}
                                </TableActionsToolbar.Wrapper>
                            )
                        }
-                       enablePagination={false}
                        onEditingRowSave={({ row, values, table }) => {
                            currentPipeParameters.edit(row.original.id, mapCurrentParamsValues(values, {
                                id: row.original.id,
@@ -174,8 +196,7 @@ export const CurrentPipeParametersSbtTable: FC<{
                                    }}
                                />
                            </TableActionsRow.Wrapper>
-                       }
-                       }
+                       }}
             />
         </>
     )
