@@ -96,7 +96,7 @@ export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
     },
     {
         accessorKey: 'start_date',
-        header: 'Дата след. калибровки',
+        header: 'Дата калибровки',
         accessorFn: (originalRow) => originalRow.start_date ? new Date(originalRow.start_date) : originalRow.start_date,
         Cell: ({ cell }) => cell.getValue<Date | null>() ? cell.getValue<Date>().toLocaleDateString() : cell.getValue<null>(),
         Edit: ({ row }) => {
@@ -104,7 +104,7 @@ export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
                 <AppDatePicker
                     defaultValue={dayjs(row.original.start_date)}
                     fieldName={'start_date'}
-                    label={'Дата след. калибровки'}
+                    label={'Дата калибровки'}
                     onChange={(date) => {
                         row._valuesCache['start_date'] = date
                     }} />
@@ -114,7 +114,7 @@ export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
     },
     {
         accessorKey: 'finish_date',
-        header: 'Дата калибровки',
+        header: 'Дата след. калибровки',
         accessorFn: (originalRow) => originalRow.finish_date ? new Date(originalRow.finish_date) : originalRow.finish_date,
         Cell: ({ cell }) => cell.getValue<Date | null>() ? cell.getValue<Date>().toLocaleDateString() : cell.getValue<null>(),
         Edit: ({ row }) => {
@@ -122,7 +122,7 @@ export const toolsTableConfig: MRT_ColumnDef<Tool>[] = [
                 <AppDatePicker
                     defaultValue={dayjs(row.original.finish_date)}
                     fieldName={'finish_date'}
-                    label={'Дата калибровки'}
+                    label={'Дата след. калибровки'}
                     onChange={(date) => {
                         row._valuesCache['finish_date'] = date
                     }} />
