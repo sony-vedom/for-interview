@@ -3,13 +3,12 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { hasArrMatchingProperty } from 'shared/lib/helpers'
 import { useSession } from 'entities/session'
 
-const aviableForAllPathnames = ['/profile', '/login', '/logout', '/', "/documents", "/report"]
+const aviableForAllPathnames = ['/login', '/logout', '/', "/documents"]
 
 export const AuthorizationGuard: FC<{
     children: ReactNode
 }> = ({ children }) => {
     const store = useSession()
-
     const location = useLocation()
 
     const isAvailablePage = aviableForAllPathnames.includes(location.pathname)

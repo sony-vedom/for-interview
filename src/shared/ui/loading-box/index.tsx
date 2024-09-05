@@ -1,4 +1,4 @@
-import LogoIcon from 'shared/assets/svg/dis_log_without_text.svg?react'
+import LogoIcon from 'shared/assets/svg/logo_without_text.svg?react'
 import { Box, SvgIcon } from '@mui/material'
 
 export const LoadingBox = () => {

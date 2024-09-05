@@ -39,17 +39,6 @@ export const NavDrawer: FC<{
                     }
                 }}>
                 <Box onClick={onDrawerToggle} sx={{ textAlign: 'center' }}>
-                    <Box
-                        alt={'logo'}
-                        src={'/logo-with-text-compact.png'}
-                        component="img"
-                        sx={{
-                            paddingTop: 1,
-                            width: 120,
-                            maxHeight: { xs: 120, md: 167 },
-                            maxWidth: { xs: 120, md: 250 }
-                        }}
-                    />
                     <Divider />
                     <List>
                         {navItems.map(({ path, displayName }, i) => (

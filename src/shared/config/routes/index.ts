@@ -1,44 +1,12 @@
-export interface SearchParamsCreateReportPage extends Record<string, string> {
-    pipe_type: 'СБТ' | 'ТБТ' | 'УБТ'
-}
-
 export enum ROUTES_PARAMS {
     userId = 'userId',
-    reportId = 'reportId'
 }
 
 export enum ROUTES {
     LOGIN = '/login',
     LOGOUT = '/logout',
-    PROFILE = '/profile',
 
     DOCUMENTS = '/documents',
-    SBT = 'sbt',
-    TBT = 'tbt',
-    UBT = 'ubt',
     CONTRACTS = 'contracts',
 
-    CREATE_REPORT = '/create-report',
-
-    REPORT = '/report',
-
-    DIRECTORY = '/directory',
-    SBT_REJECTION_STANDARDS = 'sbt-rejection-standards',
-    STANDARDS_PROCEDURES_SBT = 'standards-procedures-sbt',
-
-    CONSUMERS = '/consumers',
-
-
-    TOOLS = 'tools',
-    KIND_TOOLS = 'kind-tools',
-    TYPE_TOOLS = 'type-tools',
-
-    USERS = 'users',
-
-    NON_SPECIALIZED_EDUCATION = 'non-specialized-education',
-    SPECIALIZED_EDUCATION = 'specialized-education',
-    MEDICAL_EXAMINATION = 'medical-examination',
-
-    ASNT = "asnt",
-    SDANK = "sdank"
 }

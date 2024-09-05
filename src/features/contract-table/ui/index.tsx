@@ -6,7 +6,6 @@ import { Meta } from 'shared/api'
 import { contractTableConfig } from '../config'
 import { Contract } from 'entities/contract/item'
 import { ContractStore, ContractListStore } from 'entities/contract/item/model/store'
-import { BASE_FILE_URLS } from 'entities/file'
 
 export const ContractTable: FC<{
     contractStore: ContractStore
@@ -59,7 +58,7 @@ export const ContractTable: FC<{
                        }}
                        onCreatingRowSave={({ values, table }) => {
                            contractStore.create({
-                               ...values,
+                               ...values
                            }).then(() => {
                                table.setCreatingRow(null)
                            })
@@ -77,7 +76,6 @@ export const ContractTable: FC<{
                                        table.setEditingRow(row)
                                    }}
                                />
-                               <TableActionsRow.FileButton idName={"contract_id"} baseFileUrl={BASE_FILE_URLS.CONTRACT} entityId={row.original.id} />
                            </TableActionsRow.Wrapper>
                        }
                        }

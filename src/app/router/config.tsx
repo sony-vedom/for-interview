@@ -9,23 +9,19 @@ export const routerConfig = [
     {
         path: '/',
         element: <AuthenticationGuard
-                redirectToLoginComponent={<Navigate to={ROUTES.LOGIN} />}>
-                <AuthorizationGuard>
-                    <AppLayout />
-                </AuthorizationGuard>
-            </AuthenticationGuard>,
+            redirectToLoginComponent={<Navigate to={ROUTES.LOGIN} />}>
+            <AuthorizationGuard>
+                <AppLayout />
+            </AuthorizationGuard>
+        </AuthenticationGuard>,
         children: [
             { index: true, element: <Navigate to={ROUTES.DOCUMENTS} /> },
             {
                 element: <BasePageLayout />,
                 children: [
-                    ...navigationConfig.base,
-                    ...navigationConfig.createReport,
+                    ...navigationConfig.base
                 ]
-            },
-            ...navigationConfig.user,
-            ...navigationConfig.profile,
-            ...navigationConfig.report,
+            }
         ]
     },
     {

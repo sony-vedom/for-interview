@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { TopAppBar } from './top-app-bar.tsx'
 import { NavDrawer } from './nav-drawer'
 import { BottomAppBar } from './bottom-app-bar'
-import { LogoButton } from './logo-button.tsx'
 import { useSession } from 'entities/session'
 import { navigationConfig } from 'app/router'
 import { getNavItems } from 'app/router/getNavItems.ts'
@@ -26,11 +25,8 @@ export const AppHeader = () => {
                 onDrawerToggle={handleDrawerToggle}
             />
             <TopAppBar onDrawerToggle={handleDrawerToggle}>
-                <LogoButton />
                 <AvatarArea
-                    navItems={[
-                        ...navigationConfig.profile
-                    ]}
+                    navItems={[]}
                 />
             </TopAppBar>
             <BottomAppBar navItems={navItems} />

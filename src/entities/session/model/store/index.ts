@@ -1,11 +1,8 @@
 import { User } from 'entities/user/item/@x'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { Meta } from 'shared/api'
-import { getLocalStorage, setLocalStorage } from 'shared/lib/localStorage'
-import * as sessionApi from '../../api'
-import { keycloakLogin, logout } from '../../api'
+import { getLocalStorage } from 'shared/lib/localStorage'
 import { useMobXLocalStore } from 'shared/lib/mobx'
-import { ACCESS } from 'shared/config/api'
 import { ROUTES } from 'shared/config/routes'
 
 export class SessionStore {
@@ -29,9 +26,6 @@ export class SessionStore {
         if (this._meta === Meta.LOADING) {
             return
         }
-        if (!localStorage.getItem(ACCESS)) {
-            return
-        }
         this.setMeta(Meta.LOADING)
         try {
             this._viewer = getLocalStorage('user', null)()
@@ -39,12 +33,9 @@ export class SessionStore {
                 this.setMeta(Meta.SUCCESS)
             }
             if (!this._viewer) {
-                const userResponse = await sessionApi.getUserMe()
-                runInAction(() => {
-                    setLocalStorage('user', userResponse)
-                    this._viewer = userResponse
-                    this.setMeta(Meta.SUCCESS)
-                })
+                (() => {
+                    throw new Error('No user')
+                })()
             }
         } catch {
             this.setMeta(Meta.ERROR)
@@ -52,12 +43,7 @@ export class SessionStore {
         }
     }
 
-    public init() {
-        this.load()
-    }
-
-    public async login(code: string) {
-        await this.keyCloackLogin(code)
+    public async init() {
         await this.load()
     }
 
@@ -71,7 +57,6 @@ export class SessionStore {
                 this._viewer = null
                 localStorage.clear()
             })
-            await logout()
             window.location.href = ROUTES.LOGIN
             runInAction(() => {
                 this.setMeta(Meta.SUCCESS)
@@ -89,19 +74,6 @@ export class SessionStore {
 
     private setMeta(meta: Meta) {
         this._meta = meta
-    }
-
-    private async keyCloackLogin(code: string) {
-        this.setMeta(Meta.LOADING)
-        try {
-            const responseToken = await keycloakLogin({ code })
-            localStorage.setItem(ACCESS, responseToken.access)
-            runInAction(() => {
-                this.setMeta(Meta.SUCCESS)
-            })
-        } catch (e) {
-            this.setMeta(Meta.ERROR)
-        }
     }
 }
 

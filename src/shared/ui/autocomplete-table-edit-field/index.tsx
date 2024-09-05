@@ -9,10 +9,6 @@ import { runInAction } from 'mobx'
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-export interface AutoCompleteStore extends Constructor<LifeCycledModel> {
-    list: Pagination<any[]> | any[] | null;
-}
-
 interface AutoCompleteStoreInstance extends LifeCycledModel {
     list: Pagination<any[]> | any[] | null;
 }

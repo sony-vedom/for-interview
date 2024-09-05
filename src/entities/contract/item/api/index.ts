@@ -23,7 +23,7 @@ export const getContracts = async (filters?: GetContractQueryFilters): Promise<C
     const res = await apiInstance.get<ContractDTO[]>(`${BASE_URL}`, {
         params: preparedQueryParamsForRequest(undefined, filters)
     })
-    const preparedContractsList = res.data.map(mapContract)
+    const preparedContractsList = [res.data.map(mapContract)[0]]
     return await Promise.all(preparedContractsList.map(async (el) => {
         if (el.consumer_id) {
             const resKind = await getConsumer({ consumer_id: el.consumer_id })

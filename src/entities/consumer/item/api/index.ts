@@ -23,7 +23,7 @@ export const getConsumers = async (params?: PaginationQuery, filters?: GetConsum
     })
     return {
         ...res.data,
-        items: res.data.items.map(mapConsumer)
+        items: [res.data.items.map(mapConsumer)[0]]
     }
 }
 

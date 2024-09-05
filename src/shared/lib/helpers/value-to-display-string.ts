@@ -17,12 +17,10 @@ export const valueToDisplayString = (
             )
         }
         case 'string': {
-            //@ts-ignore
-            return value ?? 'Не указано'
+            return value || 'Не указано'
         }
         default: {
-            //@ts-ignore
-            return value ?? 'Не указано'
+            return value || 'Не указано'
         }
     }
 }

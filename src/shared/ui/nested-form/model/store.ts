@@ -30,7 +30,7 @@ export interface CrudStore {
     edit: (...args: any[]) => Promise<void>;
 }
 
-export default class MyForm<T extends CrudStore> extends Form {
+export default class MyNestedForm<T extends CrudStore> extends Form {
     _crudStore: CrudStore | null = null
     isCreatingMode: boolean = false
 

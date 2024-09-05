@@ -1,7 +1,7 @@
-import { ContractCreate } from '../../model/types'
-import { ContractCreateDTO } from '../dto/contract-create.dto.ts'
+import { ContractEdit } from '../../model/types'
+import { ContractEditDTO } from 'entities/contract/item/api/dto/contract-edit.dto.ts'
 
-export const mapContractEdit = (model: ContractCreate): ContractCreateDTO => ({
+export const mapContractEdit = (model: ContractEdit): ContractEditDTO => ({
     name: model.name,
-    consumer_id: model.consumer_id,
+    consumer_id: model.consumer_id
 })

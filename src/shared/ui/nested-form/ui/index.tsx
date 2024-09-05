@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import { SimpleTableWrapper } from 'shared/ui/simple-table-wrapper'
-import MyForm, { CrudStore } from 'shared/ui/nested-form/model/store.ts'
+import MyNestedForm, { CrudStore } from 'shared/ui/nested-form/model/store.ts'
 import { CreatedMobXFormButton } from 'shared/ui/created-mobx-form-button'
 import { FieldItem } from './field-item.tsx'
 import { observer } from 'mobx-react-lite'
@@ -9,7 +9,7 @@ interface NestedFormModalProps<T extends CrudStore> {
     disabledFormButton: boolean
     headerText: string
     entityNameText: string
-    form: MyForm<T>
+    form: MyNestedForm<T>
 }
 
 export const NestedForm = observer(
